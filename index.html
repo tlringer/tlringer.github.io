@@ -49,7 +49,8 @@
 						    Any work that unifies seemingly disparate ideas in PL will have me
 						    very excited. Appropriately, I'm drawn to both the type theoretic,  
 						    constructive school of verification and the classical, 
-						    SMT-based school of verification. I have a secondary interest in security.
+						    SMT-based school of verification and synthesis. 
+						    I have a secondary interest in security.
 						    </p>
 				        </section>
 					</div>
@@ -85,12 +86,17 @@ Unmodified Operating Systems</a>. To appear at CCS 2016. </p>
 						<section class="align-left">
 						    <p>I am currently working with the Automated Reasoning Group at Amazon
 						    with <a href="http://home.ku.edu.tr/~stasiran/">Serdar Tasiran</a> and 
-						    <a href="https://sites.google.com/site/danielschwartznarbonne/">Daniel Schwartz-Narbonne</a>. I am using sketch-style program synthesis to generate tests for developers
-						    in a way that is flexible, powerful, and integrates easily into the         development pipeline. As part of this work, I am extending <a href="https://emina.github.io/rosette/">Rosette</a> to handle strings and regular expressions.</p>
+						    <a href="https://sites.google.com/site/danielschwartznarbonne/">Daniel Schwartz-Narbonne</a>. I am generating tests for developers
+						    from a specification of service inputs using a solver-aided
+						    intermediate language. The language
+						    can express to the solver what it means for values to be 
+						    different and to cover a specification a certain way.
+						    As part of this work, I am extending <a href="https://emina.github.io/rosette/">Rosette</a> to handle strings and regular expressions.</p>
 						    
-						    <p>Stemming from this work, I have been looking into what it means
-						    to constrain your solution space and generate solutions that relate to
-						    each other in a specific way, or cover a certain space of your specification.</p>
+						    <p>In the future, I plan to look into a more general
+						    way of combining theories than Nelson-Oppen which allows
+						    SMT solvers to take advantage of mathematical properties
+						    like inverse functions between two theories.</p>
 						    
 						    <p>I have also been thinking extensively about how to implement
 						    a higher-order logic solver for dependent type theory. I would
