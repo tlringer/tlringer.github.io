@@ -42,9 +42,10 @@
 						</header>
 						<span class="image fit"><img src="images/me.jpg" alt="Face Shot" /></span>
 						<section class="align-left">
-						    <p>I am a third year graduate student in computer science at the University of Washington focusing on <a href="http://uwplse.org">Programming Languages and Software Engineering</a>. My main interest is in making programming and verification with dependent types
-						    more accessible through better <a href="http://proofengineering.org/">proof engineering</a> tools and practices.
-						    In general, I enjoy using elegant theory to design and build tools with concrete applications.</p>
+						    <p>I am an incoming fourth year graduate student in computer science at the University of Washington focusing on <a href="http://uwplse.org">Programming Languages and Software Engineering</a>. My main interest is in making programming and verification with dependent types
+						    more accessible through better <a href="http://proofengineering.org/">proof engineering</a> tools and practices, especially
+						    <i>search</i> and <i>reuse</i> technologies. My vision is a future where dependent types are accessible to all programmers
+						    with the help of these technologies.</p>
 				        </section>
 					</div>
 					<a href="#two" class="goto-next scrolly">Next</a>
@@ -82,13 +83,11 @@ Unmodified Operating Systems</a>. CCS 2016. <a href="http://www.youtube.com/watc
 						<section class="align-left">
 						    <p>I am currently working with <a href="http://homes.cs.washington.edu/~djg/">Dan Grossman</a>,
                                                     <a href="http://nateyazdani.github.io/">Nate Yazdani</a>, and <a href="http://halfaya.org/leo/">John Leo</a>
-						    on making interactive theorem provers like Coq easier to use. 
-						    Programming in these provers is brittle: Small changes can break 
-                                                    many dependent proofs. Our vision is a future of proof automation in interactive theorem provers that
-					            automatically adapts proofs to breaking changes.
-					            Our prototype tool <a href="http://pumpkin.uwplse.org/">PUMPKIN PATCH</a>
-                                                    generalizes an <i>example</i> adaptation into a <i>reusable patch</i> that can fix
-                                                    broken proofs. </p>
+						    on making dependent types easier to use.
+						    Our prototype tool <a href="http://pumpkin.uwplse.org/">PUMPKIN PATCH</a>
+						    addresses brittleness by automatically searching for patches to fix broken proofs in Coq when dependencies change.
+						    We are currently extending it to automatically search for equivalences between types, then use the
+						    equivalences it finds to port functions and proofs between those types.</p>
 						</section>
 					</div>
 					<a href="#four" class="goto-next scrolly">Next</a>
