@@ -1,3 +1,119 @@
-<a href="https://dependenttyp.es/pdf/QEDatLarge.pdf">QED at Large: A Survey of Engineering of Formally Verified Software</a>, Chapter 5.
-Next week we get to move on to fun things that aren't just the survey paper, now that we've covered the basics. 
-Explanation and more TBD.
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Reading 4: QED at Large, Chapter 5</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Reading 3</h1>
+					<p>QED at Large, Chapter 4</p>
+ 					<p>Week 3, Day 1</p>
+ 					<p>Due By: February 1st, 2022 at 10:00 AM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#reading" class="goto-next scrolly">Reading</a></li>
+						<li><a href="#guide" class="goto-next scrolly">Guide</a></li>
+						<li><a href="#discussion" class="goto-next scrolly">Discussion</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="reading" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading</h2>
+						</header>
+						<section class="align-left">
+						    <p>For the fifth class, we will read <b>Chapter 5</b> of <b>QED at Large: A Survey of Engineering of Formally Verified Software</b> [<a href="https://dependenttyp.es/pdf/QEDatLarge.pdf">PDF</a>] [<a href="https://doi.org/10.1561/2500000045">DOI</a>] by Talia Ringer, Karl Palmskog, Ilya Sergey, Milos Gligoric, and Zachary Tatlock.</p>
+						    
+						    <p>Chapter 5 is about <b>proof automation</b>, finally! In particular, recall that the de Bruijn criterion states that these proof assistants produce <b>proof objects</b> that a small kernel can check. Here we learn about how automation can <b>produce those proof objects</b>, without asking the proof engineer to understand all of the low-level details of how the proof assistant works. Thanks to de Bruijn, we get all of this with the <b>guarantee that we do not sacrifice correctness of the proof assistant</b>, which is super powerful.</p>
+						    
+						    <p>This is the <b>final week of background knowledge</b>, so next week we'll get to the fun stuff.</p>
+						  
+						  <p>You can find my commentary about the fifth class <a href="https://dependenttyp.es/classes/commentary/5-languages.html">here</a>, and you can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> below.</p>
+						  
+						  <p>Please note that <b>this is due the morning before class</b>, so that we can discuss it in person. Also, Thursday will be our second artifact discussion; <b>please install the <a href="https://dependenttyp.es/classes/artifacts/6-languages.html">artifact</a> before Thursday's class</b>.</p>
+				        </section>
+					</div>
+					<a href="#guide" class="goto-next scrolly">Guide</a>
+				</div>
+			</section>
+
+			<section id="guide" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading Guide</h2>
+						</header>
+						<section class="align-left">
+						    <p>I again recommend checking out <b><a href="https://taliasplse.wordpress.com/2019/09/14/proof-engineering-survey-paper-qed-a/">the reading guide</a></b> for this paper that I wrote a couple of years ago, if it helps you. Please also see <a href="https://proofengineering.org/qed_errata.html">the errata</a>.</p>
+						    
+						    <p>Section 5.1 talks about different <b>styles of automation</b>---these are all really important, and you should try to get a high-level idea of how each of them works. But it's normal and fine to be confused about the details; feel free to ask questions.</p>
+						    
+						    <p>I would <b>not worry too much about fully understanding the examples</b> unless you'd really like to; my hope is that you will get a lot more out of playing with the automation in class on Thursday.</p>
+						    
+						    <p>Section 5.2 talks about some cool custom automation in practice. I would just <b>let this be an inspiration</b> for some of what we'll read in later weeks, again without worrying too much about details unless you find them super interesting.</p>
+					
+				        </section>
+					</div>
+					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
+				</div>
+			</section>
+
+			<section id="discussion" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Discussion Questions</h2>
+						</header>
+						<section class="align-left">
+						    <p>Please write a short paragraph as a comment in the <a href="https://campuswire.com/c/GC575C0C8/feed/7">class forum thread</a> about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p>
+						    
+						  <ol>
+						  <li>Imagine once again that you are designing a new proof assistant, and that you have already chosen its foundations. You are now weighing whether to build a language for automation on top of the foundations and, if so, what the language should be like, and what kind of automation it should support. <b>What do you consider in your design, and why?</b></li>  
+						  <li>The proof assistant Agda makes a deliberate choice not to include a separate language for automation, sticking to just proofs by reflection. <b>What do you think of this choice, and why?</b></li>
+						  <li>Section 5.1 details a number of example languages for proof automation, like OCaml, Ltac, and Isabelle/Isar. <b>Which of these do you think you'd find most natural to use, and why?</b></li>
+						  <li>Suppose that you are tasked with building a new language for proof automation, with an emphasis on readability and proof understanding. <b>How do you design your language?</b></li>
+						  <li><b>What properties of a language for proof automation do you think are most important?</b> And what properties do you think are least important?</li>
+						  <li><b>What do you think the tradeoffs are of using general-purpose, powerful automation like a hammer, versus using lower-level automation like induction, application, and rewriting?</b></li>
+						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
+						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
+						  </ol>
+						 
+						  <p>You may want to look at other people's responses before class in order to shape the discussion. And again remember that you need to answer just one question to get credit, though you are free to answer more if interested.</p>
+						     
+				        </section>
+					</div>
+					<a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/artifacts/6-languages.html">Next Artifact</a> | <a href="https://dependenttyp.es/classes/commentary/6-languages.html">Next Commentary</a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
