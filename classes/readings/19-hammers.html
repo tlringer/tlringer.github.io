@@ -43,11 +43,13 @@
 						    <p>For the nineteenth class, we will read
 						    <b>Three Years of Experience with Sledgehammer, a Practical Link between Automatic and Interactive Theorem Provers</b> [<a href="https://www21.in.tum.de/~blanchet/iwil2010-sledgehammer.pdf">PDF</a>] [<a href="https://doi.org/10.29007/36dt">DOI</a>] by Lawrence C. Paulson and Jasmin Christian Blanchette.</p>
 						    
-						   <p>More coming soon!</p>
-						    
-						    <!-- Mention this is used, there are hammers in other languages, and so on -->
-						    
-						  <!-- flatten HOL to FOL. allude back to Metis, which mentioned Sledgehammer at some point IIRC (check). but seen so much success, whereas a lot of heavy automation struggles with adoption. so this paper is primarily about why, which is super useful as we think about how to build other kinds of proof automation. returns script sometimes, in terms of Metis. -->
+						   <p>Remember <a href="https://dependenttyp.es/classes/readings/11-decision.html">when we read about Metis</a>? Metis alluded its use in <b>Sledgehammer</b>, a <b>very powerful proof automation procedure in Isabelle/HOL</b>. Now we get to see Sledgehammer!</p>
+						   
+						   <p>Sledgehammer works by <b>flattening goals</b> in Isabelle/HOL's logic (a classical higher-order logic called HOL) into <b>first-order logic</b>, then invoking first-order procedures to dispatch those goals. Sledgehammer also <b>reconstructs lower-level proofs</b> in the end, so that the resulting proof does not always rely on calls to Sledgehammer. (I am not sure to what degree proof reconstruction is used in practice, relative to keeping calls to Sledgehammer in the code.)</p>
+						   
+						   <p>Probably the coolest thing about Sledgehammer is that <b>people actually use it</b>. That's impressive, because often one of the hardest problems of building powerful tools and automation is getting people to use it---that is, <b>adoption</b>. This paper focuses on the design decisions that contributed to adoption, at least in the authors' views.</p>
+						   
+						   <p>Sledgehammer has seen a number of implementations in proof assistants other than Isabelle/HOL, <a href="https://coqhammer.github.io/">including in Coq</a>. But Sledgehammer remains immensely popular, while some of these other tools have not really taken off. The reasons for this are hard to pin down---and worthy of discussion.</p>
 	  
 						  <p>You can find my commentary about the nineteenth class <a href="https://dependenttyp.es/classes/commentary/19-hammers.html">here</a>, and you can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> below.</p>
 						  
@@ -66,10 +68,9 @@
 							<h2>Reading Guide</h2>
 						</header>
 						<section class="align-left">
-						    <p>Coming soon!</p>
+						    <p>This is a less heavy read than the reading from the previous week, so it is good to read it <b>in its entirety</b>. Section 2 describes a lot of the <b>design decisions</b> that went into Sledgehammer, and makes a really good read. Section 3 describes a <b>short evaluation</b>. And Section 4 discusses <b>educational uses</b>.</p>
 						    
-						      <!-- Not as heavy of a read as last week; good to read in its entirety. Section 2 background, design. Section 3 short evaluation. Section 4 educational uses. -->
-					
+						    <p>Reading this <b>from start to finish</b> is probably fine, but as always, if you struggle or get confused, it's OK to take note of that and skip the rest of a section or otherwise move on.</p>
 				        </section>
 					</div>
 					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
@@ -94,6 +95,7 @@
 						  <li>Suppose a new proof of a previously unproven conjecture is solved using automation like Sledgehammer. <b>What degree of proof reconstruction would you need to feel satisfied with the proof?</b> Would the calls to Metis seen in Section 2.3.1 suffice for you? Why or why not? What do you think you could do to <b>improve proof reconstruction</b>?</li>
 						  <li>How would you <b>debug a proof</b> that failed to go through using heavy automation like Sledgehammer? And how would you <b>build better tools for debugging</b> to make this process easier?</li>
 						  <li>The paper mentions the potential of using machine learning tools to identify harmful lemmas. Can you think of any other ideas for <b>integrating hammers with machine learning tools</b> for proof synthesis to improve tools of either kind? What about <b>integrating hammers with other kinds of automation</b> you've seen so far?</li>
+						  <li>Do you think the use of heavy automation like Sledgehammer in <b>educational contexts</b> is <b>more helpful than harmful</b>, or <b>more harmful than helpful</b>? Why or why not?</li>
 						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
 						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
 						  </ol>
