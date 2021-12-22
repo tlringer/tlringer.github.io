@@ -63,11 +63,11 @@
 							<h2>Reading Guide</h2>
 						</header>
 						<section class="align-left">
-						    <p>For this paper, I think the cool things to focus on are the <b>design decisions</b> that make this kind of automation possible, what <b>interacting with it</b> is like, and the <b>problem it solves</b>.</p>
+						    <p>For this paper, I think the cool things to focus on are the <b>design decisions</b> that make this kind of automation possible, what <b>interacting with it</b> is like, and the <b>problem it solves</b>. It's also really neat to see how it uses <b>computational reflection</b> to implement custom automation for the domain, but exposes an Ltac tactic interface for it.</p>
 						
 						    <p>The introduction, Section 2, and Section 3 are all very useful to read in detail. Section 2 talks about the <b>challenges of reasoning about programs</b> inside of a proof assistant using a few different common methodologies. Section 3 shows what <b>interacting with the automation</b> framework is like, so you can get a sense of the workflow for the implemented automation and the problem it solves.</p>
 						    
-						    <p>Section 4 talks about the <b>implementation</b>. This is an interesting read, but it's fine if you get a bit lost about the details. Hopefully we'll get a chance to dive into this when we look at the artifact on Thursday, and then we can get an even better sense of what's going.</p>
+						    <p>Section 4 talks about the <b>implementation</b>. This is an interesting read, but it's fine if you get a bit lost about the details. Still, again, I'd pay special attention to the discussion of computational reflection. Hopefully we'll get a chance to dive into this when we look at the artifact on Thursday, and then we can get an even better sense of what's going.</p>
 						    
 						    <p>Sections 5 and 6 show <b>the framework in action</b> on an example and a large case study. These are good reads too, but it's very natural to get lost on the details of particular case studies. When we dive into the artifact, I hope these will be easier to follow, too.</p>
 						    
@@ -90,7 +90,11 @@
 						    <p>Please write a short paragraph as a comment in the <a href="https://campuswire.com/c/GC575C0C8/feed/8">class forum thread</a> about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p>
 						    
 						  <ol>
-						  <li>More questions coming soon!</li>
+						  <li><b>Do you agree with the claim that the method is very generic?</b> Why or why not?</li>
+						  <li>When reasoning within an embedded logic, would you <b>prefer automation that resembles interacting with your proof assistant normally</b>, or custom automation that looks quite different? Why?</li>
+						  <li>What key <b>design decisions</b> do you think most contributed to making this automation framework possible? Do you think there are lesssons one could take away for that for designing other kinds of automation?</li>
+						  <li><b>What do you think the authors gain from implementing custom tactics using reflection?</b> Would you have made the same choice? Do you think anything is lost from this choice? Why or why not?</li>
+						  <li>Type classes add a lot of modularity here. In practice, though, <b>type class search can sometimes prove unwieldy for large proof developments</b> with many instances. <b>Do you think this could pose problems in this framework on larger proof developments?</b> If not, why not? And if so, how might you go about designing automation that scales to those larger proof developments?</li>
 						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
 						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
 						  </ol>
