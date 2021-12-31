@@ -40,13 +40,26 @@
 							<h2>Installation</h2>
 						</header>
 						<section class="align-left">
-						 <p>Coming soon!</p>
+						 <p>For the fourth class, we are going to take a look at <b>proof objects</b> by way of an exercise in <a href="https://wiki.portal.chalmers.se/agda/pmwiki.php"><b>Agda</b></a>. Agda is a great proof assistant for looking at proof objects because it's deliberately <b>minimalistic</b> when it comes to automation.</p>
 						 
+						 <p>It is because of this minimalism that, to write proofs in Agda, you really have to understand how proof objects work. And in my experience, <b>having a strong grasp of proof objects makes it much easier to build proof automation of all kinds</b>---from the traditional proof automation we'll see next week, all the way to the neural networks we'll see in later classes. This is why we're starting in Agda and building up from there.</p>
+						 
+						 <p>Installation can be finicky, so please install the artifact <b>before class</b> using the instructions below. If you have any trouble, please post your questions in <a href="https://campuswire.com/c/GC575C0C8/feed/22">this thread</a>. You can also drop any installation tips you have in that thread.</p>
+						 
+						 <h3>Installation Instructions</h3>
+						 
+						 
+						  <ol>
+						    <li>Install <b>Agda from source</b> using cabal or stack by following <a href="https://agda.readthedocs.io/en/latest/getting-started/installation.html#installation-from-source">these instructions</a>. This took me 20 minutes on Ubuntu, with most of that time waiting for Agda 2.6.2.1 to compile.</li>
+						    <li>Set up <b>agda-mode for Emacs</b> using <a href="https://agda.readthedocs.io/en/latest/getting-started/installation.html#running-the-agda-mode-program">these instructions</a> on the same page. This took me a few seconds on Ubuntu, after I resolved some path issues by <a href="https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/">creating symlinks</a> to the agda and agda-mode binaries from /usr/bin.</li>
+						    <li>You are now done setting up Agda. <b>You do not need the standard library for this artifact.</b> (You can install it if you want, but we won't be using it.)</li>
+						    <li>To test your Agda setup, download <a href="./artifacts/1/hello-world.agda">this copy</a> of the <b>hello world</b> file from the instructions.</li>
+						    <li>Next, <b>compile the hello world file in Emacs</b> using <a href="https://agda.readthedocs.io/en/latest/getting-started/hello-world.html#id1">these instructions</a>. The first time you do this, you will be asked for a backend---type GHC and press enter.</li>
+						    <li>More coming soon!</li>
+						    </ol>
+						    
+						    <p>If installation fails, and the class forums are no help, do not panic---we will try to match you with someone in class for whom installation worked. You can find my commentary for this artifact <a href="./commentary/4-foundations.html">here</a>, and you can find the <a href="#hack">exercise</a> we will do together in class below.</p>
 <!-- 
-Install Agda 2.6.2.1
-https://agda.readthedocs.io/en/latest/getting-started/installation.html#installation-from-source
-This should take n minutes
-Post in forum if stuck
 
 Download file
 Compile to make sure it works
@@ -67,6 +80,10 @@ Write a proof object manually, similar to the proof object used as comparison to
 Tie back to the 5 points in discussion questions
 
 Look inside the kernel briefly? or tease for next class. The de Bruijn criterion states that proof objects should be checkable by a small kernel that implements the logical system---ideally a kernel that is small enough to be human-readable. Does the kernel satisfy this?
+
+instructions for people who can't make it to class
+
+link to forum etc
 
 -->
 				        </section>
