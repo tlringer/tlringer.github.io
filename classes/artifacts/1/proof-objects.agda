@@ -399,7 +399,10 @@ rev-pres-length (h ∷ tl) = {! !}
 
 {-
   That's it for now! You can keep playing with other proofs if you have
-  extra time. Otherwise, please do this:
+  extra time. If you have a lot of extra time, I recommend looking at the
+  Agda source code on Github to get a sense for how it's implemented:
+  https://github.com/agda/agda. In any case, when we have 25 minutes
+  left of class, please do this:
 
     1. Turn to your group and discuss the question below.
     2. Post your answer─just one answer for your group, clearly indicating
