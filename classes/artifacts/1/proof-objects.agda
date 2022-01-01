@@ -8,14 +8,17 @@
 
   READ ME FIRST: You will absolutely not be graded on your ability to finish
   these proofs. It's OK to be confused and find this hard. It's also
-  OK to come into this class as an Agda wizard and breeze through this.
+  OK to come into this class as an Agda wizard and breeze through this,
+  perhaps even using a bunch of features of Agda that aren't mentioned
+  in this file at all (if you do that, though, please help your partner
+  understand what you are doing, and please discuss what you did at the end).x
   The point is to pay attention to what is hard and where you wish you
-  had better automation.
+  had better automation, and to learn about proof objects.
 
-  At the end of this class (or, if you're not
-  attending in person, sometime before 1230 PM the day of class) you'll
-  post on the forum about what you found challenging, what you enjoyed,
-  and─most importantly for this class─what kind of automation you wish you had.
+  At the end of this class (or, if you're not attending in person,
+  sometime before 1230 PM the day of class) you'll post on the forum
+  about what you found challenging, what you enjoyed, and─most importantly
+  for this class─what kind of automation you wish you had.
   If you or someone you're working with is an Agda wizard already,
   and you know about automation or syntax that already exists that makes the
   job easy, definitely take note of that and mention it as well.
