@@ -376,9 +376,8 @@ app-nil-r′ [] = refl
 app-nil-r′ (h ∷ tl) = subst (λ l′ → h ∷ l′ ≡ h ∷ tl) (sym (app-nil-r′ tl)) refl
 
 {-
-  Your turn to try. I've started this proof out for you─I've given you P,
-  which can be tricky. But I need your help figuring out the rest of the
-  arguments to subst.
+  Your turn to try. You can use cong or subst here─whatever you find
+  more convenient.
 
   EXERCISE 6: Finish the proof of length-succ-r.
 -}
@@ -386,7 +385,7 @@ length-succ-r :
   ∀ {A} → (l : List A) → (a : A) → length (app l (a ∷ [])) ≡ suc (length l)
 length-succ-r [] a = refl  -- base case
 length-succ-r {A} (h ∷ tl) a = -- inductive case
-  cong suc (subst (λ n → n ≡ suc (length tl)) {! !} {! !})
+  {! !}
 
 {-
   EXERCISE 7: Show that the reverse function that you wrote preserves
