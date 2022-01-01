@@ -379,7 +379,7 @@ length-succ-r :
   ∀ {A} → (l : List A) → (a : A) → length (app l (a ∷ [])) ≡ suc (length l)
 length-succ-r [] a = refl  -- base case
 length-succ-r {A} (h ∷ tl) a = -- inductive case
-  cong suc (subst (λ n → n ≡ suc (length tl)) refl (length-succ-r tl a))
+  cong suc (length-succ-r tl a)
 
 {-
   EXERCISE 7: Show that the reverse function that you wrote preserves
