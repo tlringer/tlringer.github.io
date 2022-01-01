@@ -11,7 +11,7 @@
   OK to come into this class as an Agda wizard and breeze through this,
   perhaps even using a bunch of features of Agda that aren't mentioned
   in this file at all (if you do that, though, please help your partner
-  understand what you are doing, and please discuss what you did at the end).x
+  understand what you are doing, and please discuss what you did at the end).
   The point is to pay attention to what is hard and where you wish you
   had better automation, and to learn about proof objects.
 
