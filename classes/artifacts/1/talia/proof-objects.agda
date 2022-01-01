@@ -4,7 +4,7 @@
 {-
   CS 598 TLR
   Artifact 1: Proof Objects
-  Student Copy
+  Talia's Answer Key
 
   READ ME FIRST: You will absolutely not be graded on your ability to finish
   these proofs. It's OK to be confused and find this hard. It's also
@@ -117,11 +117,6 @@ length (h ∷ tl) = suc (length tl) -- term in the cons case
   EXERCISE 1: Write a function that reverses a list.
   You may use the function app I've written for you below,
   which appends two lists.
-
-  NOTE: The {! !} syntax I've written inside of the sketch of rev is a
-  hole─you will want to replace this with your implementation of rev for
-  each case. These holes turn green when you compile files, and numbers
-  appear next to them; I explain this a bit more later on.
 -}
 
 -- list append
@@ -131,8 +126,8 @@ app (h ∷ tl) l = h ∷ app tl l -- term in the cons case
 
 -- list rev
 rev : ∀ {A : Set} → List A → List A -- type
-rev [] = {! !} -- your term in the empty case goes here
-rev (h ∷ tl) = {! !} -- your term in the cons case goes here
+rev [] = [] -- term in the empty case
+rev (t ∷ ts) = app (rev ts) (t ∷ []) -- term in the cons case
 
 {-
   Let's test your rev function.
@@ -190,17 +185,15 @@ rev-x-y-z-z-y-x = refl
   write some proofs yourself.
 
   EXERCISE 2: Prove that 1-2-3-4 and x-y-z have the right lengths.
-  As before, you'll want to replace each hole {! !} with your own code.
-  This time, I want you to define both the types and the terms.
 -}
 
 -- 1-2-3-4 has the right length
-length-1-2-3-4-OK : {! !}
-length-1-2-3-4-OK = {! !}
+length-1-2-3-4-OK : length 1-2-3-4 ≡ 4
+length-1-2-3-4-OK = refl
 
 -- x-y-z has the right length
-length-x-y-z-OK : {! !}
-length-x-y-z-OK = {! !}
+length-x-y-z-OK : length x-y-z ≡ 3
+length-x-y-z-OK = refl
 
 {-
   Those proofs are very small proofs that hold by computation.
@@ -292,7 +285,7 @@ app-nil-r (h ∷ tl) = cong (λ l′ → h ∷ l′) (app-nil-r tl)
 
 -- symmetry of equality
 sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
-sym refl = {! !}
+sym refl = refl
 
 {-
   EXERCISE 4: Prove that l ≡ app l [], using symmetry. I have inserted
@@ -301,7 +294,7 @@ sym refl = {! !}
 
 -- symmetric right identity of nil for append
 app-nil-r-sym : ∀ {A : Set} → (l : List A) → l ≡ app l []
-app-nil-r-sym l = sym {! !}
+app-nil-r-sym l = sym (app-nil-r l)
 
 {-
   EXERCISE 5: Prove the lemma trans, which states that equality
@@ -310,7 +303,7 @@ app-nil-r-sym l = sym {! !}
 
 -- transitivity of equality
 trans : ∀ {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
-trans refl refl = {! !}
+trans refl refl = refl
 
 {-
   Equalities like this that we have to prove by pattern matching over
@@ -386,7 +379,7 @@ length-succ-r :
   ∀ {A} → (l : List A) → (a : A) → length (app l (a ∷ [])) ≡ suc (length l)
 length-succ-r [] a = refl  -- base case
 length-succ-r {A} (h ∷ tl) a = -- inductive case
-  cong suc (subst (λ n → n ≡ suc (length tl)) {! !} {! !})
+  cong suc (subst (λ n → n ≡ suc (length tl)) refl (length-succ-r tl a))
 
 {-
   EXERCISE 7: Show that the reverse function that you wrote preserves
@@ -395,8 +388,10 @@ length-succ-r {A} (h ∷ tl) a = -- inductive case
   cong. (You probably won't need all of them.)
 -}
 rev-pres-length : ∀ {A} → (l : List A) → length (rev l) ≡ length l
-rev-pres-length [] = {! !}
-rev-pres-length (h ∷ tl) = {! !}
+rev-pres-length [] = refl
+rev-pres-length (h ∷ tl) =
+  trans (length-succ-r (rev tl) h) (cong suc (rev-pres-length tl))
+
 
 {-
   That's it for now! You can keep playing with other proofs if you have
@@ -418,4 +413,3 @@ rev-pres-length (h ∷ tl) = {! !}
   you get stuck at any point, and if so, where and why? Where do you wish
   you'd had more automation to help you out?
 -}
-
