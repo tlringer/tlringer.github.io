@@ -1,5 +1,5 @@
 -- if curious: https://agda.readthedocs.io/en/v2.6.0.1/language/without-k.html
-{-# OPTIONS --without-K --safe #-}
+{-# OPTIONS --without-K --safe --allow-unsolved-metas #-}
 
 {-
   CS 598 TLR
@@ -120,8 +120,15 @@ length (h ∷ tl) = suc (length tl) -- term in the cons case
 
   NOTE: The {! !} syntax I've written inside of the sketch of rev is a
   hole─you will want to replace this with your implementation of rev for
-  each case. These holes turn green when you compile files, and numbers
+  each case. These holes change color when you compile files, and numbers
   appear next to them; I explain this a bit more later on.
+
+  NOTE: You can compile this file by running C-c C-l, to just
+  invoke the type checker. To produce an executable file,
+  you can run C-c C-x C-c and specify the GHC backend, but this isn't necessary
+  to just check the proofs you'll write in this file. The first time
+  you compile this file, you'll see a bunch of numbered constrants;
+  these correspond to the holes I've left in the file for you to fill.
 -}
 
 -- list append
@@ -205,7 +212,7 @@ length-x-y-z-OK = {! !}
 {-
   Those proofs are very small proofs that hold by computation.
   There are also some cooler proofs we can prove by computation,
-  like that appending the empty list to the right of any list
+  like that appending the empty list to the left of any list
   gives us back that list:
 -}
 
@@ -261,17 +268,17 @@ cong f refl = refl -- the proof
 
   One thing to note here is that it can be super hard to track this information
   in your head. In Agda, you can create holes in your functions
-  by typing {! !}. So you could write:
+  by typing {! !}, much like I've done for you throughout. So you could write:
 
     cong f refl = {! !}
 
-  if you compile that, it'll turn green and there will be a 0 next to it.
-  indicating that it's the 0th goal. You can then show that goal by typing
-  C-c C-?. That will give you the goal:
+  If you compile that with C-c C-l, it'll change colors and there
+  will be a 0 next to it, indicating that it's the 0th goal. In the AgdaInfo
+  buffer, you'll see the goal that you need to satisfy for that hole:
 
     ?0 : f x ≡ f x
 
-  which shows you the type you're trying to inhabit. From there,
+  This goal is the type you're trying to inhabit. From there,
   you can figure out that refl has that type, without having to track
   so much information in your head about what Agda is doing.
 
@@ -322,6 +329,8 @@ trans refl refl = {! !}
   reduces both of them to the same term. But app l [] and l are not
   definitionally equal, as we saw earlier, since app is defined by
   pattern matching over the first term rather than the second.
+  They are only propositionally─provably, that is─equal.
+
   In Agda, Coq, and Lean, two things that are definitionally equal are
   necessarily propositionally equal, but the reverse is not necessarily true.
   This is why we can't prove app-nil-r by reflexivity.
@@ -334,15 +343,17 @@ trans refl refl = {! !}
   ASIDE: Definitional equality is─for many proof assistants we care about in
   this class─a decidable judgment that follows from a few reduction rules,
   like unfolding some constants (δ-expansion), applying functions to
-  arguments (Β-reduction ,which is sometimes called ι-reduction for
+  arguments (Β-reduction, which is sometimes called ι-reduction for
   inductive datatypes), renaming (α-conversion), and more.
 
   These may sound familiar if you're familiar with the λ-calculus,
   a simple functional programming language that is often used as an example
   in programming languages courses. The proof assistants Agda, Coq, and Lean
   all build on extensions of the λ-calculus with not just simple types,
-  but also polymorphism (like the A in list A), dependent types (like the
-  x in x ≡ x), and inductive types (like the list and ≡ datatypes themselves).
+  but also polymorphism (like how list takes a type argument A), dependent
+  types (like how ≡ takes a term argument x), and inductive types (like
+  how both the list and ≡ datatypes are defined by defining all ways to
+  construct them).
   
   But if you haven't heard of these, that's OK. I super recommend reading this
   chapter of Certified Programming with Dependent Types by Adam Chlipala:
@@ -367,7 +378,7 @@ subst P refl px = px
   that P x holds, we can substitute y for x inside of that to show
   that P y holds. This is really powerful, but a little hard to use,
   because you have to figure out what P is. For example, here is a proof
-  of app-nil-r using subst instead of cons:
+  of app-nil-r using subst instead of cong:
 -}
 
 -- right identity of nil for append, proven by substitution instead
