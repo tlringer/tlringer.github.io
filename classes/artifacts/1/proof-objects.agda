@@ -5,6 +5,31 @@
   CS 598 TLR
   Artifact 1: Proof Objects
   Talia's Answer Key
+
+  READ ME FIRST: You will absolutely not be graded on your ability to finish
+  these proofs. It's OK to be confused and find this hard. It's also
+  OK to come into this class as an Agda wizard and breeze through this.
+  The point is to pay attention to what is hard and where you wish you
+  had better automation.
+
+  At the end of this class (or, if you're not
+  attending in person, sometime before 1230 PM the day of class) you'll
+  post on the forum about what you found challenging, what you enjoyed,
+  and─most importantly for this class─what kind of automation you wish you had.
+  If you or someone you're working with is an Agda wizard already,
+  and you know about automation or syntax that already exists that makes the
+  job easy, definitely take note of that and mention it as well.
+
+  If you have a lot of trouble with a proof, it's OK to ask me for help
+  (or post in the forum if you're not here in person). It's also OK to
+  ask people in other groups.
+
+  But please, please don't stress about finishing these proofs.
+  The theorems will still be here after class if you feel tempted by them.
+  I'm also happy to distribute my own answer key, or to let you share
+  proofs with other students later─the point is to think about the proof
+  objects you construct throughout, and the experience you have constructing
+  them. It's about the journey, not the destination.
 -}
 module proof-objects where
 
@@ -76,7 +101,7 @@ x-y-z = 'x' ∷ 'y' ∷ 'z' ∷ [] -- term
 -}
 
 -- list length
-length : forall {A : Set} -> List A -> Nat -- type
+length : ∀ {A : Set} → List A → Nat -- type
 length [] = 0 -- term in the empty case
 length (h ∷ tl) = suc (length tl) -- term in the cons case
 
@@ -85,18 +110,22 @@ length (h ∷ tl) = suc (length tl) -- term in the cons case
   length any other list (h ∷ tl) is one plus (suc, for "successor")
   the length of the tail of the list (length tl).
 
+  NOTE: Thanks to the Agda community's unicode obsession, you can write
+  the above ∀ by typing \forall, and you can write the above → by typing
+  \r or \->. But it's OK to spell them out as forall and ->.
+
   EXERCISE 1: Write a function that reverses a list.
   You may use the function app I've written for you below,
   which appends two lists.
 -}
 
 -- list append
-app : forall {A : Set} -> List A -> List A -> List A -- type
+app : ∀ {A : Set} → List A → List A → List A -- type
 app [] l = l -- term in the empty case
 app (h ∷ tl) l = h ∷ app tl l -- term in the cons case 
 
 -- list rev
-rev : forall {A : Set} -> List A -> List A -- type
+rev : ∀ {A : Set} → List A → List A -- type
 rev [] = [] -- term in the empty case
 rev (t ∷ ts) = app (rev ts) (t ∷ []) -- term in the cons case
 
@@ -168,27 +197,132 @@ length-x-y-z-OK = refl
 
 {-
   Those proofs are very small proofs that hold by computation.
-  But what about when we want to get a bit fancier?
+  There are also some cooler proofs we can prove by computation,
+  like that appending the empty list to the right of any list
+  gives us back that list:
+-}
+
+-- left identity of nil for append
+app-nil-l : ∀ {A : Set} → (l : List A) → app [] l ≡ l -- type or theorem
+app-nil-l l = refl -- term or proof
+
+{-
+  But sometimes we need to get fancier! For example, if we simply swap
+  the [] and l in the type definition above above, to define app-nil-r,
+  this will no longer hold by reflexivity, since app is defined by
+  matching over the first list, not the second. Because of this,
+  when you put the empty list as the first argument, Agda can reduce it;
+  when you put it as the second argument instead, Agda cannot reduce it.
   
-  For example, we might want to show that the list rev function
-  preserves the length of the input. We can't do that by reflexivity!
-  If you try it, you'll get a type error, which will say something
-  scary like this:
+  If we try to prove app-nil-r by reflexivity, we'll get a scary looking
+  type error, like this:
 
-    rev l != l of type List A
-    when checking that the expression refl has type
-    length (rev l) ≡ length l
+    app l [] != l of type List A
+    when checking that the expression refl has type app l [] ≡ l
 
-  What gives? Well, the problem here is that while this equality is always
-  true, Agda can't figure it out just plugging in the list l and running
-  its computation or reduction rules. It can't solve that equality
-  computationally. It needs us to guide it, instead.
+  But here's the thing─the equality is still true!
+  It's just not true by computation. We have to prove it differently.
+  Agda needs our help figuring this out.
 
-  This is the distinction between _definitional_ and _propositional_ equality.
-  Two things are definitionally equal if they compute to the same result;
-  two things are propositionally equal if we can prove that they are equal.
+  So let's help Agda. We're going to need to write some fancier proofs
+  about equality. But how do we do that if there's just one constructor
+  for equality─refl? Well, there are two things we can do with inductive
+  datatypes: we can construct them, and we can pattern match over their cases
+  (the latter is also called destructing them or, for reasons you'll see later,
+  in specific contexts, inducting over them).
+  
+  Since equality is defined as an inductive type, we can pattern match
+  over it just like we do over lists. When we do, there will be just one
+  case─refl. But that actually turns out to give us a lot of power to
+  prove some cool things about equality. So let's do that.
+
+  Our first lemma is congruence, which comes from the standard library,
+  and states that function application preserves equality:
+-}
+
+-- congruence
+cong : ∀ {A B : Set} (f : A → B) {x y : A} → x ≡ y → f x ≡ f y -- the lemma
+cong f refl = refl -- the proof
+
+{-
+  In other words, this matches over the input argument of type x ≡ y.
+  Since equality has just one case, pattern matching breaks this into
+  just one case, which is when that equality is refl.
+  When that equality is refl, then we have x ≡ x.
+  Thus, we are trying to show f x ≡ f x, which also holds by refl,
+  since these terms are the same.
+
+  One thing to note here is that it can be super hard to track this information
+  in your head. In Agda, you can create holes in your functions
+  by typing {! !}. So you could write:
+
+    cong f refl = {! !}
+
+  if you compile that, it'll turn green and there will be a 0 next to it.
+  indicating that it's the 0th goal. You can then show that goal by typing
+  C-c C-?. That will give you the goal:
+
+    ?0 : f x ≡ f x
+
+  which shows you the type you're trying to inhabit. From there,
+  you can figure out that refl has that type, without having to track
+  so much information in your head about what Agda is doing.
+
+  With this, we should be able to prove app-nil-r:
+-}
+
+-- right identity of nil for append
+app-nil-r : ∀ {A : Set} → (l : List A) → app l [] ≡ l
+app-nil-r [] = refl
+app-nil-r (h ∷ tl) = cong (λ l′ → h ∷ l′) (app-nil-r tl)
+
+{-
+  EXERCISE 3: Prove the lemma sym, which states that equality is symmetric.
+  I have inserted a hole into this lemma, denoted {! !}, which may
+  already look green if you've compiled this file. You can use the
+  workflow described above to figure out the type you're trying to inhabit.
+-}
+
+-- symmetry of equality
+sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
+sym refl = refl
+
+{-
+  EXERCISE 4: Prove that l ≡ app l [], using symmetry. I have inserted
+  a hole into this lemma where you will need to figure out a term.
+-}
+
+-- symmetric right identity of nil for append
+app-nil-r-sym : ∀ {A : Set} → (l : List A) → l ≡ app l []
+app-nil-r-sym l = sym (app-nil-r l)
+
+{-
+  EXERCISE 5: Prove the lemma trans, which states that equality
+  is transitive. I have inserted a hole into this lemma as well.
+-}
+
+-- transitivity of equality
+trans : ∀ {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
+trans refl refl = refl
+
+{-
+  Equalities like this that we have to prove by pattern matching over
+  the equality type are what we called propositional equalities
+  in QED at Large. This is in contrast with definitional equalities,
+  which hold by computation.
+
+  For example, app [] l and l are definitionally equal, since Agda
+  reduces both of them to the same term. But app l [] and l are not
+  definitionally equal, as we saw earlier, since app is defined by
+  pattern matching over the first term rather than the second.
   In Agda, Coq, and Lean, two things that are definitionally equal are
   necessarily propositionally equal, but the reverse is not necessarily true.
+  This is why we can't prove app-nil-r by reflexivity.
+
+  This is important to pay attention to─in many of these languages, it is
+  really standard for your proofs to mirror the structure of
+  the programs they are about. There is a deep type theoretical
+  reason that this is true.
 
   ASIDE: Definitional equality is─for many proof assistants we care about in
   this class─a decidable judgment that follows from a few reduction rules,
@@ -208,73 +342,74 @@ length-x-y-z-OK = refl
   http://adam.chlipala.net/cpdt/html/Equality.html. If you'd like more
   information, that will really help─though it's in Coq. I hope to
   show you some automation that steps through equalities like this next week.
-  
-  BACK TO BUSINESS: The important point here for now is that just applying
-  the refl constructor doesn't construct the proof we want, because these
-  computation rules can't figure out the equality. But our theorem is still
-  true, and indeed provable! But we need to get a bit fancier.
-  We'll define a proof we need for the successor case first─as a lemma:
+
+  BACK TO BUSINESS: It can be kind of annoying to keep pattern matching
+  over equality, which is why the lemmas above─also defined in the standard
+  library─can be really useful.
+
+  An especially useful lemma about equality is substitution,
+  which is also found inside of the standard library:
 -}
 
-
--- TODO that's gross we can simplify ... show with rewrite
--- TODO and/or define a lemma first when showing, e.g. cong or subst... yeah do that
--- from the pfla/stdlib probably:
--- TODO move some of the eq proofs into exercises
-cong : ∀ {A B : Set} (f : A → B) {x y : A} → x ≡ y → f x ≡ f y
-cong f refl = refl
-
-subst : ∀ {A : Set} {x y : A} (P : A -> Set) -> x ≡ y -> P x -> P y
+-- substitution
+subst : ∀ {A : Set} {x y : A} (P : A → Set) → x ≡ y → P x → P y
 subst P refl px = px
 
--- TODO don't need this yet but maybe ask for it? same with transitivity
-sym : ∀ {A : Set} {x y : A} -> x ≡ y -> y ≡ x
-sym refl = refl
-
-trans : ∀ {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
-trans refl refl  =  refl
-
--- TODO move this up, and start by showing just this, to avoid having to explain why we need a lemma ... 
--- TODO also note the type inference here. also clean and explain the with stuff
--- TODO split proposition or use inference or something... how to holes work
--- TODO show interactive mode a bit to help people figure things out
-length-succ-r : ∀ {A} -> (l : List A) -> (a : A) -> length (app l (a ∷ [])) ≡ suc (length l)
-length-succ-r [] a = refl  -- base case
-length-succ-r {A} (h ∷ tl) a = cong suc (subst (λ (n : Nat) -> n ≡ suc (length tl)) refl (length-succ-r tl a))
-
--- TODO start with an easier subst lemma---really break this up into lemmas, and use the holes to help (explain the way this works with C-c C-,
- 
--- TODO
-rev-pres-length : forall {A} -> (l : List A) -> length (rev l) ≡ length l
-rev-pres-length [] = refl -- base case
-rev-pres-length (h ∷ tl) = trans (length-succ-r (rev tl) h) (cong suc (rev-pres-length tl))
-
--- TODO bonus if time: permutation etc, check that rev is a permutation
-
--- TODO rev involutive
-rev-involutive : forall {A} -> (l : List A) -> rev (rev l) ≡ l
-rev-involutive [] = refl
-rev-involutive (h ∷ tl) = {!  !} -- rev (app (rev tl) (h ∷ [])) ≡ h ∷ tl
 {-
- TODO app_nil_l and app_nil_r, what happens?
+  This states that for any property P, if x ≡ y, and we have a proof
+  that P x holds, we can substitute y for x inside of that to show
+  that P y holds. This is really powerful, but a little hard to use,
+  because you have to figure out what P is. For example, here is a proof
+  of app-nil-r using subst instead of cons:
 -}
 
+-- right identity of nil for append, proven by substitution instead
+app-nil-r′ : ∀ {A : Set} → (l : List A) → app l [] ≡ l
+app-nil-r′ [] = refl
+app-nil-r′ (h ∷ tl) = subst (λ l′ → h ∷ l′ ≡ h ∷ tl) (sym (app-nil-r′ tl)) refl
 
 {-
-  Discussion questions:
+  Your turn to try. I've started this proof out for you─I've given you P,
+  which can be tricky. But I need your help figuring out the rest of the
+  arguments to subst.
 
-  1. what was frustrating, and where do you want automation
-  2. something about explicit proof objects in Agda
-  3. some languages and proof assistants don't draw any distinction
-  between definitional and propositional equality, and leave all equality
-  checking to the proof checker. can you think of any possible tradeoffs there
-  4. anything else you'd like to comment on or ask
-  5. check the rest of the things want to cover, and ask questions about
-  6. pattern matching and induction
-  7. question about addition with app_nil_l and app_nil_r problem,
-  defining addition differently, what it means.
-  8. something about TCB
-  9. something about de Bruijn
+  EXERCISE 6: Finish the proof of length-succ-r.
+-}
+length-succ-r :
+  ∀ {A} → (l : List A) → (a : A) → length (app l (a ∷ [])) ≡ suc (length l)
+length-succ-r [] a = refl  -- base case
+length-succ-r {A} (h ∷ tl) a = -- inductive case
+  cong suc (subst (λ n → n ≡ suc (length tl)) refl (length-succ-r tl a))
 
-  if extra time, keep playing around, prove whatever you want lol
+{-
+  EXERCISE 7: Show that the reverse function that you wrote preserves
+  the length of the input list. You may use length-succ-r, and any of the
+  equality lemmas we've defined so far like trans, subst, sym, and
+  cong. (You probably won't need all of them.)
+-}
+rev-pres-length : ∀ {A} → (l : List A) → length (rev l) ≡ length l
+rev-pres-length [] = refl
+rev-pres-length (h ∷ tl) =
+  trans (length-succ-r (rev tl) h) (cong suc (rev-pres-length tl))
+
+
+{-
+  That's it for now! You can keep playing with other proofs if you have
+  extra time. Otherwise, please do this:
+
+    1. Turn to your group and discuss the question below.
+    2. Post your answer─just one answer for your group, clearly indicating
+       all members of the group. (If you are not here, and are working alone,
+       you can post your answer alone.)
+    3. With 10 minutes left, finish posting your answer, so we can discuss
+       a bit as a class.
+
+  You'll be graded based on whether you post an answer, not based on
+  what it is, so don't worry too much about saying something silly.
+
+  DISCUSSION QUESTION: What was it like constructing these proofs directly,
+  as terms in a programming language? What did you find challenging about
+  this experience, if anything? What did you find helpful, if anything? Did
+  you get stuck at any point, and if so, where and why? Where do you wish
+  you'd had more automation to help you out?
 -}
