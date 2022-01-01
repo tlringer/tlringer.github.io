@@ -1,5 +1,5 @@
 -- if curious: https://agda.readthedocs.io/en/v2.6.0.1/language/without-k.html
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --without-K --safe #-}
 
 {-
   CS 598 TLR
