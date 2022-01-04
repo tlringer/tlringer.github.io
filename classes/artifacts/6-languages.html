@@ -49,9 +49,15 @@
 						 
 						 <h3>Installation Instructions</h3>
 						 
+						 <p>If you already have Coq 8.14.0 installed, you do not need to do anything. It is OK if you are on a different OCaml installation, or if you are using a different IDE for proof development. If you do not have Coq installed, though, please follow these instructions:</p>
 						 
 						  <ol>
-						    <li>Coming soon!</li>
+						    <li>If you do not have <a href="https://opam.ocaml.org/">opam</a>, <a href="https://opam.ocaml.org/doc/Install.html">install it</a>.</li>
+						    <li>Otherwise, if you do have opam, run <code>opam update</code> to fetch the latest versions of packages from the repository.</li>
+						    <li>Run <code>opam switch create 4.12.0</code> to install OCaml 4.12.0 in a switch.</li>
+						    <li>Run <code>eval $(opam env)$</code> to configure your environment.</li>
+						    <li>Install Coq 8.14.0 by running <code>opam pin add coq 8.14.0</code>.</li>
+						    <li>More coming soon!</li> <!-- CoqIDE, then the file -->
 						    </ol>
 						    
 						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked.</p>
