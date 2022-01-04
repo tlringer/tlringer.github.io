@@ -4,3 +4,8 @@ classes/artifacts/1/MAlonzo/
 classes/artifacts/1/talia/MAlonzo/
 *.agdai
 *~
+*.aux
+*.glob
+*.vo
+*.vok
+*.vos

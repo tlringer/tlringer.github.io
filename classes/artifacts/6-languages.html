@@ -55,9 +55,14 @@
 						    <li>If you do not have <a href="https://opam.ocaml.org/">opam</a>, <a href="https://opam.ocaml.org/doc/Install.html">install it</a>.</li>
 						    <li>Otherwise, if you do have opam, run <code>opam update</code> to fetch the latest versions of packages from the repository.</li>
 						    <li>Run <code>opam switch create 4.12.0</code> to install OCaml 4.12.0 in a switch.</li>
-						    <li>Run <code>eval $(opam env)$</code> to configure your environment.</li>
+						    <li>Run <code>eval $(opam env)$</code> to configure your environment to use that switch.</li>
 						    <li>Install Coq 8.14.0 by running <code>opam pin add coq 8.14.0</code>.</li>
-						    <li>More coming soon!</li> <!-- CoqIDE, then the file -->
+						    <li>Install CoqIDE---the default IDE for Coq---by running <code>opam pin coqide 8.14.0</code>.</li>
+						    <li>Run <code>eval $(opam env)$</code> again to update the shell environment.</li>
+						    <li>Download <a href="./2/Hello.v">Hello.v</a>, the hello world file.</li>
+						    <li>Compile Hello.v (<code>coqc Hello.v</code> from the command line) to test your Coq setup.</li>
+						    <li>Open <code>Hello.v</code> in CoqIDE (<code>coqide Hello.v</code> from the command line), and step to the bottom to check your CoqIDE setup.</li>    
+						    <li>More coming soon!</li>
 						    </ol>
 						    
 						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked.</p>
