@@ -41,7 +41,7 @@
 							<h2>Getting Started</h2>
 						</header>
 						<section class="align-left">
-						 <p>For the sixth class, we are going to take a look at <b>tactics</b> by way of an exercise in <a href="https://coq.inria.fr/">Coq</a>. Last week, we looked at proof objects in Agda---Coq is built on very similar foundations to Agda, so the proof objects are similar, though with a few differences we'll see during our exercise. Tactics in Coq are <b>search procedures</b> in a tactic language called <b>Ltac</b> that search for these proof objects.</p>
+						 <p>For the sixth class, we are going to take a look at <b>tactics</b> by way of <a href="./2/Tactics.v">an exercise</a> in <a href="https://coq.inria.fr/">Coq</a>. Last week, we looked at proof objects in Agda---Coq is built on very similar foundations to Agda, so the proof objects are similar, though with a few differences we'll see during our exercise. Tactics in Coq are <b>search procedures</b> in a tactic language called <b>Ltac</b> that search for these proof objects.</p>
 						 
 						 <p>For some continuity, we will start by building off of the same proofs as last week, but in Coq rather than in Agda. (If time allows, we'll move on to some new proofs in the end, too.) In the process, we'll look at some <b>design decisions</b> that Coq makes a bit differently from Agda---and what the implications are for our proofs. More importantly for this class, we'll get a sense of the <b>user experience</b> of writing proofs with tactics.</p>
  
@@ -62,7 +62,7 @@
 						    <li>Download <a href="./2/Hello.v">Hello.v</a>, the hello world file.</li>
 						    <li>Compile Hello.v (<code>coqc Hello.v</code> from the command line) to test your Coq setup.</li>
 						    <li>Open <code>Hello.v</code> in CoqIDE (<code>coqide Hello.v</code> from the command line), and step to the bottom to check your CoqIDE setup.</li>    
-						    <li>More coming soon!</li>
+						    <li>Download <a href="./2/Tactics.v">this file</a>, which we will work on in class.</li>
 						    </ol>
 						    
 						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked.</p>
@@ -83,9 +83,9 @@
 						</header>
 						<section class="align-left">
 						<p>Coming soon!</p>
-						    <!-- <p>During class, we will divide up into groups, pairing up people who already have experience with people who are totally new to this. We will then do the exercise in <a href="./1/proof-objects.agda"><b>this file</b></a>. There is an HTML version of this file <a href="./1/html/proof-objects.html">here</a>, if you'd like to browse it online. You can do this on your own if you cannot make it to class, or let me know if you'd like me to find you a partner or make an exception.</p> -->
+						    <p>During class, we will again divide up into groups, pairing up people who already have experience with people who are totally new to this. We will then do the exercise in <a href="./2/Tactics.v"><b>this file</b></a>. You can do this on your own if you cannot make it to class, or let me know if you'd like me to find you a partner or make an exception.</p>
 						    
-						    <!--<p>There is a <b>discussion question</b> at the <b>bottom of the file</b>. This is <b>the only graded part</b>. Please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/23">this thread</a>, following the directions from the file.</p>-->
+						    <p>There is a <b>discussion question</b> at the <b>bottom of the file</b>. This is <b>the only graded part</b>. Please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/25">this thread</a>, following the directions from the file.</p>
 						     
 				        </section>
 					</div>
