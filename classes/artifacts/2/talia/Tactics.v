@@ -1,7 +1,7 @@
 (*
  * CS 598 TLR
  * Artifact 2: Tactics
- * Student Copy
+ * Talia's Copy
  *
  * READ ME FIRST: This will be the same style as last week. That is, the emphasis is
  * on learning about the experience of using tactics and how they relate to
@@ -238,8 +238,11 @@ Theorem rev {A : Type} :
   list A ->
   list A.
 Proof.
-  (* your tactics here *)
-Admitted. (* <- change to Defined when done *)
+  intros l. (* bind l *)
+  induction l as [| h tl rev_tl]. (* induct over l *)
+  - apply []. (* base case *)
+  - apply (app rev_tl [h]). (* inductive case *)
+Defined.
 
 (*
  * We can test your rev function like we did in Agda
@@ -311,8 +314,10 @@ Qed.
 Lemma rev_OK {A : Type}:
   forall (l : list A), rev l = List.rev l.
 Proof.
-  (* your tactics here *)
-Admitted. (* <- change to Qed when done *)
+  intros l. induction l.
+  - reflexivity.
+  - simpl. rewrite IHl. rewrite app_OK. reflexivity.
+Qed.
 
 (*
  * There are two really cool things to note here. The first something quite beautiful
@@ -393,8 +398,8 @@ Print eq_rect_r.
 Lemma rev_OK' {A : Type}:
   forall (l : list A), rev l = List.rev l.
 Proof.
-  (* your proof here *)
-Admitted. (* <- change to Qed when done *)
+  induction l; auto; simpl; rewrite app_OK; congruence.
+Qed.
 
 (*
  * With all of that in mind, let's prove app_nil_l and app_nil_r.
@@ -408,16 +413,16 @@ Theorem app_nil_l {A : Type}:
   forall (l : list A),
     app [] l = l.
 Proof.
-  (* your proof here *)
-Admitted. (* <- change to Qed when done *)
+  intros. auto.
+Qed.
 
 (* right identity of nil for append *)
 Theorem app_nil_r {A : Type}:
   forall (l : list A),
     app l [] = l.
 Proof.
-  (* your proof here *)
-Admitted. (* <- change to Qed when done *)
+  intros. induction l; simpl; congruence.
+Qed.
 
 (*
  * Coq, like Agda, has symmetry of equality, and also a tactic for it:
@@ -451,17 +456,23 @@ Qed.
  * in Agda last week, or you can use your proof of rev_OK to relate rev to Coq's List.rev,
  * then use functions in the Coq standard library. Either is fine! Both if you want.
  *
- * EXERCISE 6: Show that the reverse function preserves the length of the input list.
+ * Exercise 6: Show that the reverse function preserves the length of the input list.
  *)
 
-(* any lemmas you want to write can go here *)
+Lemma length_S_r {A : Type}:
+  forall (l : list A) (a : A),
+    length (app l (a :: [])) = S (length l).
+Proof.
+  induction l; simpl; congruence.
+Qed.
 
 Theorem rev_pres_length {A : Type}:
   forall (l : list A),
     length (rev l) = length l.
 Proof.
-  (* your proof here *)
-Admitted. (* <- change to Qed when done *)
+  induction l; simpl; auto.
+  rewrite length_S_r. congruence.
+Qed.
 
 (*
  * You're done with the proofs based on our Agda proofs last week! Some bonuses,
@@ -484,7 +495,7 @@ Fixpoint rev_aux {A : Type} (l1 l2 : list A) : list A :=
 (* new definition of rev *)
 Definition rev_alt {A : Type} (l : list A) := rev_aux l [].
 
-(* Your theorems and proofs here *)
+(* Your theorems and proofs below *)
 
 (*
  * That's it for now! You can keep playing with other proofs if you have
