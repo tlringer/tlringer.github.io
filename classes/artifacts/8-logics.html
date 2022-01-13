@@ -1,15 +1,100 @@
-Coming soon!
-
-<p><a href="https://dependenttyp.es/classes/readings/7-logics.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/readings/9-custom.html">Next >></a></p>
-
-<!-- 
-Adapted from: https://gitlab.mpi-sws.org/iris/iris/-/blob/master/CONTRIBUTING.md
-
-1. Run <code>opam switch 4.12.0</code> in the terminal to configure your environment to use the right Coq version from last class.
-2. Run <code>eval $(opam env)</code> in the terminal to sync your opam environment.
-3. Run <code>opam repo add coq-released https://coq.inria.fr/opam/released</code> in the terminal to add the release repository.
-4. Run <code>opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git</code> in the terminal to add the Iris development version.
-5. Run <code>git clone https://gitlab.mpi-sws.org/iris/iris.git</code> in the terminal to clone the 
-6. Change directories to the Iris directory (<code>cd iris</code>) and then run <code>make builddep</code> to build dependencies.
-7. Run <code>make -jN</code> to build Iris, where N is the number of CPU cores your computer has (for me, this was <code>make -j8</code>).
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<html>
+	<head>
+		<title>Class 8: Language Design for Automation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 8: Language Design for Automation</h1>
+					<p>Artifact 3</p>
+					<p>Inside Iris Proof Mode</p>
+ 					<p>Week 4, Day 2</p>
+ 					<p>Due By: February 10th, 2022 at 12:30 PM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#install" class="goto-next scrolly">Getting Started</a></li>
+						<li><a href="#hack" class="goto-next scrolly">Let's Hack!</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="install" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Getting Started</h2>
+						</header>
+						<section class="align-left">
+						 <p>For the eighth class, we are going to dive into <a href="https://gitlab.mpi-sws.org/iris/iris">the implementation</a> of the Iris Proof Mode! This is implemented on top of <a href="https://coq.inria.fr/">Coq</a>, so if you missed <a href="https://dependenttyp.es/classes/artifacts/6-languages.html">last week's artifact</a>, I recommend installing it and playing around with it first.</p>
+						 
+						 <p>More information coming soon!</p>
+ 
+						 <p>Installation can be finicky, so please install the artifact <b>before class</b> using the instructions below. If you have any trouble, please post your questions in <a href="https://campuswire.com/c/GC575C0C8/feed/27">this thread</a>. You can also drop any installation tips you have in that thread.</p>
+						 
+						 <h3>Installation Instructions</h3>
+						 
+						 <p>Please follow these instructions, which are adapted from the <a href="https://gitlab.mpi-sws.org/iris/iris/-/blob/master/CONTRIBUTING.md">Iris contribution guide</a>:</p>
+						 
+						  <ol>
+						    <li>Run <code>opam switch 4.12.0</code> in the terminal to configure your environment to use the right Coq version from last class.</li>
+						    <li>Run <code>eval $(opam env)</code> in the terminal to sync your opam environment.</li>
+						    <li>Run <code>opam repo add coq-released https://coq.inria.fr/opam/released</code> in the terminal to add the release repository.</li>
+						    <li>Run <code>opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git</code> in the terminal to add the Iris development version.</li>
+						    <li>Run <code>git clone https://gitlab.mpi-sws.org/iris/iris.git</code> in the terminal to clone the Iris repository.</li>
+						    <li>Change directories to the Iris directory (<code>cd iris</code>) and then run <code>make builddep</code> to build dependencies.</li>
+						    <li>Run <code>make -jN</code> to build Iris, where N is the number of CPU cores your computer has (for me, this was <code>make -j8</code>).</li>
+						  </ol>
+						    
+						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked.</p>
+						    <p>You can find the <a href="#hack">exercise</a> we will do together in class below.</p>
+
+				        </section>
+					</div>
+					<a href="#hack" class="goto-next scrolly">Let's Hack!</a>
+				</div>
+			</section>
+
+			<section id="hack" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Let's Hack!</h2>
+						</header>
+						<section class="align-left">
+						    <p>Coming soon!</p>
+						     
+				        </section>
+					</div>
+					<a href="https://dependenttyp.es/classes/readings/7-logics.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/readings/9-custom.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
+
