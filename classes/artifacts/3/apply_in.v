@@ -47,9 +47,9 @@ Qed.
  * even though you're in a logic that can handle reasoning about concurrency.
  * Iris has "iApply" and "iExact" where Coq has "apply" and "exact":
  *)
-Lemma show_iApply {PROP : bi} (P Q R : PROP) : □ (P -∗ Q) -∗ (Q -∗ R) -∗ P -∗ R.
+Lemma show_iApply {PROP : bi} (P Q R : PROP) : (P -∗ Q) -∗ (Q -∗ R) -∗ P -∗ R.
 Proof.
-  iIntros "#H1 H2 H3". (* goal : R *)
+  iIntros "H1 H2 H3". (* goal : R *)
   iApply "H2". (* goal : Q *)
   iApply "H1". (* goal : P *)
   iExact "H3". (* no more goals *)
@@ -117,7 +117,7 @@ of these Booleans `pi` and `pj` everywhere.)
   `envs_lookup i Δ = Some (pi, P -∗ Q)%I`. This means that the tactic only
 works at hypotheses that are syntactically equal to a wand, instead of
 those that can be semantically converted into a wand.*)
-
+(*
   Lemma tac_apply_in {PROP : bi} (Δ : envs PROP) i pi j pj P1 P2 R Q :
     envs_lookup i Δ = Some (pi, R) →
     let Δ' := envs_delete false i pi Δ in
@@ -136,10 +136,10 @@ those that can be semantically converted into a wand.*)
       rewrite {1}(intuitionistically_intuitionistically_if pj).
       by rewrite HR assoc intuitionistically_if_sep_2 wand_elim_l wand_elim_r.
     - by rewrite HR assoc wand_elim_l wand_elim_r.*)
-  Qed.
+  (*Qed.*)
 
   Tactic Notation "iApply" constr(H1) "in" constr(H2) :=
-    notypeclasses refine (tac_apply_in _ H1 _ H2 _ _ _ _ _ _ _ _ _);
+    notypeclasses refine (tac_apply_in _ H1 H2 _ _ _ _ _ _ _ _);
       [pm_reflexivity || fail "iApply in:" H1 "not found"
       |pm_reflexivity || fail "iApply in:" H2 "not found"
       |iSolveTC ||
@@ -148,7 +148,21 @@ those that can be semantically converted into a wand.*)
       |pm_reduce].
 End tac_apply_in.
 
-Lemma test {PROP : bi} (P Q R : PROP) : □ (P -∗ Q) -∗ (Q -∗ R) -∗ P -∗ R.
+Lemma test1 {PROP : bi} (P Q R : PROP) : (P -∗ Q) -∗ (Q -∗ R) -∗ P -∗ R.
+Proof.
+  iIntros "H1 H2 H3".
+  (* test errors *)
+  Fail iApply "H6" in "H3". (* Tactic failure: iApply .. in: "H6" not found. *)
+  Fail iApply "H1" in "H5". (* Tactic failure: iApply .. in: "H5" not found. *)
+  Fail iApply "H3" in "H1". (* Tactic failure: iApply in: P is not a wand. *)
+
+  (* test *)
+  iApply "H1" in "H3".
+  iApply "H2" in "H3".
+  iExact "H3".
+Qed.
+
+Lemma test2 {PROP : bi} (P Q R : PROP) : □ (P -∗ Q) -∗ (Q -∗ R) -∗ P -∗ R.
 Proof.
   iIntros "#H1 H2 H3".
   (* test errors *)
