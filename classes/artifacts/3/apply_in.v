@@ -13,6 +13,8 @@ From iris.proofmode Require Import tactics.
  * implementation, but on the discussion questions at the end. These questions will
  * be easier, not harder, if you really try to implement this yourself.
  *
+ * TODO note about simpler version etc, how the real version has extra complexities
+ *
  * OK, let's get started!
  *)
 
@@ -83,78 +85,51 @@ Module Export tac_apply_in.
    * Here is our first version if "iApply ... in" (TODO explain, and try the one
    * without IntoWand---simplify as much as possible and then make more interesting.
    * Maybe show them one example before making it incrementally more complicated...
-   * also keep simplifying proof):
+   * also keep simplifying proof---note in eventual version that you make super manual
+   * on purpose, but lots of useful automation in the original. actually just leave out part of the proof,
+   * have them fill in. offer to help if stuck. tell where to find lemmas, clarify goals.):
    *)
-  Lemma tac_apply_in {PROP : bi} (Δ : envs PROP) i j P1 P2 R Q :
-    envs_lookup i Δ = Some (false, R) ->
-    let Δ' := envs_delete false i false Δ in
-    envs_lookup j Δ' = Some (false, P1) ->
-    IntoWand false false R P1 P2 ->
-    (match envs_replace j false false (Esnoc Enil j P2) Δ' with
-    | Some Δ'' => envs_entails Δ'' Q
+  Lemma tac_apply_in {PROP : bi} (Δ : envs PROP) i j P1 P2 Q:
+    envs_lookup i Δ = Some (false, P1 -∗ P2)%I -> (* i maps to P1 -∗ P2 in Δ *)
+    envs_lookup j (envs_delete false i false Δ) = Some (false, P1) -> (* j maps to P1 in Δ \ i *)
+    (match envs_replace j false false (Esnoc Enil j P2) (envs_delete false i false Δ) with (* IDK *)
+    | Some Δ' => envs_entails Δ' Q
     | None => False
     end) ->
-    envs_entails Δ Q.
+    envs_entails Δ Q. (* Q holds in Δ *)
   Proof.
-    rewrite envs_entails_eq. rewrite /IntoWand. intros.
+    rewrite envs_entails_eq. intros.
     remember (envs_replace _ _ _ _ _).
-    destruct o.
-    - rewrite (envs_lookup_sound' Δ false i false R).
-      + rewrite (envs_replace_singleton_sound (envs_delete false i false Δ) e j false false P1 j P2); simpl in *.
-        * rewrite H1 assoc wand_elim_l wand_elim_r.
-          apply H2.
-        * apply H0.
-        * symmetry. apply Heqo.
-      + apply H.
-    - inversion H2.
+    induction o.
+    - rewrite (envs_lookup_sound' Δ false i false _ H).
+      rewrite (envs_replace_singleton_sound (envs_delete false i false Δ) a j false false _ j _ H0); eauto; simpl in *.
+      rewrite assoc.
+      rewrite wand_elim_l.
+      rewrite wand_elim_r.
+      auto.
+    - inversion H1.
   Qed.
 
-(*
-- Drop support for the intuitionistic context (i.e., use `false` instead
-of these Booleans `pi` and `pj` everywhere.)
-- Don't attempt error reporting at all.
-  - Instead of using the Type class `IntoWand`, have a premise
-  `envs_lookup i Δ = Some (pi, P -∗ Q)%I`. This means that the tactic only
-works at hypotheses that are syntactically equal to a wand, instead of
-those that can be semantically converted into a wand.*)
-(*
-  Lemma tac_apply_in {PROP : bi} (Δ : envs PROP) i pi j pj P1 P2 R Q :
-    envs_lookup i Δ = Some (pi, R) →
-    let Δ' := envs_delete false i pi Δ in
-    envs_lookup j Δ' = Some (pj, P1) →
-    IntoWand pi pj R P1 P2 →
-    match envs_replace j pj (pi &&& pj) (Esnoc Enil j P2) Δ' with
-    | Some Δ'' => envs_entails Δ'' Q
-    | None => False
-    end → envs_entails Δ Q.
-  Proof.
-    rewrite envs_entails_eq /IntoWand. intros ?? HR ?.
-    destruct (envs_replace _ _ _ _ _) as [Δ''|] eqn:?; last done.
-    rewrite (envs_lookup_sound' _ false) //.
-    rewrite envs_replace_singleton_sound //. destruct pi; simpl in *.
-    - rewrite -{1}intuitionistically_idemp -{1}intuitionistically_if_idemp.
-      rewrite {1}(intuitionistically_intuitionistically_if pj).
-      by rewrite HR assoc intuitionistically_if_sep_2 wand_elim_l wand_elim_r.
-    - by rewrite HR assoc wand_elim_l wand_elim_r.*)
-  (*Qed.*)
-
-  Tactic Notation "iApply" constr(H1) "in" constr(H2) :=
-    notypeclasses refine (tac_apply_in _ H1 H2 _ _ _ _ _ _ _ _);
-      [pm_reflexivity || fail "iApply in:" H1 "not found"
-      |pm_reflexivity || fail "iApply in:" H2 "not found"
-      |iSolveTC ||
-       let R := match goal with |- IntoWand _ _ ?R _ _ => R end in
-       fail "iApply in:" R "is not a wand"
+  (* TODO explain what is happening. add error handling as separate exercise *)
+  Tactic Notation "iApply" constr(H1) "in" constr(H2) := 
+    refine (tac_apply_in _ H1 H2 _ _ _ _ _ _);
+      [pm_reflexivity (* || fail "iApply in:" H1 "not found"*)
+      |pm_reflexivity (* || fail "iApply in:" H2 "not found"*)
       |pm_reduce].
 End tac_apply_in.
+
+
+  Import environments reduction bi.
+  Local Open Scope lazy_bool_scope.
+
 
 Lemma test1 {PROP : bi} (P Q R : PROP) : (P -∗ Q) -∗ (Q -∗ R) -∗ P -∗ R.
 Proof.
   iIntros "H1 H2 H3".
   (* test errors *)
-  Fail iApply "H6" in "H3". (* Tactic failure: iApply .. in: "H6" not found. *)
+  (*Fail iApply "H6" in "H3". (* Tactic failure: iApply .. in: "H6" not found. *)
   Fail iApply "H1" in "H5". (* Tactic failure: iApply .. in: "H5" not found. *)
-  Fail iApply "H3" in "H1". (* Tactic failure: iApply in: P is not a wand. *)
+  Fail iApply "H3" in "H1". (* Tactic failure: iApply in: P is not a wand. *)*)
 
   (* test *)
   iApply "H1" in "H3".
@@ -175,3 +150,9 @@ Proof.
   iApply "H2" in "H3".
   iExact "H3".
 Qed.
+
+(* TODO how to test the wand thing? *)
+
+(* TODO discussion question *)
+
+(* TODO bonus questions *)
