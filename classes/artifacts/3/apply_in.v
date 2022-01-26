@@ -1,7 +1,7 @@
 (*
  * CS 598 TLR
  * Artifact 3: Inside Iris Proof Mode
- * Talia's Copy
+ * Student Copy
  *
  * In this exercise, you will work in groups of 4 to implement a new tactic inside of
  * Iris proof mode. It may help to look at the paper for details of how tactics are
@@ -153,16 +153,13 @@ Module Export tac_apply_in.
 
       Your proof below:
       *)
-      rewrite (envs_lookup_sound' Δ false i false _ H).
-      rewrite (envs_replace_singleton_sound Δ' e j false false _ j _ H0); eauto; simpl in *.
-      rewrite assoc.
-      rewrite wand_elim_l.
-      rewrite wand_elim_r.
-      auto.
+      admit.
     - (** The [None] case. Your goal is to show that the hypothesis H1 is absurd.
+
+      Your proof below:
       *)
-      inversion H1.
-  Qed.
+      admit.
+  Admitted. (* <- change to Qed *)
 
  (*
   * The next step is to define Ltac tactic notation to use that lemma automatically
@@ -185,12 +182,13 @@ Module Export tac_apply_in.
       pm_reflexivity. 
     - (* reduce the goal *)
       pm_reduce.
-      (* refine again, this time applying H2 in H3 *)
+      (* refine our goal using the lemma we just proved, applying H2 in H3: *)
       refine (tac_apply_in _ "H2" "H3" _ _ _ _ _ _).
-      + pm_reflexivity.
-      + pm_reflexivity.
-      + pm_reduce. iExact "H3".
-  Qed.
+      (* your tactics below: *)
+      + admit.
+      + admit.
+      + admit.
+  Admitted. (* <- change to Qed *)
 
   (*
    * This is quite cumbersome! But we can pull it out into a tactic.
@@ -200,9 +198,9 @@ Module Export tac_apply_in.
    *)
   Tactic Notation "iApply" constr(H1) "in" constr(H2) := 
     refine (tac_apply_in _ H1 H2 _ _ _ _ _ _);
-      [pm_reflexivity (* proves [envs_lookup H1 Δ = Some (false, P1 -∗ P2)%I] *)
-      |pm_reflexivity (* proves [envs_lookup H2 Δ' = Some (false, P1)] *)
-      |pm_reduce]. (* reduces the goal *)
+      [fail (* replace with a tactic that proves [envs_lookup H1 Δ = Some (false, P1 -∗ P2)%I] *)
+      |fail (* replace with a tactic that proves [envs_lookup H2 Δ' = Some (false, P1)] *)
+      |fail]. (* replace with a tactic that reduces the goal *)
 End tac_apply_in.
 
 (*
@@ -234,10 +232,7 @@ Module Export tac_apply_in'.
   Local Open Scope lazy_bool_scope.
 
   Tactic Notation "iApply'" constr(H1) "in" constr(H2) :=
-    refine (tac_apply_in _ H1 H2 _ _ _ _ _ _);
-      [pm_reflexivity || fail "iApply in: could not apply" H1
-      |pm_reflexivity || fail "iApply in: could not apply inside of" H2
-      |pm_reduce].
+    fail "iApply " H1 "in " H2 " is not implemented". (* <- implement *)
 End tac_apply_in'.
 
 (*
@@ -266,7 +261,7 @@ Module Export tac_apply_in_2.
   Local Open Scope lazy_bool_scope.
 
   Tactic Notation "iApply_2" constr(H1) constr(H2) "in" constr(H3) :=
-    iApply' H1 in H3; iApply' H2 in H3.
+    fail "iApply_2 is not implemented". (* <- implement *)
 End tac_apply_in_2.
 
 (*
@@ -349,24 +344,11 @@ Module Export tac_apply_in''.
     (** Our initial goal *)
     envs_entails Δ Q.
   Proof.
-    rewrite envs_entails_eq /IntoWand. intros ?? HR ?.
-    destruct (envs_replace _ _ _ _ _) as [Δ''|] eqn:?; last done.
-    rewrite (envs_lookup_sound' _ false) //.
-    rewrite envs_replace_singleton_sound //. destruct pi; simpl in *.
-    - rewrite -{1}intuitionistically_idemp -{1}intuitionistically_if_idemp.
-      rewrite {1}(intuitionistically_intuitionistically_if pj).
-      by rewrite HR assoc intuitionistically_if_sep_2 wand_elim_l wand_elim_r.
-    - by rewrite HR assoc wand_elim_l wand_elim_r.
-  Qed.
+    (* your proof here *)
+  Admitted. (* <- replace with Qed *)
 
   Tactic Notation "iApply''" constr(H1) "in" constr(H2) :=
-    notypeclasses refine (tac_apply_in _ H1 _ H2 _ _ _ _ _ _ _ _ _);
-      [pm_reflexivity || fail "iApply'' in:" H1 "not found"
-      |pm_reflexivity || fail "iApply'' in:" H2 "not found"
-      |iSolveTC ||
-       let R := match goal with |- IntoWand _ _ ?R _ _ => R end in
-       fail "iApply'' in:" R "is not a wand"
-      |pm_reduce].
+    fail "not implemented".
 End tac_apply_in''.
 
 (* Test more general version: *)
