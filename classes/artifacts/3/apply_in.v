@@ -76,38 +76,83 @@ Module Export tac_apply_in.
   Local Open Scope lazy_bool_scope.
 
   (*
-   * We will start with a restricted version of the tactic, then make it more 
-   * interesting as go. Remember that tactics in Iris Proof Mode are implemented
+   * We will implement a restricted version of the tactic. The restricted version in
+   * particular does not handle the additional intuitionistic context described in the
+   * paper, and also cannot handle some hypotheses the full version can handle.
+   * Extensions to the tactic are left as bonus problems!
+   *
+   * Remember that tactics in Iris Proof Mode are implemented
    * using a combination of logic programming and computational reflection.
-   * So to define a new tactic, we will actually state a Lemma in Coq, then
+   * So to define a new tactic, we will actually state and prove a Lemma in Coq, then
    * invoke it by ascribing it special syntax in Ltac.
    *
-   * Here is our first version if "iApply ... in" (TODO explain, and try the one
-   * without IntoWand---simplify as much as possible and then make more interesting.
-   * Maybe show them one example before making it incrementally more complicated...
-   * also keep simplifying proof---note in eventual version that you make super manual
-   * on purpose, but lots of useful automation in the original. actually just leave out part of the proof,
-   * have them fill in. offer to help if stuck. tell where to find lemmas, clarify goals.):
+   * EXERCISE 1: Prove the lemma tac_apply_in, which is needed to implement
+   * the tactic "iApply ... in" (thanks to Robbert Krebbers for the wonderful
+   * comments about what the lemma actually proves, which I've modified a bit
+   * to fit the restricted context).
    *)
-  Lemma tac_apply_in {PROP : bi} (Δ : envs PROP) i j P1 P2 Q:
-    envs_lookup i Δ = Some (false, P1 -∗ P2)%I -> (* i maps to P1 -∗ P2 in Δ *)
-    envs_lookup j (envs_delete false i false Δ) = Some (false, P1) -> (* j maps to P1 in Δ \ i *)
-    (match envs_replace j false false (Esnoc Enil j P2) (envs_delete false i false Δ) with (* IDK *)
-    | Some Δ' => envs_entails Δ' Q
-    | None => False
-    end) ->
-    envs_entails Δ Q. (* Q holds in Δ *)
+  Lemma tac_apply_in {PROP : bi} (Δ : envs PROP) i j P1 P2 Q :
+    (** Let us use [envs_lookup] to determine the type of hypothesis [i]. Here,
+    [envs_lookup i Δ] is a partial function that looks up hypothesis [i]
+    in proof mode context [Δ]. It returns a pair [(false, P1 -∗ P2)], where [false] 
+    indicates that [i] is not in the intuitionistic part, and [P1 -∗ P2] is the type of [i]. *)
+    envs_lookup i Δ = Some (false, P1 -∗ P2)%I ->
+    (** Since spatial separation logic can only be used once, we remove [i]
+    from the context [Δ] in case it is persistent. We call the resulting
+    context [Δ']. *)
+    let Δ' := envs_delete false i false Δ in
+    (** Let us use [envs_lookup] again, but now to determine the type of [j]. *)
+    envs_lookup j Δ' = Some (false, P1) →
+    (** Now that we have obtained all information about the initial goal, let us
+    determine the context of the resulting goal. For this we use the function
+    [match envs_replace j false false (Esnoc Enil j P2) Δ'] which replaces
+    hypothesis [j] with [j : P2]. Note that we use [Δ'], so [i] has already
+    been removed if that is required.*)
+    match envs_replace j false false (Esnoc Enil j P2) Δ' with
+    | Some Δ'' =>
+       (** Our resulting goal *)
+       envs_entails Δ'' Q
+    | None =>
+       (** The function returns [None] if we try to use a name that is already
+       in use. Since we replace [j] by [j], this is not going happen. We put
+       [False] so that the lemma becomes trivial in that case. *)
+       False
+    end ->
+    (** Our initial goal *)
+    envs_entails Δ Q.
   Proof.
+    (* I will start this proof for you by breaking the macth statement into cases *)
     rewrite envs_entails_eq. intros.
     remember (envs_replace _ _ _ _ _).
-    induction o.
-    - rewrite (envs_lookup_sound' Δ false i false _ H).
-      rewrite (envs_replace_singleton_sound (envs_delete false i false Δ) a j false false _ j _ H0); eauto; simpl in *.
+    destruct o.
+    - (** The [Some Δ''] case. Your goal is to show [of_envs Δ -∗ Q]. The easiest way
+      that I found to get there was to rewrite that goal by a number of lemmas about
+      the environment and about wands in Iris until the goal became [of_envs e -∗ Q],
+      at which point this held by our hypothesis H1.
+
+      You will absolutely need lemmas for this---and they should all be defined for you.
+      The lemma assoc will also likely be useful.
+      If you have trouble finding these, please let me know.
+      You can search for relevant lemmas like this:
+      *)
+      Search envs. (* functions and lemmas about the environment *)
+      Search bi_entails. (* functions and lemmas about wands *)
+      (** You may also find the tactic eauto useful, when you see lots of question marks
+      (existential variables) that Coq is yet to infer. There are a number of tactics
+      that are useful for existentials, and they can be finnicky sometimes---please ask
+      if you need help!
+
+      Your proof below:
+      *)
+      rewrite (envs_lookup_sound' Δ false i false _ H).
+      rewrite (envs_replace_singleton_sound Δ' e j false false _ j _ H0); eauto; simpl in *.
       rewrite assoc.
       rewrite wand_elim_l.
       rewrite wand_elim_r.
       auto.
-    - inversion H1.
+    - (** The [None] case. Your goal is to show that the hypothesis H1 is absurd.
+      *)
+      inversion H1.
   Qed.
 
   (* TODO explain what is happening. add error handling as separate exercise *)
