@@ -362,7 +362,7 @@ Print app_OK.
 
 (*
  * Our first proof uses eq_ind_r (basically subst in Agda). The tactic "rewrite"
- * roughly generate a term that act like subst in Agda, though it is a bit more
+ * roughly generates a term that acts like subst in Agda, though it is a bit more
  * powerful sometimes (and can sometimes give you scary looking terms because of that).
  *
  * Oh, by the way, about subst in Agda? There's something cute about it---I didn't
@@ -501,7 +501,8 @@ Definition rev_alt {A : Type} (l : list A) := rev_aux l [].
  *     all members of the group. (If you are not here, and are working alone,
  *     you can post your answer alone.)
  *  3. With 10 minutes left, finish posting your answer, so we can discuss
- *     a bit as a class.
+ *     a bit as a class if time allows. We will follow up with more discussion
+ *     at the start of Tuesday's class.
  *
  * You'll be graded based on whether you post an answer, not based on
  * what it is, so don't worry too much about saying something silly.
@@ -510,7 +511,6 @@ Definition rev_alt {A : Type} (l : list A) := rev_aux l [].
  * relative to your experience using Agda last week? In your experience so far, what do you
  * think the tradeoffs are of writing proofs as terms versus using tactics?
  * What did you find challenging about this experience, if anything?
- * What did you find helpful, if anything? Did you get stuck at any point, and if so, 
- * where and why? Where do you wish you'd had more automation to help you out?
-*)
+ * What did you find helpful, if anything? Where do you wish you'd had more automation to help you out?
+ *)
 

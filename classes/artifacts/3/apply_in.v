@@ -374,7 +374,8 @@ Qed.
        all members of the group. (If you are not here, and are working alone,
        you can post your answer alone.)
     3. With 10 minutes left, finish posting your answer, so we can discuss
-       a bit as a class.
+       a bit as a class if time allows. We'll follow up on the discussion
+       at the start of Tuesday's class.
 
   You'll be graded based on whether you post an answer, not based on
   what it is, so don't worry too much about saying something silly.
