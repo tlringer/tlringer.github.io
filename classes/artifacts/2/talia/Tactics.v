@@ -495,7 +495,41 @@ Fixpoint rev_aux {A : Type} (l1 l2 : list A) : list A :=
 (* new definition of rev *)
 Definition rev_alt {A : Type} (l : list A) := rev_aux l [].
 
-(* Your theorems and proofs below *)
+Lemma rev_aux_pres_length {A : Type}:
+  forall (l1 l2 : list A),
+    length (rev_aux l1 l2) = length l1 + length l2.
+Proof.
+  induction l1; intros; auto.
+  simpl. rewrite (IHl1 (a :: l2)). simpl.
+  auto with arith.
+Qed.
+
+Theorem rev_pres_length_alt {A : Type}:
+  forall (l : list A),
+    length (rev_alt l) = length l.
+Proof.
+  induction l; simpl; auto.
+  simpl. unfold rev_alt. rewrite rev_aux_pres_length. simpl.
+  auto with arith.
+Qed.
+
+Lemma rev_aux_app {A : Type}:
+  forall (l1 l2 : list A),
+    rev_aux l1 l2 = rev l1 ++ l2.
+Proof.
+  induction l1; intros; auto.
+  simpl in *. rewrite IHl1. 
+  rewrite app_OK. rewrite <- app_assoc.
+  reflexivity.
+Qed.
+
+Lemma rev_rev_alt {A : Type}:
+  forall (l : list A),
+    rev_alt l = rev l.
+Proof.
+  intros l. unfold rev_alt. 
+  rewrite rev_aux_app. apply List.app_nil_r.
+Qed.
 
 (*
  * That's it for now! You can keep playing with other proofs if you have
