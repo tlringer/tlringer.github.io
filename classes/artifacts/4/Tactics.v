@@ -123,23 +123,22 @@ Qed.
  *)
 Print add_right.
 
-(** TODO explain, mention number of args, propose extensions; find a way to infer args somehow *)
-Ltac autoinduct_aux n m :=
+(** TODO explain, mention number of args, propose extensions; find a way to infer args somehow.
+Start by defining it inside of a lemma, then tell students to pull out to these number of args. etc etc
+ *)
+Ltac autoinduct_body :=
   match goal with
-  | [ |- context [ ?f _ _ ] ] =>
-    lazymatch (eval red in f) with
+  | [ |- context [ ?f ?x ?y ] ] =>
+    let f_red := eval red in f in
+    lazymatch f_red with
     | (fix f n m {struct m} := @?body f n m) =>
-      induction m
+      try (rememberNonVars y); generalizeEverythingElse y; induction y
     | (fix f n m {struct n} := @?body f n m) =>
-      induction n
+      try (rememberNonVars x); generalizeEverythingElse x; induction x
     end
   end.
 
-Ltac autoinduct :=
-  lazymatch goal with
-  | |- (forall n m, _) =>
-    autoinduct_aux n m
-  end. 
+Ltac autoinduct := intros; autoinduct_body.
 
 Lemma add_right_comm':
   forall (n m : nat),
