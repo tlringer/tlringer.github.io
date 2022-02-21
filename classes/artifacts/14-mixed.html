@@ -53,14 +53,12 @@
 						 
 						 <h3>Installation Instructions</h3>
 						 
-						 <p>Coming soon!</p>
-						 
-						  <!-- <ol>
-						    <li>Run <code>eval $(opam env)</code> to sync your opam environment.</li>
-						    <li>Run <code>git clone https://github.com/uwplse/StructTact.git</code> to clone the StructTact repository.</li>
-						    <li>Run <code>cd StructTact && make && make install</code> to build and install StructTact.</li>
-						    <li>Download <a href="./4/Custom.v">this file</a>, and open it and step through it in CoqIDE to make sure it works.</li>
-						  </ol>-->
+						  <ol>
+						    <li>Run <code>opam switch 4.12.0 && eval $(opam env)</code> to sync your opam environment.</li>
+						    <li>Run <code>opam install merlin && opam install tuareg && opam user-setup install && eval $(opam env)</code> to set up OCaml development tools for plugin development.</li>
+						    <li>Add this line to your <code>.emacs</code> to configure emacs to use those development tools: <code>(add-to-list 'auto-mode-alist '("\\.mlg$"      . tuareg-mode) t)</code>.</li>
+						    <li>More coming soon!</li>
+						  </ol>
 						    
 						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked.</p>
 						    <p>You can find the <a href="#hack">exercise</a> we will do together in class below.</p>
