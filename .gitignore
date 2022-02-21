@@ -9,3 +9,13 @@ classes/artifacts/1/talia/MAlonzo/
 *.vo
 *.vok
 *.vos
+*.o
+*.cmi
+*.cmx
+*.cmxs
+*.d
+*.a
+*.cmxa
+classes/artifacts/5/*/Makefile.coq
+classes/artifacts/5/*/Makefile.coq.conf
+classes/artifacts/5/*/src/g_tuto*.ml
