@@ -34,3 +34,11 @@ val type_check :
   Evd.evar_map ->
   EConstr.t ->
   Evd.evar_map * EConstr.t
+
+(* TODO explain *)
+val equal :
+  Environ.env ->
+  Evd.evar_map ->
+  EConstr.t ->
+  EConstr.t ->
+  Evd.evar_map option

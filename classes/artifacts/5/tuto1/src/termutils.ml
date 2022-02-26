@@ -27,3 +27,7 @@ let define name sigma body =
 (* TODO explain *)
 let type_check env sigma trm =
   Typing.type_of env sigma trm
+
+(* TODO explain *)
+let equal env sigma trm1 trm2 =
+  Reductionops.infer_conv env sigma trm1 trm2

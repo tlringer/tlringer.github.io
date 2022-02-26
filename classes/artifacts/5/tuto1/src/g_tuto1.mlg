@@ -100,21 +100,20 @@ VERNAC COMMAND EXTEND Check1 CLASSIFIED AS QUERY
    }
 END
 
-(*** Convertibility ***)
+(*** Definitionl Equality ***)
 
 (*
  * This command checks if there is a possible assignment of
  * constraints in the state under which the two terms are
- * convertible.
+ * definitionally equal.
  *)
 VERNAC COMMAND EXTEND Convertible CLASSIFIED AS QUERY
-| [ "Convertible" constr(e1) constr(e2) ] ->
+| [ "Equal" constr(e1) constr(e2) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t1) = Termutils.internalize env sigma e1 in
      let (sigma, t2) = Termutils.internalize env sigma e2 in
-     let env = Global.env () in
-     match Reductionops.infer_conv env sigma t1 t2 with
+     match Termutils.equal env sigma t1 t2 with
      | Some _ ->
         Feedback.msg_notice (strbrk "Yes :)")
      | None ->

@@ -32,14 +32,14 @@ MyCheck (fun (T : Type) (t : T) => t).
 MyCheck _.
 MyCheck (Type : Type).
 
-(*** Convertibility ***)
+(*** Definitional Equality ***)
 
-Convertible 1 1.
-Convertible (fun (x : Type) => x) (fun (x : Type) => x).
-Convertible Type Type.
-Convertible 1 ((fun (x : nat) => x) 1).
+Equal 1 1.
+Equal (fun (x : Type) => x) (fun (x : Type) => x).
+Equal Type Type.
+Equal 1 ((fun (x : nat) => x) 1).
 
-Convertible 1 2.
-Convertible (fun (x : Type) => x) (fun (x : Prop) => x).
-Convertible Type Prop.
-Convertible 1 ((fun (x : nat) => x) 2).
+Equal 1 2.
+Equal (fun (x : Type) => x) (fun (x : Prop) => x).
+Equal Type Prop.
+Equal 1 ((fun (x : nat) => x) 2).
