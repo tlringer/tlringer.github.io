@@ -4,33 +4,33 @@ DECLARE PLUGIN "tuto1_plugin"
 
 (*
   This is a modified version of the Coq plugin tutorial.
-  TODO explain, explain class format
+  TODO explain, explain class format, explain utils file
  *)
 open Pp
 open Stdarg
 
 }
 
+
 (*** Defining terms ***)
 
 (*
- * To define a term, we start similarly to our intern functionality,
- * then we call another function. We define this function in
- * the Simple_declare module.
+ * TODO explain, explain eventual goal of what we do, but cool thing is
+ * can recurse over terms and also define new terms inside of a plugin.
+ * Let's start with defining. When you write Definition in Coq, you're
+ * writing a command. We can write our own version of the same command.
+ * Let's do that.
  *
- * The line #[ poly = Attributes.polymorphic ] says that this command accepts
- * polymorphic attributes.
- * @SkySkimmer: Here, poly is what the result is bound to in the
- * rule's code. Multiple attributes may be used separated by ;, and we have
- * punning so foo is equivalent to foo = foo.
- *
- * The declare_definition function returns the reference
+ * The define function returns the reference
  * that was defined. This reference will be present in the new environment.
  * If you want to refer to it later in your plugin, you must use an
  * updated environment and the constructed reference.
+ * TODO make simpler to understand, explain ignore
  *
  * Note since we are now defining a term, we must classify this
  * as a side-effect (CLASSIFIED AS SIDEFF).
+ *
+ * TODO explain env, sigma, intern
  *)
 VERNAC COMMAND EXTEND MyDefine CLASSIFIED AS SIDEFF
 | [ "MyDefine" ident(i) ":=" constr(e) ] ->
@@ -38,6 +38,24 @@ VERNAC COMMAND EXTEND MyDefine CLASSIFIED AS SIDEFF
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t) = Termutils.internalize env sigma e in
      ignore (Termutils.define i sigma t)
+   }
+END
+
+(*** Reasoning about terms in a plugin ***)
+
+(*
+ * TODO explain: our eventual goal, where we'll start, etc. etc.
+ * cool thing is you can define terms, you can also recurse over terms.
+ *
+ * TODO exercise, explain, point to file
+ *)
+VERNAC COMMAND EXTEND Depth CLASSIFIED AS SIDEFF
+| [ "Depth" constr(e) ] ->
+   {
+     let (sigma, env) = Termutils.global_state () in
+     let (sigma, t) = Termutils.internalize env sigma e in
+     let (sigma, depth) = Depth.find_depth env sigma t in
+     Feedback.msg_notice (strbrk (string_of_int depth))
    }
 END
 

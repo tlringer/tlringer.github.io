@@ -11,6 +11,12 @@ Print f.
 MyDefine definition := 5.
 Print definition.
 
+(*** Reasoning about terms ***)
+
+Depth n.
+Depth f.
+Depth definition.
+
 (*** Checking terms ***)
 
 MyCheck 3.
