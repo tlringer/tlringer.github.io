@@ -61,21 +61,3 @@ Convertible 1 2.
 Convertible (fun (x : Type) => x) (fun (x : Prop) => x).
 Convertible Type Prop.
 Convertible 1 ((fun (x : nat) => x) 2).
-
-(*** Introducing variables ***)
-
-Theorem foo:
-  forall (T : Set) (t : T), T.
-Proof.
-  my_intro T. my_intro t. apply t.
-Qed.
-
-(*** Exploring proof state ***)
-
-Fail ExploreProof. (* not in a proof *)
-
-Theorem bar:
-  forall (T : Set) (t : T), T.
-Proof.
-  ExploreProof. my_intro T. ExploreProof. my_intro t. ExploreProof. apply t.
-Qed.

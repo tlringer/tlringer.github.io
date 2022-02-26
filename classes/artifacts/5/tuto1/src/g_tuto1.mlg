@@ -6,7 +6,6 @@ DECLARE PLUGIN "tuto1_plugin"
   This is a modified version of the Coq plugin tutorial.
   TODO explain, explain class format
  *)
-open Ltac_plugin
 open Pp
 open Stdarg
 
@@ -184,35 +183,4 @@ VERNAC COMMAND EXTEND Convertible CLASSIFIED AS QUERY
      | None ->
         Feedback.msg_notice (strbrk "No :(")
    }
-END
-
-(*** Introducing terms ***)
-
-(*
- * We can call the tactics defined in Tactics within our tactics.
- * Here we call intros.
- *)
-TACTIC EXTEND my_intro
-| [ "my_intro" ident(i) ] ->
-  { Tactics.introduction i }
-END
-
-(*** Exploring proof state ***)
-
-(*
- * This command demonstrates exploring the proof state from within
- * a command.
- *
- * Note that Pfedit.get_current_context gets us the environment
- * and state within a proof, as opposed to the global environment
- * and state. This is important within tactics.
- *)
-VERNAC COMMAND EXTEND ExploreProof CLASSIFIED AS QUERY
-| ![ proof_query ] [ "ExploreProof" ] ->
-  { fun ~pstate ->
-    let sigma, env = Declare.Proof.get_current_context pstate in
-    let pprf = Proof.partial_proof (Declare.Proof.get pstate) in
-    Feedback.msg_notice
-      (Pp.prlist_with_sep Pp.fnl (Printer.pr_econstr_env env sigma) pprf)
-  }
 END

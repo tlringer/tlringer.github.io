@@ -22,4 +22,8 @@ val print :
   Pp.t
 
 (* TODO explain *)
-val define : Names.Id.t -> Evd.evar_map -> EConstr.t -> Names.GlobRef.t
+val define :
+  Names.Id.t ->
+  Evd.evar_map ->
+  EConstr.t ->
+  Names.GlobRef.t
