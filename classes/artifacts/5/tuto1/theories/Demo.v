@@ -1,18 +1,5 @@
 From Tuto1 Require Import Loader.
 
-(*** Interning terms ***)
-
-Definition definition := 5.
-
-Intern 3.
-Intern definition.
-Intern (fun (x : Prop) => x).
-Intern (fun (x : Type) => x).
-Intern (forall (T : Type), T).
-Intern (fun (T : Type) (t : T) => t).
-Intern _.
-Intern (Type : Type).
-
 (*** Defining terms ***)
 
 MyDefine n := 1.
@@ -20,6 +7,9 @@ Print n.
 
 MyDefine f := (fun (x : Type) => x).
 Print f.
+
+MyDefine definition := 5.
+Print definition.
 
 (*** Checking terms ***)
 

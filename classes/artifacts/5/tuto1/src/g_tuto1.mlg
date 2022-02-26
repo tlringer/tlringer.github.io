@@ -11,48 +11,6 @@ open Stdarg
 
 }
 
-(*** Interning terms ***)
-
-(*
- * The next step is to make something of parsed expression.
- * Interesting information in interp/constrintern.mli.
- *
- * When you read in constr(e), e will have type Constrexpr.constr_expr,
- * which is defined in pretyping/constrexpr.ml. Your plugin
- * will want a different representation.
- *
- * The important function is Constrintern.interp_constr_evars,
- * which converts between a constr_expr and an
- * (EConstr.constr, evar_map) pair. This essentially contains
- * an internal representation of the term along with some state.
- * For more on the state, read /dev/doc/econstr.md.
- *
- * To get your initial environment, call Global.env ().
- * To get state from that environment, call Evd.from_env on that environment.
- * It is important to NEVER use the empty environment or Evd.empty;
- * if you do, you will get confusing errors.
- *
- * NOTE ON STATE: It is important to use the evar_map that is returned to you.
- * Otherwise, you may get cryptic errors later in your plugin.
- * For example, you may get universe inconsistency errors.
- * In general, if a function returns an evar_map to you, that's the one
- * you want to thread through the rest of your command.
- *
- * NOTE ON STYLE: In general, it's better practice to move large
- * chunks of OCaml code like this one into an .ml file. We include
- * this here because it's really important to understand how to
- * thread state in a plugin, and it's easier to see that if it's in the
- * top-level file itself.
- *)
-VERNAC COMMAND EXTEND Intern CLASSIFIED AS QUERY
-| [ "Intern" constr(e) ] ->
-   {
-     let (sigma, env) = Termutils.global_state () in
-     let (sigma, trm) = Termutils.internalize env sigma e in
-     Feedback.msg_notice (strbrk "Interned: " ++ Termutils.print env sigma trm)
-   }
-END
-
 (*** Defining terms ***)
 
 (*
