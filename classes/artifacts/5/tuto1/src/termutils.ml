@@ -3,15 +3,16 @@
  *)
 
 (* TODO explain *)
-let print trm =
+let global_state () =
   let env = Global.env () in
-  let sigma = Evd.from_env env in
+  Evd.from_env env, env
+
+(* TODO explain *)
+let print env sigma trm =
   Printer.pr_econstr_env env sigma trm
 
 (* TODO explain *)
-let internalize trm =
-  let env = Global.env () in
-  let sigma = Evd.from_env env in
+let internalize env sigma trm =
   Constrintern.interp_constr_evars env sigma trm
 
 (* TODO explain, note highly simplified *)
