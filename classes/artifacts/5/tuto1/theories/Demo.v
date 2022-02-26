@@ -21,15 +21,6 @@ Print n.
 MyDefine f := (fun (x : Type) => x).
 Print f.
 
-(*** Printing terms ***)
-
-MyPrint f.
-MyPrint n.
-Fail MyPrint nat.
-
-DefineLookup n' := 1.
-DefineLookup f' := (fun (x : Type) => x).
-
 (*** Checking terms ***)
 
 Check1 3.

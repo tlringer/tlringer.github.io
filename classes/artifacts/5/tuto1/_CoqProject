@@ -8,7 +8,5 @@ src/termutils.mli
 src/termutils.ml
 src/simple_check.mli
 src/simple_check.ml
-src/simple_print.ml
-src/simple_print.mli
 src/g_tuto1.mlg
 src/tuto1_plugin.mlpack
