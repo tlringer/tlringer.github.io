@@ -23,3 +23,7 @@ let define name sigma body =
   let cinfo = Declare.CInfo.make ~name ~typ:None () in
   let info = Declare.Info.make ~scope ~kind  ~udecl ~poly:false () in
   Declare.declare_definition ~info ~cinfo ~opaque:false ~body sigma
+
+(* TODO explain *)
+let type_check env sigma trm =
+  Typing.type_of env sigma trm

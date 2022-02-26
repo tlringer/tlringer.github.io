@@ -91,21 +91,11 @@ END
  *)
 
 VERNAC COMMAND EXTEND Check1 CLASSIFIED AS QUERY
-| [ "Check1" constr(e) ] ->
+| [ "MyCheck" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t) = Termutils.internalize env sigma e in
-     let (sigma, typ) = Simple_check.simple_check1 env sigma t in
-     Feedback.msg_notice (Termutils.print env sigma typ)
-   }
-END
-
-VERNAC COMMAND EXTEND Check2 CLASSIFIED AS QUERY
-| [ "Check2" constr(e) ] ->
-   {
-     let (sigma, env) = Termutils.global_state () in
-     let (sigma, t) = Termutils.internalize env sigma e in
-     let typ = Simple_check.simple_check2 env sigma t in
+     let (sigma, typ) = Termutils.type_check env sigma t in
      Feedback.msg_notice (Termutils.print env sigma typ)
    }
 END

@@ -27,3 +27,10 @@ val define :
   Evd.evar_map ->
   EConstr.t ->
   Names.GlobRef.t
+
+(* TODO explain *)
+val type_check :
+  Environ.env ->
+  Evd.evar_map ->
+  EConstr.t ->
+  Evd.evar_map * EConstr.t
