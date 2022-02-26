@@ -2,77 +2,15 @@ DECLARE PLUGIN "tuto1_plugin"
 
 {
 
-(* If we forget this line and include our own tactic definition using
-  TACTIC EXTEND, as below, then we get the strange error message
-  no implementation available for Tacentries, only when compiling
-  theories/Loader.v
-*)
+(*
+  This is a modified version of the Coq plugin tutorial.
+  TODO explain, explain class format
+ *)
 open Ltac_plugin
 open Pp
-(* This module defines the types of arguments to be used in the
-   EXTEND directives below, for example the string one. *)
 open Stdarg
 
 }
-
-(*** Printing inputs ***)
-
-(*
- * This command prints an input from the user.
- *
- * A list with allowable inputs can be found in interp/stdarg.mli,
- * plugin/ltac/extraargs.mli, and plugin/ssr/ssrparser.mli
- * (remove the wit_ prefix), but not all of these are allowable
- * (unit and bool, for example, are not usable from within here).
- *
- * We include only some examples that are standard and useful for commands.
- * Some of the omitted examples are useful for tactics.
- *
- * Inspector is our own file that defines a simple messaging function.
- * The printing functions (pr_qualid and so on) are in printing.
- *
- * Some of these cases would be ambiguous if we used "What's" for each of
- * these. For example, all of these are terms. We purposely disambiguate.
- *)
-VERNAC COMMAND EXTEND WhatIsThis CLASSIFIED AS QUERY
-| [ "What's" constr(e) ] ->
-   {
-     let env = Global.env () in (* we'll explain later *)
-     let sigma = Evd.from_env env in (* we'll explain later *)
-     Inspector.print_input e (Ppconstr.pr_constr_expr env sigma) "term"
-   }
-| [ "What" "kind" "of" "term" "is" string(s) ] ->
-   { Inspector.print_input s strbrk "string" }
-| [ "What" "kind" "of" "term" "is" int(i) ] ->
-   { Inspector.print_input i Pp.int "int" }
-| [ "What" "kind" "of" "term" "is" ident(id) ] ->
-   { Inspector.print_input id Ppconstr.pr_id "identifier" }
-| [ "What" "kind" "of" "identifier" "is" reference(r) ] ->
-   { Inspector.print_input r Ppconstr.pr_qualid "reference" }
-END
-
-(*
- * This command demonstrates basic combinators built into the DSL here.
- * You can generalize this for constr_list, constr_opt, int_list, and so on.
- *)
-VERNAC COMMAND EXTEND WhatAreThese CLASSIFIED AS QUERY
-| [ "What" "is" int_list(l) "a" "list" "of" ] ->
-   {
-     let print l = str "[" ++ Pp.prlist_with_sep (fun () -> str ";") Pp.int l ++ str "]" in
-     Inspector.print_input l print "int list"
-   }
-| [ "Is" ne_int_list(l) "nonempty" ] ->
-   {
-     let print l = str "[" ++ Pp.prlist_with_sep (fun () -> str ";") Pp.int l ++ str "]" in
-     Inspector.print_input l print "nonempty int list"
-   }
-| [ "And" "is" int_opt(o) "provided" ] ->
-   {
-     let print o = strbrk (if Option.has_some o then "Yes" else "No") in
-     Feedback.msg_notice (print o)
-   }
-END
-
 
 (*** Interning terms ***)
 
@@ -114,14 +52,8 @@ END
 VERNAC COMMAND EXTEND Intern CLASSIFIED AS QUERY
 | [ "Intern" constr(e) ] ->
    {
-     let env = Global.env () in (* use this; never use empty *)
-     let sigma = Evd.from_env env in (* use this; never use empty *)
-     let debug sigma = Termops.pr_evar_map ~with_univs:true None env sigma in
-     Feedback.msg_notice (strbrk "State before intern: " ++ debug sigma);
-     let (sigma, t) = Constrintern.interp_constr_evars env sigma e in
-     Feedback.msg_notice (strbrk "State after intern: " ++ debug sigma);
-     let print t = Printer.pr_econstr_env env sigma t in
-     Feedback.msg_notice (strbrk "Interned: " ++ print t)
+     let (sigma, trm) = Termutils.internalize e in
+     Feedback.msg_notice (strbrk "Interned: " ++ Termutils.print trm)
    }
 END
 
@@ -147,14 +79,10 @@ END
  * as a side-effect (CLASSIFIED AS SIDEFF).
  *)
 VERNAC COMMAND EXTEND MyDefine CLASSIFIED AS SIDEFF
-| #[ poly = Attributes.polymorphic ] [ "MyDefine" ident(i) ":=" constr(e) ] ->
+| [ "MyDefine" ident(i) ":=" constr(e) ] ->
    {
-     let env = Global.env () in
-     let sigma = Evd.from_env env in
-     let (sigma, t) = Constrintern.interp_constr_evars env sigma e in
-     let r = Simple_declare.declare_definition ~poly i sigma t in
-     let print r = strbrk "Defined " ++ Printer.pr_global r ++ strbrk "." in
-     Feedback.msg_notice (print r)
+     let (sigma, t) = Termutils.internalize e in
+     ignore (Termutils.define i sigma t)
    }
 END
 
@@ -195,12 +123,12 @@ END
  * which refreshes the environment before looking up the term.
  *)
 VERNAC COMMAND EXTEND DefineLookup CLASSIFIED AS SIDEFF
-| #[ poly = Attributes.polymorphic ] [ "DefineLookup" ident(i) ":=" constr(e) ] ->
+| [ "DefineLookup" ident(i) ":=" constr(e) ] ->
    {
      let env = Global.env () in
      let sigma = Evd.from_env env in
      let (sigma, t) = Constrintern.interp_constr_evars env sigma e in
-     let r = Simple_declare.declare_definition ~poly i sigma t in
+     let r = Termutils.define i sigma t in
      let print r = strbrk "Defined " ++ Printer.pr_global r ++ strbrk "." in
      Feedback.msg_notice (print r);
      let env = Global.env () in

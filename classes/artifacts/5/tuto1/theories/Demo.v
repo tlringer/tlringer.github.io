@@ -1,22 +1,8 @@
 From Tuto1 Require Import Loader.
 
-(*** Printing user inputs ***)
+(*** Interning terms ***)
 
 Definition definition := 5.
-What's definition.
-What kind of term is definition.
-What kind of identifier is definition.
-
-What is 1 2 3 a list of.
-What is a list of. (* no arguments = empty list *)
-
-Is 1 2 3 nonempty.
-(* Is nonempty *) (* does not parse *)
-
-And is 1 provided.
-And is provided.
-
-(*** Interning terms ***)
 
 Intern 3.
 Intern definition.
