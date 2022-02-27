@@ -50,7 +50,7 @@ END
  * TODO exercise, explain, point to file
  * TODO rename to arity, change semantics accordingly
  *)
-VERNAC COMMAND EXTEND Depth CLASSIFIED AS SIDEFF
+VERNAC COMMAND EXTEND Arity CLASSIFIED AS SIDEFF
 | [ "Arity" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
@@ -65,7 +65,7 @@ END
  *
  * TODO exercise, explain, point to file
  *)
-VERNAC COMMAND EXTEND Depth CLASSIFIED AS SIDEFF
+VERNAC COMMAND EXTEND Nargs CLASSIFIED AS SIDEFF
 | [ "Nargs" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in

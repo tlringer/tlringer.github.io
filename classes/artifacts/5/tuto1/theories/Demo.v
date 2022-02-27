@@ -25,11 +25,19 @@ Arity definition. (* 0 *)
 Arity foo. (* 0 *)
 Arity (foo nat). (* 0 *)
 Arity (fun (n : nat) => n). (* 1 *)
-Arity (forall (n : nat), Type). (* 1 *)
-Arity (fun (T : Type) => forall (P : T -> Type) (t : T), P t). (* 3 *)
+Arity (fun (T : Type) (P : T -> Type) => forall (t : T), P t). (* 3 *)
+
+Nargs (foo nat). (* 1 *)
+Nargs (fun (x y : nat) => x + y). (* 0 *)
+Nargs ((fun (x y : nat) => x + y) 1). (* 1 *)
+Nargs ((fun (x y : nat) => x + y) 1 3). (* 2 *)
+Nargs (((fun (x y : nat) => x + y) 1) 3). (* 2 *)
+
 
 Count nat in body (foo nat). (* 1 *)
 Count nat in body (fun (n : nat) => n). (* 0 *)
+Count S in body 8. (* 8 *)
+Count (fun (n : nat) => 1 + n) in body 8. (* 8 *)
 (* TODO more tests *)
 
 (*** Checking terms ***)

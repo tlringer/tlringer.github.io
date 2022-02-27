@@ -1,7 +1,6 @@
 (* TODO explain, rename to make it the right thing, fix the name elsewhere including in comments at top level. also note limitations (constants, reduction), make bonus problems *)
 
 let rec arity trm sigma =
-  Feedback.msg_notice (Termutils.print (Global.env ()) sigma trm);
   match EConstr.kind sigma trm with
   | Constr.Lambda (n, t, b) ->
      let sigma_b, arity_b = arity b sigma in
@@ -46,3 +45,6 @@ let rec count_in_body env trm1 trm2 sigma =
          sigma_f
     | _ ->
        sigma, 0
+
+(* TODO move etc *)
+
