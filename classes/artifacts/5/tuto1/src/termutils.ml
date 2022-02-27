@@ -46,3 +46,11 @@ let type_check env sigma trm =
 (* TODO explain *)
 let equal env sigma trm1 trm2 =
   Reductionops.infer_conv env sigma trm1 trm2
+
+(* Push a local binding to an environment *)
+let push_local (n, t) env =
+  EConstr.push_rel Context.Rel.Declaration.(LocalAssum (n, t)) env
+
+(* TODO explain *)
+let shift trm =
+  EConstr.of_constr (Constr.lift 1 (EConstr.Unsafe.to_constr trm))

@@ -11,11 +11,17 @@ Print f.
 MyDefine definition := 5.
 Print definition.
 
+MyDefine foo := (forall (T : Type) (P : T -> Type) (t : T), P t).
+
 (*** Reasoning about terms ***)
 
-Depth n.
-Depth f.
-Depth definition.
+Depth n. (* 0 *)
+Depth f. (* 1 *)
+Depth definition. (* 0 *)
+Depth foo. (* 3 *)
+
+(* Only supports definitions for now *)
+Fail Depth (fun (n : nat) => n).
 
 (*** Checking terms ***)
 

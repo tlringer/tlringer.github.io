@@ -49,3 +49,14 @@ val lookup_definition :
   Evd.evar_map ->
   EConstr.t ->
   Evd.evar_map * EConstr.t
+
+(* TODO explain *)
+val push_local :
+  Names.Name.t Context.binder_annot * EConstr.constr ->
+  Environ.env ->
+  Environ.env
+
+(* TODO explain *)
+val shift :
+  EConstr.constr ->
+  EConstr.constr
