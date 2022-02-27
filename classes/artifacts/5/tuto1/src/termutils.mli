@@ -42,3 +42,10 @@ val equal :
   EConstr.t ->
   EConstr.t ->
   Evd.evar_map option
+
+(* TODO explain *)
+val lookup_definition :
+  Environ.env ->
+  Evd.evar_map ->
+  EConstr.t ->
+  Evd.evar_map * EConstr.t

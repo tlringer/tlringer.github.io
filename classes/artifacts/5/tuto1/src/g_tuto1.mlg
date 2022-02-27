@@ -54,8 +54,8 @@ VERNAC COMMAND EXTEND Depth CLASSIFIED AS SIDEFF
    {
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t) = Termutils.internalize env sigma e in
-     let (sigma, body) = Environ.lookup_definition env sigma t in
-     let (sigma, depth) = Depth.find_depth env sigma t in
+     let (sigma, body) = Termutils.lookup_definition env sigma t in
+     let (sigma, depth) = Depth.find_depth env sigma body in
      Feedback.msg_notice (strbrk (string_of_int depth))
    }
 END
