@@ -11,17 +11,26 @@ Print f.
 MyDefine definition := 5.
 Print definition.
 
-MyDefine foo := (forall (T : Type) (P : T -> Type) (t : T), P t).
+MyDefine foo := (fun (T : Type) => forall (P : T -> Type) (t : T), P t).
+Print foo.
 
 (*** Reasoning about terms ***)
 
-Depth n. (* 0 *)
-Depth f. (* 1 *)
-Depth definition. (* 0 *)
-Depth foo. (* 3 *)
+(* TODO note can assume no match statements, fixpoints, etc etc etc *)
+(* TODO note constants etc limitatoins *)
+(* TODO add more tests that are useful *)
+Arity n. (* 0 *)
+Arity f. (* 0 *)
+Arity definition. (* 0 *)
+Arity foo. (* 0 *)
+Arity (foo nat). (* 0 *)
+Arity (fun (n : nat) => n). (* 1 *)
+Arity (forall (n : nat), Type). (* 1 *)
+Arity (fun (T : Type) => forall (P : T -> Type) (t : T), P t). (* 3 *)
 
-(* Only supports definitions for now *)
-Fail Depth (fun (n : nat) => n).
+Count nat in body (foo nat). (* 1 *)
+Count nat in body (fun (n : nat) => n). (* 0 *)
+(* TODO more tests *)
 
 (*** Checking terms ***)
 

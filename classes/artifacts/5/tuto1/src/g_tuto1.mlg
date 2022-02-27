@@ -48,15 +48,44 @@ END
  * cool thing is you can define terms, you can also recurse over terms.
  *
  * TODO exercise, explain, point to file
+ * TODO rename to arity, change semantics accordingly
  *)
 VERNAC COMMAND EXTEND Depth CLASSIFIED AS SIDEFF
-| [ "Depth" constr(e) ] ->
+| [ "Arity" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t) = Termutils.internalize env sigma e in
-     let (sigma, body) = Termutils.lookup_definition env sigma t in
-     let (sigma, depth) = Depth.find_depth env sigma body in
-     Feedback.msg_notice (strbrk (string_of_int depth))
+     let (sigma, arity) = Depth.arity t sigma in
+     Feedback.msg_notice (strbrk (string_of_int arity))
+   }
+END
+
+(*
+ * TODO explain: our eventual goal, where we'll start, etc. etc.
+ *
+ * TODO exercise, explain, point to file
+ *)
+VERNAC COMMAND EXTEND Depth CLASSIFIED AS SIDEFF
+| [ "Nargs" constr(e) ] ->
+   {
+     let (sigma, env) = Termutils.global_state () in
+     let (sigma, t) = Termutils.internalize env sigma e in
+     let (sigma, nargs) = Depth.nargs t sigma in
+     Feedback.msg_notice (strbrk (string_of_int nargs))
+   }
+END     
+
+(*
+ * TODO exercise, explain, point to file (move out of depth, or rename depth to counting)
+ *)
+VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
+| [ "Count" constr(e1) "in" "body" constr(e2) ] ->
+   {
+     let (sigma, env) = Termutils.global_state () in
+     let (sigma, t1) = Termutils.internalize env sigma e1 in
+     let (sigma, t2) = Termutils.internalize env sigma e2 in
+     let (sigma, count) = Depth.count_in_body env t1 t2 sigma in
+     Feedback.msg_notice (strbrk (string_of_int count))
    }
 END
 

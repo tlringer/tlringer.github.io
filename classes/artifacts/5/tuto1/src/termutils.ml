@@ -51,6 +51,14 @@ let equal env sigma trm1 trm2 =
 let push_local (n, t) env =
   EConstr.push_rel Context.Rel.Declaration.(LocalAssum (n, t)) env
 
-(* TODO explain *)
+(* TODO explain, delete if unused *)
 let shift trm =
   EConstr.of_constr (Constr.lift 1 (EConstr.Unsafe.to_constr trm))
+  
+(* TODO explain, clean *)
+let fold_left_state (f : 'b -> 'a -> Evd.evar_map -> Evd.evar_map * 'b) (b : 'b) (l : 'a list) (sigma : Evd.evar_map) : Evd.evar_map * 'b =
+  List.fold_left (fun (sigma, b) a -> f b a sigma) (sigma, b) l
+ 
+(* TODO explain, clean *)
+let fold_args (f : 'b -> 'a -> Evd.evar_map -> Evd.evar_map * 'b) (b : 'b) (args : 'a array) (sigma : Evd.evar_map) : Evd.evar_map * 'b =
+  fold_left_state f b (Array.to_list args) sigma

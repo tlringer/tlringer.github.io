@@ -2,6 +2,8 @@
  * Utilities for dealing with Coq terms, to abstract away some pain for students
  *)
 
+(* TODO make all of these with sigma last, use state monad *)
+
 (* TODO explain *)
 val global_state :
   unit ->
@@ -56,7 +58,16 @@ val push_local :
   Environ.env ->
   Environ.env
 
-(* TODO explain *)
+(* TODO explain, delete if unused *)
 val shift :
   EConstr.constr ->
   EConstr.constr
+
+(* TODO explain, delete if unused *)
+val fold_args :
+  ('b -> 'a -> Evd.evar_map -> Evd.evar_map * 'b) ->
+  'b ->
+  'a array ->
+  Evd.evar_map ->
+  Evd.evar_map * 'b
+  
