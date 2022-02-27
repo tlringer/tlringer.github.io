@@ -21,7 +21,7 @@ let rec nargs trm sigma =
      sigma, 0
      
     
-(* TODO call in caller etc etc *)
+(* TODO call in caller etc etc, extend w/ more of AST or say OK to ignore other AST parts *)
 let rec count_in_body env trm1 trm2 sigma =
   let sigma_opt = Termutils.equal env sigma trm1 trm2 in
   if Option.has_some sigma_opt then
@@ -46,5 +46,27 @@ let rec count_in_body env trm1 trm2 sigma =
     | _ ->
        sigma, 0
 
-(* TODO move etc *)
-
+(* TODO move etc, same caveats as above *)
+let rec sub_in_body env trm1 trm2 sigma =
+  let sigma_opt = Termutils.equal env sigma trm1 trm2 in
+  if Option.has_some sigma_opt then
+    Option.get sigma_opt, trm1
+  else
+    match EConstr.kind sigma trm2 with
+    | Constr.Lambda (n, t, b) ->
+       let env_b = Termutils.push_local (n, t) env in
+       sub_in_body env_b trm1 b sigma
+    | Constr.Prod (n, t, b) ->
+       let env_b = Termutils.push_local (n, t) env in
+       sub_in_body env_b trm1 b sigma
+    | Constr.App (f, args) ->
+       let sigma_f, occs_f = sub_in_body env trm1 f sigma in
+       Termutils.fold_args
+         (fun subbed arg sigma ->
+           let sigma, occs_arg = sub_in_body env trm1 arg sigma in
+           sigma, occs_arg + occs)
+         occs_f
+         args
+         sigma_f
+    | _ ->
+       sigma, trm2
