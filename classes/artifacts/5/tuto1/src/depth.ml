@@ -47,26 +47,29 @@ let rec count_in_body env trm1 trm2 sigma =
        sigma, 0
 
 (* TODO move etc, same caveats as above *)
-let rec sub_in_body env trm1 trm2 sigma =
-  let sigma_opt = Termutils.equal env sigma trm1 trm2 in
+let rec sub_in env (trm1, trm2) trm3 sigma =
+  let sigma_opt = Termutils.equal env sigma trm1 trm3 in
   if Option.has_some sigma_opt then
-    Option.get sigma_opt, trm1
+    Option.get sigma_opt, trm2
   else
-    match EConstr.kind sigma trm2 with
+    match EConstr.kind sigma trm3 with
     | Constr.Lambda (n, t, b) ->
        let env_b = Termutils.push_local (n, t) env in
-       sub_in_body env_b trm1 b sigma
+       let sigma_t, subbed_t = sub_in env (trm1, trm2) t sigma in
+       let sigma_b, subbed_b = sub_in env_b (trm1, trm2) b sigma_t in
+       sigma_b, EConstr.mkLambda (n, subbed_t, subbed_b)
     | Constr.Prod (n, t, b) ->
        let env_b = Termutils.push_local (n, t) env in
-       sub_in_body env_b trm1 b sigma
+       let sigma_t, subbed_t = sub_in env (trm1, trm2) t sigma in
+       let sigma_b, subbed_b = sub_in env_b (trm1, trm2) b sigma_t in
+       sigma_b, EConstr.mkProd (n, subbed_t, subbed_b)
     | Constr.App (f, args) ->
-       let sigma_f, occs_f = sub_in_body env trm1 f sigma in
-       Termutils.fold_args
-         (fun subbed arg sigma ->
-           let sigma, occs_arg = sub_in_body env trm1 arg sigma in
-           sigma, occs_arg + occs)
-         occs_f
-         args
-         sigma_f
+       let sigma_f, subbed_f = sub_in env (trm1, trm2) f sigma in
+       let sigma_args, subbed_args =
+         Termutils.map_args
+           (sub_in env (trm1, trm2))
+           args
+           sigma_f
+       in sigma_args, EConstr.mkApp (subbed_f, subbed_args)
     | _ ->
-       sigma, trm2
+       sigma, trm3

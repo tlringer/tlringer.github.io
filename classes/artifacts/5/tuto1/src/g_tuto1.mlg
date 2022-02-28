@@ -89,40 +89,25 @@ VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
    }
 END
 
-(*** Checking terms ***)
+(*** Both together ***)
 
 (*
- * These are two commands for simple type-checking of terms.
- * The bodies and explanations of the differences are in simple_check.ml.
+ * TODO exercise, explain, point to file (move out of depth, or rename depth to counting)
  *)
-
-VERNAC COMMAND EXTEND Check1 CLASSIFIED AS QUERY
-| [ "MyCheck" constr(e) ] ->
+VERNAC COMMAND EXTEND Sub CLASSIFIED AS SIDEFF
+| [ "Sub" constr_list(e1s) "with" constr_list(e2s) "in" constr(e3) "as" ident(i) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
-     let (sigma, t) = Termutils.internalize env sigma e in
-     let (sigma, typ) = Termutils.type_check env sigma t in
-     Feedback.msg_notice (Termutils.print env sigma typ)
-   }
-END
-
-(*** Definitionl Equality ***)
-
-(*
- * This command checks if there is a possible assignment of
- * constraints in the state under which the two terms are
- * definitionally equal.
- *)
-VERNAC COMMAND EXTEND Convertible CLASSIFIED AS QUERY
-| [ "Equal" constr(e1) constr(e2) ] ->
-   {
-     let (sigma, env) = Termutils.global_state () in
-     let (sigma, t1) = Termutils.internalize env sigma e1 in
-     let (sigma, t2) = Termutils.internalize env sigma e2 in
-     match Termutils.equal env sigma t1 t2 with
-     | Some _ ->
-        Feedback.msg_notice (strbrk "Yes :)")
-     | None ->
-        Feedback.msg_notice (strbrk "No :(")
+     let (sigma, t1s) = Termutils.map_args (fun arg sigma -> Termutils.internalize env sigma arg) (Array.of_list e1s) sigma in
+     let (sigma, t2s) = Termutils.map_args (fun arg sigma -> Termutils.internalize env sigma arg) (Array.of_list e2s) sigma in
+     let (sigma, t3) = Termutils.internalize env sigma e3 in
+     let (sigma, subbed) =
+       Termutils.fold_args
+         (fun subbed (t1, t2) sigma ->
+           Depth.sub_in env (t1, t2) subbed sigma)
+         t3
+         (Array.of_list (List.combine (Array.to_list t1s) (Array.to_list t2s)))
+         sigma
+     in ignore (Termutils.define i sigma subbed)
    }
 END

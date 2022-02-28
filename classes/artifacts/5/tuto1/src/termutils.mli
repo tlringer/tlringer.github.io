@@ -71,3 +71,9 @@ val fold_args :
   Evd.evar_map ->
   Evd.evar_map * 'b
   
+(* TODO explain, delete if unused *)
+val map_args :
+  ('a -> Evd.evar_map -> Evd.evar_map * 'b) ->
+  'a array ->
+  Evd.evar_map ->
+  Evd.evar_map * 'b array

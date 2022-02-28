@@ -62,3 +62,15 @@ let fold_left_state (f : 'b -> 'a -> Evd.evar_map -> Evd.evar_map * 'b) (b : 'b)
 (* TODO explain, clean *)
 let fold_args (f : 'b -> 'a -> Evd.evar_map -> Evd.evar_map * 'b) (b : 'b) (args : 'a array) (sigma : Evd.evar_map) : Evd.evar_map * 'b =
   fold_left_state f b (Array.to_list args) sigma
+
+(* TODO explain, clean, change type sig to use args only *)
+let map_args (f : 'a -> Evd.evar_map -> Evd.evar_map * 'b) (args : 'a array) (sigma : Evd.evar_map) : Evd.evar_map * 'b array =
+  let sigma, fargs =
+    fold_args
+      (fun bs a sigma ->
+        let sigma, b = f a sigma in
+        sigma, b :: bs)
+      []
+      args
+      sigma
+  in sigma, Array.of_list (List.rev fargs)
