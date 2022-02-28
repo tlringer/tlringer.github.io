@@ -16,31 +16,14 @@ Print foo.
 
 (*** Reasoning about terms ***)
 
-(* TODO note can assume no match statements, fixpoints, etc etc etc *)
-(* TODO note constants etc limitatoins *)
-(* TODO add more tests that are useful *)
-Arity n. (* 0 *)
-Arity f. (* 0 *)
-Arity definition. (* 0 *)
-Arity foo. (* 0 *)
-Arity (foo nat). (* 0 *)
-Arity (fun (n : nat) => n). (* 1 *)
-Arity (fun (T : Type) (P : T -> Type) => forall (t : T), P t). (* 3 *)
-
-Nargs (foo nat). (* 1 *)
-Nargs (fun (x y : nat) => x + y). (* 0 *)
-Nargs ((fun (x y : nat) => x + y) 1). (* 1 *)
-Nargs ((fun (x y : nat) => x + y) 1 3). (* 2 *)
-Nargs (((fun (x y : nat) => x + y) 1) 3). (* 2 *)
-
-Count nat in body (foo nat). (* 1 *)
-Count nat in body (fun (n : nat) => n). (* 0 *)
+Count nat in (foo nat). (* 1 *)
+Count nat in (fun (n : nat) => n). (* 1 *)
 
 Definition my_nat := nat.
-Count my_nat in body (foo nat). (* 1 *)
+Count my_nat in (foo nat). (* 1 *)
 
-Count S in body 8. (* 8 *)
-Count (fun (n : nat) => 1 + n) in body 8. (* 8 *)
+Count S in 8. (* 8 *)
+Count (fun (n : nat) => 1 + n) in 8. (* 8 *)
 (* TODO more tests *)
 
 (*** Substitution ***)

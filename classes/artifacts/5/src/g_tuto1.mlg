@@ -62,21 +62,6 @@ VERNAC COMMAND EXTEND Arity CLASSIFIED AS SIDEFF
 END
 
 (*
- * TODO explain: our eventual goal, where we'll start, etc. etc.
- *
- * TODO exercise, explain, point to file
- *)
-VERNAC COMMAND EXTEND Nargs CLASSIFIED AS SIDEFF
-| [ "Nargs" constr(e) ] ->
-   {
-     let (sigma, env) = Termutils.global_env () in
-     let (sigma, t) = Termutils.internalize env e sigma in
-     let (sigma, nargs) = nargs t sigma in
-     Feedback.msg_notice (strbrk (string_of_int nargs))
-   }
-END     
-
-(*
  * TODO exercise, explain, point to file (move out of depth, or rename depth to counting)
  *)
 VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
