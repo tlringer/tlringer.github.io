@@ -5,8 +5,9 @@ let _ = Mltop.add_known_module __coq_plugin_name
  
 
 (*
-  This is a modified version of the Coq plugin tutorial.
-  TODO explain, explain class format, explain utils file
+ * In this exercise, we will implement a Coq plugin!
+ * Our plugin will manipulate terms from Coq and define new terms.
+ * As always, this will be discussion-based, with the usual format.
  *)
 open Pp
 open Stdarg
@@ -23,11 +24,11 @@ let () = Vernacextend.vernac_extend ~command:"MyDefine" ~classifier:(fun _ -> Ve
                                                                     Vernacextend.TyNil)))), 
          (let coqpp_body i e
          () = Vernacextend.VtDefault (fun () -> 
-# 39 "src/g_tuto1.mlg"
+# 38 "src/g_tuto1.mlg"
     
      let sigma, env = global_env () in
-     let sigma, t = internalize env e sigma in
-     define i t sigma
+     let sigma, trm = internalize env e sigma in
+     define i trm sigma
    
               ) in fun i
          e ?loc ~atts () -> coqpp_body i e
@@ -39,18 +40,18 @@ let () = Vernacextend.vernac_extend ~command:"Count" ~classifier:(fun _ -> Verna
                                      Vernacextend.TyTerminal ("in", Vernacextend.TyNonTerminal (
                                                                     Extend.TUentry (Genarg.get_arg_tag wit_constr), 
                                                                     Vernacextend.TyNil)))), 
-         (let coqpp_body e1 e2
+         (let coqpp_body src_e e
          () = Vernacextend.VtDefault (fun () -> 
-# 53 "src/g_tuto1.mlg"
+# 76 "src/g_tuto1.mlg"
     
      let sigma, env = global_env () in
-     let sigma, t1 = internalize env e1 sigma in
-     let sigma, t2 = internalize env e2 sigma in
-     let sigma, count = count env t1 t2 sigma in
+     let sigma, src = internalize env src_e sigma in
+     let sigma, trm = internalize env e sigma in
+     let sigma, count = count env src trm sigma in
      Feedback.msg_notice (strbrk (string_of_int count))
    
-              ) in fun e1
-         e2 ?loc ~atts () -> coqpp_body e1 e2
+              ) in fun src_e
+         e ?loc ~atts () -> coqpp_body src_e e
          (Attributes.unsupported_attributes atts)), None))]
 
 let () = Vernacextend.vernac_extend ~command:"Sub" ~classifier:(fun _ -> Vernacextend.classify_as_sideeff) ?entry:None 
@@ -68,7 +69,7 @@ let () = Vernacextend.vernac_extend ~command:"Sub" ~classifier:(fun _ -> Vernace
                                                                     Vernacextend.TyNil)))))))), 
          (let coqpp_body src_es dst_es e i
          () = Vernacextend.VtDefault (fun () -> 
-# 70 "src/g_tuto1.mlg"
+# 104 "src/g_tuto1.mlg"
     
      let sigma, env = global_env () in
      let sigma, srcs = map_state (internalize env) src_es sigma in
