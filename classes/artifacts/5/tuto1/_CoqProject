@@ -6,7 +6,7 @@ theories/Demo.v
 
 src/termutils.mli
 src/termutils.ml
-src/depth.mli
-src/depth.ml
+src/exercise.mli
+src/exercise.ml
 src/g_tuto1.mlg
 src/tuto1_plugin.mlpack

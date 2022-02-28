@@ -8,6 +8,7 @@ DECLARE PLUGIN "tuto1_plugin"
  *)
 open Pp
 open Stdarg
+open Exercise
 
 }
 
@@ -55,7 +56,7 @@ VERNAC COMMAND EXTEND Arity CLASSIFIED AS SIDEFF
    {
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t) = Termutils.internalize env sigma e in
-     let (sigma, arity) = Depth.arity t sigma in
+     let (sigma, arity) = arity t sigma in
      Feedback.msg_notice (strbrk (string_of_int arity))
    }
 END
@@ -70,7 +71,7 @@ VERNAC COMMAND EXTEND Nargs CLASSIFIED AS SIDEFF
    {
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t) = Termutils.internalize env sigma e in
-     let (sigma, nargs) = Depth.nargs t sigma in
+     let (sigma, nargs) = nargs t sigma in
      Feedback.msg_notice (strbrk (string_of_int nargs))
    }
 END     
@@ -84,7 +85,7 @@ VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
      let (sigma, env) = Termutils.global_state () in
      let (sigma, t1) = Termutils.internalize env sigma e1 in
      let (sigma, t2) = Termutils.internalize env sigma e2 in
-     let (sigma, count) = Depth.count_in_body env t1 t2 sigma in
+     let (sigma, count) = count_in_body env t1 t2 sigma in
      Feedback.msg_notice (strbrk (string_of_int count))
    }
 END
@@ -104,7 +105,7 @@ VERNAC COMMAND EXTEND Sub CLASSIFIED AS SIDEFF
      let (sigma, subbed) =
        Termutils.fold_args
          (fun subbed (t1, t2) sigma ->
-           Depth.sub_in env (t1, t2) subbed sigma)
+           Exercise.sub_in env (t1, t2) subbed sigma)
          t3
          (Array.of_list (List.combine (Array.to_list t1s) (Array.to_list t2s)))
          sigma
