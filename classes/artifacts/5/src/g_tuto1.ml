@@ -24,7 +24,7 @@ let () = Vernacextend.vernac_extend ~command:"MyDefine" ~classifier:(fun _ -> Ve
          () = Vernacextend.VtDefault (fun () -> 
 # 38 "src/g_tuto1.mlg"
     
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t) = Termutils.internalize env e sigma in
      Termutils.define i t sigma
    
@@ -40,7 +40,7 @@ let () = Vernacextend.vernac_extend ~command:"Arity" ~classifier:(fun _ -> Verna
                                                                 
 # 56 "src/g_tuto1.mlg"
     
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t) = Termutils.internalize env e sigma in
      let (sigma, arity) = arity t sigma in
      Feedback.msg_notice (strbrk (string_of_int arity))
@@ -58,7 +58,7 @@ let () = Vernacextend.vernac_extend ~command:"Nargs" ~classifier:(fun _ -> Verna
                                                                 
 # 71 "src/g_tuto1.mlg"
     
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t) = Termutils.internalize env e sigma in
      let (sigma, nargs) = nargs t sigma in
      Feedback.msg_notice (strbrk (string_of_int nargs))
@@ -79,7 +79,7 @@ let () = Vernacextend.vernac_extend ~command:"Count" ~classifier:(fun _ -> Verna
          () = Vernacextend.VtDefault (fun () -> 
 # 84 "src/g_tuto1.mlg"
     
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t1) = Termutils.internalize env e1 sigma in
      let (sigma, t2) = Termutils.internalize env e2 sigma in
      let (sigma, count) = count_in_body env t1 t2 sigma in
@@ -106,7 +106,7 @@ let () = Vernacextend.vernac_extend ~command:"Sub" ~classifier:(fun _ -> Vernace
          () = Vernacextend.VtDefault (fun () -> 
 # 100 "src/g_tuto1.mlg"
     
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t1s) = Termutils.map_state (Termutils.internalize env) e1s sigma in
      let (sigma, t2s) = Termutils.map_state (Termutils.internalize env) e2s sigma in
      let (sigma, t3) = Termutils.internalize env e3 sigma in

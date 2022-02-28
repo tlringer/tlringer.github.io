@@ -36,7 +36,7 @@ let rec count_in_body env trm1 trm2 sigma =
        count_in_body env_b trm1 b sigma
     | Constr.App (f, args) ->
        let sigma_f, occs_f = count_in_body env trm1 f sigma in
-       Termutils.fold_args
+       Termutils.fold_left_state_array
          (fun occs arg sigma ->
            let sigma, occs_arg = count_in_body env trm1 arg sigma in
            sigma, occs_arg + occs)
@@ -66,7 +66,7 @@ let rec sub_in env (trm1, trm2) trm3 sigma =
     | Constr.App (f, args) ->
        let sigma_f, subbed_f = sub_in env (trm1, trm2) f sigma in
        let sigma_args, subbed_args =
-         Termutils.map_args
+         Termutils.map_state_array
            (sub_in env (trm1, trm2))
            args
            sigma_f

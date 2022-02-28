@@ -36,7 +36,7 @@ open Exercise
 VERNAC COMMAND EXTEND MyDefine CLASSIFIED AS SIDEFF
 | [ "MyDefine" ident(i) ":=" constr(e) ] ->
    {
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t) = Termutils.internalize env e sigma in
      Termutils.define i t sigma
    }
@@ -54,7 +54,7 @@ END
 VERNAC COMMAND EXTEND Arity CLASSIFIED AS SIDEFF
 | [ "Arity" constr(e) ] ->
    {
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t) = Termutils.internalize env e sigma in
      let (sigma, arity) = arity t sigma in
      Feedback.msg_notice (strbrk (string_of_int arity))
@@ -69,7 +69,7 @@ END
 VERNAC COMMAND EXTEND Nargs CLASSIFIED AS SIDEFF
 | [ "Nargs" constr(e) ] ->
    {
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t) = Termutils.internalize env e sigma in
      let (sigma, nargs) = nargs t sigma in
      Feedback.msg_notice (strbrk (string_of_int nargs))
@@ -82,7 +82,7 @@ END
 VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
 | [ "Count" constr(e1) "in" "body" constr(e2) ] ->
    {
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t1) = Termutils.internalize env e1 sigma in
      let (sigma, t2) = Termutils.internalize env e2 sigma in
      let (sigma, count) = count_in_body env t1 t2 sigma in
@@ -98,7 +98,7 @@ END
 VERNAC COMMAND EXTEND Sub CLASSIFIED AS SIDEFF
 | [ "Sub" constr_list(e1s) "with" constr_list(e2s) "in" constr(e3) "as" ident(i) ] ->
    {
-     let (sigma, env) = Termutils.global_state () in
+     let (sigma, env) = Termutils.global_env () in
      let (sigma, t1s) = Termutils.map_state (Termutils.internalize env) e1s sigma in
      let (sigma, t2s) = Termutils.map_state (Termutils.internalize env) e2s sigma in
      let (sigma, t3) = Termutils.internalize env e3 sigma in
