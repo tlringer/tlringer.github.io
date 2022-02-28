@@ -48,27 +48,17 @@ let rec count env src trm sigma =
  * instead of a number. The function will have almost exactly the same
  * structure.
  *)
-let rec sub env (src, dst) trm sigma =
+let sub env (src, dst) trm sigma = (*<- you'll need to add "rec" before "sub"*)
   let sigma, is_eq = Termutils.equal env src trm sigma in
   if is_eq then
-    sigma, dst
+    sigma, trm (* <- your implementation here *)
   else
     match kind sigma trm with
     | Constr.Lambda (n, t, b) -> (* fun (n : t) => b *)
-       let sigma, sub_t = sub env (src, dst) t sigma in
-       let sigma, sub_b = sub (push_local (n, t) env) (src, dst) b sigma in
-       sigma, mkLambda (n, sub_t, sub_b)
+       sigma, trm (* <- your implementation here *)
     | Constr.Prod (n, t, b) -> (* prod (n : t) => b *)
-       let sigma, sub_t = sub env (src, dst) t sigma in
-       let sigma, sub_b = sub (push_local (n, t) env) (src, dst) b sigma in
-       sigma, mkProd (n, sub_t, sub_b)
+       sigma, trm (* <- your implementation here *)
     | Constr.App (f, args) -> (* f args *)
-       let sigma, sub_f = sub env (src, dst) f sigma in
-       let sigma, sub_args =
-         Termutils.map_state_array
-           (sub env (src, dst))
-           args
-           sigma
-       in sigma, mkApp (sub_f, sub_args)
+       sigma, trm (* <- your implementation here *)
     | _ ->
        sigma, trm
