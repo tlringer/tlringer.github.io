@@ -1,21 +1,14 @@
+ifeq "$(COQBIN)" ""
+  COQBIN=$(dir $(shell which coqtop))/
+endif
 
-TUTOS:= \
-  tuto0 \
-  tuto1 \
-  tuto2 \
-  tuto3
+%: Makefile.coq
 
-all: $(TUTOS)
+Makefile.coq: _CoqProject
+	$(COQBIN)coq_makefile -f _CoqProject -o Makefile.coq
 
-.PHONY: $(TUTOS) all
+tests: all
+	@$(MAKE) -C tests -s clean
+	@$(MAKE) -C tests -s all
 
-$(TUTOS): %:
-	+$(MAKE) -C $@
-
-CLEANS:=$(addsuffix -clean, $(TUTOS))
-.PHONY: clean $(CLEANS)
-
-clean: $(CLEANS)
-
-%-clean:
-	+$(MAKE) -C $* clean
+-include Makefile.coq
