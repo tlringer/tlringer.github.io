@@ -8,6 +8,7 @@ DECLARE PLUGIN "tuto1_plugin"
  *)
 open Pp
 open Stdarg
+open Termutils
 open Exercise
 
 }
@@ -36,41 +37,24 @@ open Exercise
 VERNAC COMMAND EXTEND MyDefine CLASSIFIED AS SIDEFF
 | [ "MyDefine" ident(i) ":=" constr(e) ] ->
    {
-     let (sigma, env) = Termutils.global_env () in
-     let (sigma, t) = Termutils.internalize env e sigma in
-     Termutils.define i t sigma
+     let sigma, env = global_env () in
+     let sigma, t = internalize env e sigma in
+     define i t sigma
    }
 END
 
 (*** Reasoning about terms in a plugin ***)
 
 (*
- * TODO explain: our eventual goal, where we'll start, etc. etc.
- * cool thing is you can define terms, you can also recurse over terms.
- *
- * TODO exercise, explain, point to file
- * TODO rename to arity, change semantics accordingly
- *)
-VERNAC COMMAND EXTEND Arity CLASSIFIED AS SIDEFF
-| [ "Arity" constr(e) ] ->
-   {
-     let (sigma, env) = Termutils.global_env () in
-     let (sigma, t) = Termutils.internalize env e sigma in
-     let (sigma, arity) = arity t sigma in
-     Feedback.msg_notice (strbrk (string_of_int arity))
-   }
-END
-
-(*
  * TODO exercise, explain, point to file (move out of depth, or rename depth to counting)
  *)
 VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
-| [ "Count" constr(e1) "in" "body" constr(e2) ] ->
+| [ "Count" constr(e1) "in" constr(e2) ] ->
    {
-     let (sigma, env) = Termutils.global_env () in
-     let (sigma, t1) = Termutils.internalize env e1 sigma in
-     let (sigma, t2) = Termutils.internalize env e2 sigma in
-     let (sigma, count) = count_in_body env t1 t2 sigma in
+     let sigma, env = global_env () in
+     let sigma, t1 = internalize env e1 sigma in
+     let sigma, t2 = internalize env e2 sigma in
+     let sigma, count = count env t1 t2 sigma in
      Feedback.msg_notice (strbrk (string_of_int count))
    }
 END
@@ -81,17 +65,18 @@ END
  * TODO exercise, explain, point to file (move out of depth, or rename depth to counting)
  *)
 VERNAC COMMAND EXTEND Sub CLASSIFIED AS SIDEFF
-| [ "Sub" constr_list(e1s) "with" constr_list(e2s) "in" constr(e3) "as" ident(i) ] ->
+| [ "Sub" constr_list(src_es) "with" constr_list(dst_es) "in"
+      constr(e) "as" ident(i) ] ->
    {
-     let (sigma, env) = Termutils.global_env () in
-     let (sigma, t1s) = Termutils.map_state (Termutils.internalize env) e1s sigma in
-     let (sigma, t2s) = Termutils.map_state (Termutils.internalize env) e2s sigma in
-     let (sigma, t3) = Termutils.internalize env e3 sigma in
-     let (sigma, subbed) =
-       Termutils.fold_left_state
-         (fun subbed (t1, t2) -> sub_in env (t1, t2) subbed)
-         t3
-         (List.combine t1s t2s)
+     let sigma, env = global_env () in
+     let sigma, srcs = map_state (internalize env) src_es sigma in
+     let sigma, dsts = map_state (internalize env) dst_es sigma in
+     let sigma, trm = internalize env e sigma in
+     let sigma, subbed =
+       fold_left_state
+         (fun subbed (src, dst) -> sub env (src, dst) subbed)
+         trm
+         (List.combine srcs dsts)
          sigma
      in Termutils.define i subbed sigma
    }
