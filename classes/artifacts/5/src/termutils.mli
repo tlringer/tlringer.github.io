@@ -4,6 +4,7 @@
 
 open Evd
 open Environ
+open Constrexpr
 
 (* --- State monad --- *)
 
@@ -72,7 +73,7 @@ val map_state_array :
   evar_map -> (* state *)
   ('b array) state (* stateful (map f arr) *)
 
-(* --- Environments --- *)
+(* --- Environments and definitions --- *)
 
 (*
  * Environments in the Coq kernel map names to types. Here are a few
@@ -83,38 +84,52 @@ val map_state_array :
  * This gets the global environment the corresponding state:
  *)
 val global_env : unit -> env state
-  
-(* TODO explain *)
-val internalize :
-  env ->
-  Constrexpr.constr_expr ->
-  evar_map ->
-  EConstr.t state
 
-(* TODO explain *)
-val print :
-  Environ.env ->
-  EConstr.t ->
-  Evd.evar_map ->
-  Pp.t
+(* Push a local binding to an environment *)
+val push_local :
+  Names.Name.t Context.binder_annot * EConstr.t -> (* name, type *)
+  env -> (* environment *)
+  env (* updated environment *)
 
-(* TODO explain *)
+(*
+ * One of the coolest things about plugins is that you can use them
+ * to define new terms. Here's a simplified (yes it looks terrifying,
+ * but it really is simplified) function for defining new terms and storing them
+ * in the global environment.
+ *
+ * This will only work if the term you produce
+ * type checks in the end, so don't worry about accidentally proving False.
+ * If you want to use the defined function later in your plugin, you
+ * have to refresh the global environment by calling global_env () again,
+ * but we don't need that in this plugin.
+ *)
 val define :
-  Names.Id.t ->
-  EConstr.t ->
-  Evd.evar_map ->
+  Names.Id.t -> (* name of the new term *)
+  EConstr.t -> (* the new term *)
+  Evd.evar_map -> (* state *)
   unit
 
-(* TODO explain *)
-val equal :
-  Environ.env ->
-  EConstr.t ->
-  EConstr.t ->
-  Evd.evar_map ->
-  Evd.evar_map option
+(*
+ * When you first start using a plugin, if you want to manipulate terms
+ * in an interesting way, you need to move from the external representation
+ * of terms to the internal representation of terms. This does that for you.
+ *)
+val internalize :
+  env -> (* environment *)
+  constr_expr -> (* external representation *)
+  evar_map -> (* state *)
+  EConstr.t state (* stateful internal representation *)
 
-(* TODO explain *)
-val push_local :
-  Names.Name.t Context.binder_annot * EConstr.constr ->
-  Environ.env ->
-  Environ.env
+(* --- Equality --- *)
+  
+(*
+ * This checks if there is any set of internal constraints in the state
+ * such that trm1 and trm2 are definitionally equal in the current environment.
+ *)
+val equal :
+  env -> (* environment *)
+  EConstr.t -> (* trm1 *)
+  EConstr.t -> (* trm2 *)
+  evar_map -> (* state *)
+  bool state (* stateful (t1 = t2) *)
+

@@ -55,7 +55,7 @@ let map_state_array f args =
     (map_state f (Array.to_list args))
     (fun fargs -> ret (Array.of_list fargs))
 
-(* --- Environments --- *)
+(* --- Environments and definitions --- *)
 
 (*
  * Environments in the Coq kernel map names to types. Here are a few
@@ -69,15 +69,22 @@ let global_env () =
   let env = Global.env () in
   Evd.from_env env, env
 
-(* TODO explain *)
-let print env trm sigma =
-  Printer.pr_econstr_env env sigma trm
+(* Push a local binding to an environment *)
+let push_local (n, t) env =
+  EConstr.push_rel Context.Rel.Declaration.(LocalAssum (n, t)) env
 
-(* TODO explain *)
-let internalize env trm sigma =
-  Constrintern.interp_constr_evars env sigma trm
-
-(* TODO explain, note highly simplified *)
+(*
+ * One of the coolest things about plugins is that you can use them
+ * to define new terms. Here's a simplified (yes it looks terrifying,
+ * but it really is simplified) function for defining new terms and storing them
+ * in the global environment.
+ *
+ * This will only work if the term you produce
+ * type checks in the end, so don't worry about accidentally proving False.
+ * If you want to use the defined function later in your plugin, you
+ * have to refresh the global environment by calling global_env () again,
+ * but we don't need that in this plugin.
+ *)
 let define name body sigma =
   let udecl = UState.default_univ_decl in
   let scope = Locality.Global Locality.ImportDefaultBehavior in
@@ -86,10 +93,22 @@ let define name body sigma =
   let info = Declare.Info.make ~scope ~kind  ~udecl ~poly:false () in
   ignore (Declare.declare_definition ~info ~cinfo ~opaque:false ~body sigma)
 
-(* TODO explain *)
-let equal env trm1 trm2 sigma =
-  Reductionops.infer_conv env sigma trm1 trm2
+(*
+ * When you first start using a plugin, if you want to manipulate terms
+ * in an interesting way, you need to move from the external representation
+ * of terms to the internal representation of terms. This does that for you.
+ *)
+let internalize env trm sigma =
+  Constrintern.interp_constr_evars env sigma trm
 
-(* Push a local binding to an environment *)
-let push_local (n, t) env =
-  EConstr.push_rel Context.Rel.Declaration.(LocalAssum (n, t)) env
+(* --- Equality --- *)
+  
+(*
+ * This checks if there is any set of internal constraints in the state
+ * such that trm1 and trm2 are definitionally equal in the current environment.
+ *)
+let equal env trm1 trm2 sigma =
+  let opt = Reductionops.infer_conv env sigma trm1 trm2 in
+  match opt with
+  | Some sigma -> sigma, true
+  | None -> sigma, false

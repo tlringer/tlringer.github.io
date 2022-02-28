@@ -23,9 +23,9 @@ let rec nargs trm sigma =
     
 (* TODO call in caller etc etc, extend w/ more of AST or say OK to ignore other AST parts *)
 let rec count_in_body env trm1 trm2 sigma =
-  let sigma_opt = Termutils.equal env trm1 trm2 sigma in
-  if Option.has_some sigma_opt then
-    Option.get sigma_opt, 1
+  let sigma, is_eq = Termutils.equal env trm1 trm2 sigma in
+  if is_eq then
+    sigma, 1
   else
     match EConstr.kind sigma trm2 with
     | Constr.Lambda (n, t, b) ->
@@ -48,9 +48,9 @@ let rec count_in_body env trm1 trm2 sigma =
 
 (* TODO move etc, same caveats as above *)
 let rec sub_in env (trm1, trm2) trm3 sigma =
-  let sigma_opt = Termutils.equal env trm1 trm3 sigma in
-  if Option.has_some sigma_opt then
-    Option.get sigma_opt, trm2
+  let sigma, is_eq = Termutils.equal env trm1 trm3 sigma in
+  if is_eq then
+    sigma, trm2
   else
     match EConstr.kind sigma trm3 with
     | Constr.Lambda (n, t, b) ->
