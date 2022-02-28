@@ -37,8 +37,8 @@ VERNAC COMMAND EXTEND MyDefine CLASSIFIED AS SIDEFF
 | [ "MyDefine" ident(i) ":=" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
-     let (sigma, t) = Termutils.internalize env sigma e in
-     ignore (Termutils.define i sigma t)
+     let (sigma, t) = Termutils.internalize env e sigma in
+     Termutils.define i t sigma
    }
 END
 
@@ -55,7 +55,7 @@ VERNAC COMMAND EXTEND Arity CLASSIFIED AS SIDEFF
 | [ "Arity" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
-     let (sigma, t) = Termutils.internalize env sigma e in
+     let (sigma, t) = Termutils.internalize env e sigma in
      let (sigma, arity) = arity t sigma in
      Feedback.msg_notice (strbrk (string_of_int arity))
    }
@@ -70,7 +70,7 @@ VERNAC COMMAND EXTEND Nargs CLASSIFIED AS SIDEFF
 | [ "Nargs" constr(e) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
-     let (sigma, t) = Termutils.internalize env sigma e in
+     let (sigma, t) = Termutils.internalize env e sigma in
      let (sigma, nargs) = nargs t sigma in
      Feedback.msg_notice (strbrk (string_of_int nargs))
    }
@@ -83,8 +83,8 @@ VERNAC COMMAND EXTEND Count CLASSIFIED AS SIDEFF
 | [ "Count" constr(e1) "in" "body" constr(e2) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
-     let (sigma, t1) = Termutils.internalize env sigma e1 in
-     let (sigma, t2) = Termutils.internalize env sigma e2 in
+     let (sigma, t1) = Termutils.internalize env e1 sigma in
+     let (sigma, t2) = Termutils.internalize env e2 sigma in
      let (sigma, count) = count_in_body env t1 t2 sigma in
      Feedback.msg_notice (strbrk (string_of_int count))
    }
@@ -99,16 +99,15 @@ VERNAC COMMAND EXTEND Sub CLASSIFIED AS SIDEFF
 | [ "Sub" constr_list(e1s) "with" constr_list(e2s) "in" constr(e3) "as" ident(i) ] ->
    {
      let (sigma, env) = Termutils.global_state () in
-     let (sigma, t1s) = Termutils.map_args (fun arg sigma -> Termutils.internalize env sigma arg) (Array.of_list e1s) sigma in
-     let (sigma, t2s) = Termutils.map_args (fun arg sigma -> Termutils.internalize env sigma arg) (Array.of_list e2s) sigma in
-     let (sigma, t3) = Termutils.internalize env sigma e3 in
+     let (sigma, t1s) = Termutils.map_state (Termutils.internalize env) e1s sigma in
+     let (sigma, t2s) = Termutils.map_state (Termutils.internalize env) e2s sigma in
+     let (sigma, t3) = Termutils.internalize env e3 sigma in
      let (sigma, subbed) =
-       Termutils.fold_args
-         (fun subbed (t1, t2) sigma ->
-           Exercise.sub_in env (t1, t2) subbed sigma)
+       Termutils.fold_left_state
+         (fun subbed (t1, t2) -> sub_in env (t1, t2) subbed)
          t3
-         (Array.of_list (List.combine (Array.to_list t1s) (Array.to_list t2s)))
+         (List.combine t1s t2s)
          sigma
-     in ignore (Termutils.define i sigma subbed)
+     in Termutils.define i subbed sigma
    }
 END
