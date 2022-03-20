@@ -44,7 +44,9 @@
 						<section class="align-left">
 						<p>For the eighteenth class, we are going to walk through a tutorial on e-graphs! But the e-graphs we looked at on Tuesday are quite complicated, since they deal with a complex notion of equality particular to dependent types. Instead of looking at those, we are going to look at the <a href="https://docs.rs/egg/0.7.1/egg/tutorials/index.html">tutorial</a> for an e-graph library called <a href="https://docs.rs/egg/0.7.1/egg/index.html#"><code>egg</code></a>, perhaps best known for the corresponding <a href="https://arxiv.org/abs/2004.03082">POPL 2021 best paper</a>.</p>
 						
-						<p>The <code>egg</code> library is thus far used in much more traditional use cases for e-graphs, like rewrite systems in programming languages tools and compilers. Because of this, the examples in the tutorial will not be directly related to proofs. But the tutorial is the best tutorial I have seen thus far for getting acquainted with e-graphs. So what I hope they will do is give folks an understand of what it's like to use e-graphs, so that if at some point folks want to use them for proof automation, it will "just" amount to adapting them to the proof assistant of choice (of course, "just" is in quotes there for a reason).</p>
+						<p>The <code>egg</code> library is thus far used in much more traditional use cases for e-graphs, like rewrite systems in programming languages tools and compilers. But it does now have some proof-producing abilities, as you'll see in the third part of the tutorial! So you'll see how one could use e-graphs to implement automatic rewriting and get proof objects, which is incredibly cool.</p>
+						
+						<p>Still, they will be in a simpler logic with a simpler notion of equality than what we typically use inside of our proof assistants. This is OK. The tutorial is the best tutorial I have seen thus far for getting acquainted with e-graphs. So what I hope they will do is give folks an understand of what it's like to use e-graphs, so that if at some point folks want to use them for proof automation, it will "just" amount to adapting them to the proof assistant of choice. Of course, "just" is in quotes there for a reason---as we saw in the last reading, this can get quite complex!</p>
 						
 						<h3>Installation Instructions</h3>
 						
@@ -74,10 +76,13 @@
 							<h2>Let's Hack!</h2>
 						</header>
 						<section class="align-left">
-						<p>Coming soon!</p>
-						<!-- <p>During class, we will again divide up into groups. We will then do the exercises in <a href="https://github.com/tlringer/plugin-tutorial/tree/main/repair"><b>the second plugin tutorial</b></a>. You can do this on your own if you cannot make it to class, or enter a Zoom breakout if you're remote. Let me know if you can't attend, but would like me to find you a partner or make an exception.</p>
+						<p>During class, we will again divide up into groups. We will then do the <a href="https://docs.rs/egg/0.7.1/egg/tutorials/index.html">egg tutorial</a>---all three parts as time allows. You can do this on your own if you cannot make it to class, or enter a Zoom breakout if you're remote. Let me know if you can't attend, but would like me to find you a partner or make an exception.</p>
+						
+						<p>If you have extra time at the end, I recommend playing around and modifying the code you write as part of the tutorial, and exploring what happens.</p>
+						
+						<p>As usual, the <b>only graded part</b> will be a discussion question: Thinking back to the proof automation you've used so far and the problems you've encountered so far, how might you use an e-graph library like egg to solve some of those problems? What challenges would you anticipate encountering---either at the level of design or implementation---and how might you go about trying to solve them?</p>
 						    
-						    <p>There is a <b>discussion question</b> at the <b>bottom of the file</b>. This is <b>the only graded part</b>. Please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/50">this thread</a>, following the directions from the file.</p> -->
+						    <p>Please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/58">this thread</a>, listing all group members in your response.</p>
 						     
 				        </section>
 					</div>
