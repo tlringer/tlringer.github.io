@@ -1,3 +1,124 @@
-Coming soon!
 
-<p><a href="https://dependenttyp.es/classes/readings/21-prediction.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/readings/23-autoformalization.html">Next >></a></p>
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 22: Inside Tactic Prediction Models</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 22: Inside Tactic Prediction Models</h1>
+					<p>Artifact 9</p>
+					<p>DIVA Evaluation & Implementation</p>
+ 					<p>Week 11, Day 2</p>
+ 					<p>Due By: April 7th, 2022 at 12:30 PM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#install" class="goto-next scrolly">Getting Started</a></li>
+						<li><a href="#hack" class="goto-next scrolly">Let's Hack!</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="install" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Getting Started</h2>
+						</header>
+						<section class="align-left">
+						
+						<p>Coming soon!</p>
+						
+						<!--
+						<p>For the twentieth class, we are going to look at Sledgehammer in the wild! The paper we read on Tuesday was about Sledgehammer in practice. One of the coolest things about Sledgehammer is its extremely wide adoption in the Isabelle/HOL community. So we are going to look at some other people's proof developments, and how they use Sledgehammer or any of the automatic solvers it calls.</p>
+						
+						 <p>This exercise is going to be a bit more open-ended than what we've seen so far. Isabelle/HOL has an <a href="https://www.isa-afp.org/">archive</a> of proof developments; we will go through this archive to find developments that we like, and see how they use this automation. We'll also play around with modifying and understanding the development. We'll discuss in groups, then post on the board as usual. More <a href="#hack">below</a>.</p>
+						
+						<h3>Installation Instructions</h3>
+						
+						<ol>
+						<li>Install the Isabelle/HOL proof assistant following <a href="https://isabelle.in.tum.de/installation.html">these instructions</a>.</li>
+						<li>Download the Isabelle/HOL Archive of Formal Proofs <a href="https://www.isa-afp.org/download.html">here</a>.</li>
+						<li>Browse the Archive of Formal Proofs <a href="https://www.isa-afp.org/">here</a>, and identify a project that looks interesting to you.</li>
+						<li>Open the interesting project in Isabelle/HOL, and make sure the proofs go through.</li>
+						</ol>
+						
+						 <p>If you have any trouble, please post your questions in <a href="https://campuswire.com/c/GC575C0C8/feed/67">this thread</a>. Please also drop any installation tips you have in that thread.</p>
+						 
+						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked.</p>
+						    <p>You can find the <a href="#hack">exercise</a> we will do together in class below.</p>-->
+
+				        </section>
+					</div>
+					<a href="#hack" class="goto-next scrolly">Let's Hack!</a>
+				</div>
+			</section>
+
+			<section id="hack" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Let's Hack!</h2>
+						</header>
+						<section class="align-left">
+
+						<p>Coming soon!</p>
+
+						<!--
+						<p>During class, we will again divide up into groups. We will open up Isabelle/HOL, and click on the Sledgehammer tutorial link to keep that reference available throughout the exercise. We will then step through the steps below:</p>
+						
+						<ol>
+						<li>Open any of the proof developments from the Archive of Formal Proofs that one of the members of your group chose.</li>
+						<li>Does the proof development use Sledgehammer or any of the automated solvers that the Sledgehammer tactic invokes (for example, `metis`, `smt`, or `meson`)? To what degree?</li>
+						<li>Spend a few minutes trying to understand one of the proofs that invokes one of these, if applicable.</li>
+						<li>Try using Sledgehammer yourself instead of `metis`, `smt`, `meson`, or something similar, if applicable. Does it produce the same proof?</li>
+						<li>Does checking the Isar proofs box work? If so, what are the tradeoffs between the original proof and the proof it produces with Isar proofs enabled?</li>
+						<li>If you feel comfortable trying an Isabelle/HOL proof, try to complete one of the proofs that calls an automated solver manually, using simpler automation. (There are several tutorials you can refer to in order to help you with this, all of which are linked to within the Isabelle/HOL IDE.) How hard is this?</li>
+						<li>What are the tradeoffs of the different kinds of automation you've tried so far for this proof?</li>
+						<li>Try using Sledgehammer yourself instead of some manual proof, if applicable. Does it work? (It's OK if it doesn't.) Do you have a sense of what Sledgehammer is good at versus bad at so far?</li>
+						  <li>Repeat for other proof developments as time allows.</li>
+						</ol>
+						
+						<p>You can do this on your own if you cannot make it to class, or enter a Zoom breakout if you're remote. Let me know if you can't attend, but would like me to find you a partner or make an exception.</p>
+						
+						<p>If you have extra time at the end, I recommend playing around with new theorems that you define, and how Sledgehammer handles them.</p>
+						
+						<p>As usual, the <b>only graded part</b> will be a discussion question: Based on your experiences with the proof development(s) you tried, what did you learn about Sledgehammer? When would you use Sledgehammer versus other automation? What did you like about using Sledgehammer? And what do you think would improve the experience of using automation like Sledgehammer?</p>
+						    
+						    <p>Please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/68">this thread</a>, listing all group members in your response.</p> -->
+						     
+				        </section>
+					</div>
+					<a href="https://dependenttyp.es/classes/readings/21-prediction.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/readings/23-autoformalization.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
+
