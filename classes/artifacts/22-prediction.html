@@ -43,7 +43,7 @@
 						</header>
 						<section class="align-left">
 						
-						<p>For the twenty-second class, we are going to look at the DIVA artifact. ICSE has a great artifact culture, so the artifact is all packaged up and ready to go for us in a VM. We will rerun parts of the evaluation of DIVA, and peek into the output to see what the proofs it produces looks like, and how it fails when it fails. We'll also inspect the implementation. Lastly, we'll discuss a bit about what reproducibility really means in the context of machine learning tools (we would need fancy hardware to retrain the model, for example), and how tactic prediction models could be integrated into proof engineering workflows.</p>
+						<p>For the twenty-second class, we are going to look at the DIVA artifact. ICSE has a great artifact culture, so the artifact is all packaged up and ready to go for us in a VM. We will rerun parts of the evaluation of DIVA, and peek into the output to see what the proofs it produces looks like, and how it fails when it fails. We'll also discuss a bit about what reproducibility really means in the context of machine learning tools (we would need fancy hardware to retrain the model, for example, and determinism seems to be near impossible), and how tactic prediction models could be integrated into proof engineering workflows.</p>
 						
 						<h3>Installation Instructions</h3>
 						
@@ -74,30 +74,19 @@
 						</header>
 						<section class="align-left">
 
-						<p>Coming soon!</p>
-
-						<!--
-						<p>During class, we will again divide up into groups. We will open up Isabelle/HOL, and click on the Sledgehammer tutorial link to keep that reference available throughout the exercise. We will then step through the steps below:</p>
+						<p>During class, after dividing into groups, open up the VM for the artifact. Then, as a group, run the model on a number of different projects (see the <code>README.md</code> instructions that you downloaded when you installed the VM). Look at the outputs for particular proofs and projects, and discuss the following questions with your group:</p>
 						
 						<ol>
-						<li>Open any of the proof developments from the Archive of Formal Proofs that one of the members of your group chose.</li>
-						<li>Does the proof development use Sledgehammer or any of the automated solvers that the Sledgehammer tactic invokes (for example, `metis`, `smt`, or `meson`)? To what degree?</li>
-						<li>Spend a few minutes trying to understand one of the proofs that invokes one of these, if applicable.</li>
-						<li>Try using Sledgehammer yourself instead of `metis`, `smt`, `meson`, or something similar, if applicable. Does it produce the same proof?</li>
-						<li>Does checking the Isar proofs box work? If so, what are the tradeoffs between the original proof and the proof it produces with Isar proofs enabled?</li>
-						<li>If you feel comfortable trying an Isabelle/HOL proof, try to complete one of the proofs that calls an automated solver manually, using simpler automation. (There are several tutorials you can refer to in order to help you with this, all of which are linked to within the Isabelle/HOL IDE.) How hard is this?</li>
-						<li>What are the tradeoffs of the different kinds of automation you've tried so far for this proof?</li>
-						<li>Try using Sledgehammer yourself instead of some manual proof, if applicable. Does it work? (It's OK if it doesn't.) Do you have a sense of what Sledgehammer is good at versus bad at so far?</li>
-						  <li>Repeat for other proof developments as time allows.</li>
+						<li>What proofs does the model seem to do well on? Do they have anything in common?</li>
+						<li>What proofs does the model seem to struggle with? Do they have anything in common?</li>
+						<li>Does the model seem to have any common modes of failure (for example, running the same tactic over and over again)?</li>
+						<li>What would it mean to reproduce the results from this paper fully, in an ideal world? What resources might it require access to?</li>
+						<li>Can you think of any ideas to address any limitations you encounter, like common failure modes or reproducibility limitations?</li>
 						</ol>
 						
+						<p>These will be your discussion questions at the end. As usual, they will be the <b>only graded part</b>. A partial answer is fine, so don't worry if you struggle to answer some of these questions. When you're done, please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/71">this thread</a>, listing all group members in your response.</p>
+						
 						<p>You can do this on your own if you cannot make it to class, or enter a Zoom breakout if you're remote. Let me know if you can't attend, but would like me to find you a partner or make an exception.</p>
-						
-						<p>If you have extra time at the end, I recommend playing around with new theorems that you define, and how Sledgehammer handles them.</p>
-						
-						<p>As usual, the <b>only graded part</b> will be a discussion question: Based on your experiences with the proof development(s) you tried, what did you learn about Sledgehammer? When would you use Sledgehammer versus other automation? What did you like about using Sledgehammer? And what do you think would improve the experience of using automation like Sledgehammer?</p>-->
-						    
-						    <p>Please have your group post your answers in <a href="https://campuswire.com/c/GC575C0C8/feed/71">this thread</a>, listing all group members in your response.</p>
 						     
 				        </section>
 					</div>
