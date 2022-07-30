@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 21: Tactic Prediction Models</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 21: Tactic Prediction Models</h1>
+					<p>Reading 12</p>
+					<p>Diversity-Driven Automated Formal Verification</p>
+ 					<p>Week 11, Day 1</p>
+ 					<p>Due By: April 5th, 2022 at 10:00 AM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#reading" class="goto-next scrolly">Reading</a></li>
+						<li><a href="#guide" class="goto-next scrolly">Guide</a></li>
+						<li><a href="#discussion" class="goto-next scrolly">Discussion</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="reading" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading</h2>
+						</header>
+						<section class="align-left">
+						    <p>For the twenty-first class, we will read
+						    <b>Diversity-Driven Automated Formal Verification</b> [<a href="https://people.cs.umass.edu/~brun/pubs/pubs/First22icse.pdf">PDF</a>] [<a href="https://doi.org/10.1145/3510003.3510138">DOI</a>] by Emily First and Yuriy Brun.</p>
+						    
+						  <p>This paper takes a look at <b>tactic prediction models</b>---models that predict the next tactic in your proof---in the <b>Coq proof assistant</b>. Traditionally in this space, researchers use benchmarks to measure the success of these proof models, with higher scores (more proofs proven) corresponding to better results. But this paper shows that different models don't just prove more or fewer proofs---they prove <b>different proofs</b>. So, by <b>bringing diverse models together</b>, you get <b>better performance</b> than with any single model---by a lot!</p>
+						  
+						  <p>Machine learning tools for proofs are surging in popularity these days. Next week, you'll see talks from researchers at both Google and OpenAI about other machine learning tools for proofs!</p>
+	  
+						  <p>You can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> for this class below.</p>
+						  
+						  <p>Please note that <b>this is due the morning before class</b>, so that we can discuss it in person. And <b>please install the <a href="https://dependenttyp.es/classes/artifacts/21-prediction.html">artifact</a> before Thursday's class</b>.</p>
+				        </section>
+					</div>
+					<a href="#guide" class="goto-next scrolly">Guide</a>
+				</div>
+			</section>
+
+			<section id="guide" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading Guide</h2>
+						</header>
+						<section class="align-left">
+						    <p>This paper is (in my opinion) very well written, with a lot of context, so I think <b>it's worth reading in full</b>. But I would <b>not worry too much if you do not know the machine learning terminology</b> (especially the names of machine learning architectures like transformers or the TreeLSTM---these refer to some choices in how different machine learning tools for proofs encode proof data so that they can learn from it).</p>
+						    
+						    <p>For this paper, if you encounter <b>new terminology</b> you've never seen before, I advise that you <b>write it down</b>, and either note it in the forum post or ask about it in class. But it should then be OK to move on. Since this paper is at the intersection of two topics for which few people have experience both of at the same time, it's likely some of the terminology is new, and that's OK.</p>
+						    
+						    <p>The authors of the paper also sent me <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">a video</a> they thought would be helpful. <a href="https://en.wikipedia.org/wiki/Rickrolling">I didn't find it very helpful :).</a></p>.
+					
+				        </section>
+					</div>
+					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
+				</div>
+			</section>
+
+			<section id="discussion" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Discussion Questions</h2>
+						</header>
+						<section class="align-left">
+						    <p>Please write a short paragraph as a comment in the <a href="https://campuswire.com/c/GC575C0C8/feed/15">class forum thread</a> about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p>
+						    
+						  <ol>
+						  <li>Based on these results, how would you recommend that people <b>evaluate future changes</b> to machine learning models for predicting tactics?</li>
+						  <li>How might you go about <b>designing and building a machine learning tool for proofs</b> that takes these results into account?</li>
+						  <li>Are there <b>any other dimensions</b> of the data, parameters, or anything else for which you think varying those dimensions could make a difference in which proofs the model can solve? What experiment might you design to test that hypothesis?</li>
+						  <li>Do you think these results would hold true in a domain for which a lot more data is available to begin with? Can you think of <b>any circumstances</b> under which these results may not hold? Or do you think that strength in diversity of machine learning models is fundamental? Why or why not? What experiment might you design to test that hypothesis?</li> 
+						  <li>Please list any <b>new terminology</b> you encountered during your reading that you did not recognize.</li>
+						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
+						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
+						  </ol>
+						 
+						  <p>You may want to look at other people's responses before class in order to shape the discussion. And again remember that you need to answer just one question to get credit, though you are free to answer more if interested.</p>
+						     
+				        </section>
+					</div>
+					<a href="https://dependenttyp.es/classes/artifacts/20-hammers.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/artifacts/22-prediction.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

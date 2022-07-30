@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 2: Ethics of Proof Automation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+				        <h1>Class 2: Ethics of Proof Automation</h1>
+					<p>Reading 2</p>
+					<p>ACM Ethics Code</p>
+ 					<p>Week 1, Day 2</p>
+ 					<p>Due By: January 25th, 2022 at 10:00 AM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#reading" class="goto-next scrolly">Reading</a></li>
+						<li><a href="#guide" class="goto-next scrolly">Guide</a></li>
+						<li><a href="#discussion" class="goto-next scrolly">Discussion</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="reading" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading</h2>
+						</header>
+						<section class="align-left">
+						    <p>For the second class, we will read
+						    the <a href="https://www.acm.org/code-of-ethics">ACM Ethics Code</a>.</p>
+						    
+						    <p>This is a code by which all computer scientists who submit to ACM conferences are bound. It does not give you easy answers, but it does give you <b>a useful framework</b> to think about the ethics of your research.</p>
+						    
+						   <p>It might seem kind of weird to read the ACM Ethics Code in a proof automation class. But I think <b>ethics are as fundamental to this work as type theory is</b>. What is any technology if we don't consider its impacts on humanity?</p>
+						   
+						   <p>I never really learned this stuff in graduate school, and I really wish I had. It was Timnit Gebru and Meg Mitchell's dismissals and their fallout that really got me thinking about the ethics of my own research. And now that I'm paying attention, I realize the ethical questions are <i>everywhere</i>. So I hope reading this and thinking about how it interacts with proof automation will be a useful exercise for all of you.</p>
+						  
+						  <p>You can find the video for the second class <a href="https://www.youtube.com/watch?v=uh8onqUVL1c">here</a>, and the corresponding slides and transcript <a href="https://docs.google.com/presentation/d/1CPSGC6StuxbXhtl7V2cUNW0Ql5fVsn1ZNl_uuOe6TaA/edit">here</a>. You can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> below. The video will be posted when it is ready.</p>
+						  
+						  <p>Please note that <b>because of POPL, this reading is not due until January 25th at 10:00 AM.</b> From next week forward, readings will be due the morning before the corresponding class.</p>
+				        </section>
+					</div>
+					<a href="#guide" class="goto-next scrolly">Guide</a>
+				</div>
+			</section>
+
+			<section id="guide" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading Guide</h2>
+						</header>
+						<section class="align-left">
+						    <p>Everyone is different here, but the way I got the most out of reading this code was by looking at each point, and <b>thinking about how it applied to a situation</b> that I had been in or heard about. After spending enough time doing this, I found that naturally when I encountered new situations in the wild, I'd think about particular points of the code that corresponded to it. I've found this useful not just for <b>making decisions</b> myself, but also for <b>raising concerns</b> to people in positions of power.</p>
+						    
+						    <p>If you cannot think of case studies relevant to your own research or situations you have read about elsewhere, the <a href="#discussion">discussion questions</a> below may help, and you may wish to read them before reading the code in order to frame your reading.</p>
+						    
+						    <p>Most of the code is, I think, about what one would expect. But there are some things I found genuinely surprising. I always disliked norms of confidentiality, but 1.7 convinced me to take it more seriously as a professional obligation. My personal favorite, though, is 2.3, which actually encourages you to <b>challenge and in some cases break unjust rules</b>. It's really refreshing to see that in a professional code. I also like 2.9, which makes a case for verification, and 3.6, which makes a case for automatic repair.</p>
+						    
+						    <p>But <b>not all verification work is inherently good</b>, even though we often like to imagine that it is. Like what if your proof automation is being used to verify a drone used by the US military? This can be a major strain with 3.1, and yet this is where a lot of verification funding comes from!</p>
+				        </section>
+					</div>
+					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
+				</div>
+			</section>
+
+			<section id="discussion" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Discussion Questions</h2>
+						</header>
+						<section class="align-left">
+						    <p>Please write a short paragraph as a comment in the <a href="https://campuswire.com/c/GC575C0C8/feed/5">class forum thread</a> about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p>
+						    
+						  <ol>
+						  <li>Imagine that you are a professor in charge of a research group, working on proof automation that makes it easier to prove operating systems secure. <a href="https://www.darpa.mil/about-us/about-darpa">DARPA</a> offers you $10,000,000 in support of your research, with the caveat that you must demonstrate the success of your automation to build a verified operating system that makes a drone resilient to remote hijacking. <b>Do you take the money?</b> What ethical concerns factor into your decision? What points from the ACM Ethics Code do you find relevant?</li>
+						  <li>When it comes to designing, building, and evaluating proof automation, it can sometimes be useful to collect proof development data. Imagine that you are a researcher building a large dataset or benchmark suite made up of real proof developments. The dataset or benchmark suite is a mix of static proof artifacts, proof developments on Github, and live proof development data. <b>What ethical considerations do you consider in going about this data collection?</b> What points from the ACM Ethics Code do you find relevant?</li>
+						  <li>You are a researcher at a large tech company, working on tools that make it easier to prove code secure. You realize in the course of your work that code already deployed in production systems at the tech company has a serious security bug that puts customers at risk of harm. You raise concerns to the relevant team, and then to your manager, but after months, nothing changes. You write about it in your paper draft, but your manager orders you not to publish it, saying that it leaks confidential information. <b>What do you try next, and why?</b> What ethical considerations are at play here? What points from the ACM Ethics Code do you find relevant?</li>
+						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
+						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
+						  </ol>
+						  
+						  <p>The first question is heavily inspired by <a href="https://cacm.acm.org/magazines/2018/10/231372-formally-verified-software-in-the-real-world/fulltext">a real DARPA program</a>, though modified significantly. Both the first and second questions are inspired by experiences I've had so far during my research career.</p>
+						  
+						  <p>Since the first week is asynchronous, we will not have this discussion in person. So, feel free to keep responding to each other if you find the conversation interesting---but no pressure. You'll get credit as long as you write about just one of the above.</p>
+						     
+				        </section>
+					</div>
+					<a href="./1-impacts.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="./3-foundations.html">Next >></a> |
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

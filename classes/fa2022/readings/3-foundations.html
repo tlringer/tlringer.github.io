@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 3: Foundations of Proof Assistants</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 3: Foundations of Proof Assistants</h1>
+					<p>Reading 3</p>
+					<p>QED at Large, Chapter 4</p>
+ 					<p>Week 2, Day 1</p>
+ 					<p>Due By: January 25th, 2022 at 10:00 AM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#reading" class="goto-next scrolly">Reading</a></li>
+						<li><a href="#guide" class="goto-next scrolly">Guide</a></li>
+						<li><a href="#discussion" class="goto-next scrolly">Discussion</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="reading" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading</h2>
+						</header>
+						<section class="align-left">
+						    <p>For the third class, we will read <b>Chapter 4</b> of <b>QED at Large: A Survey of Engineering of Formally Verified Software</b> [<a href="https://dependenttyp.es/pdf/QEDatLarge.pdf">PDF</a>] [<a href="https://doi.org/10.1561/2500000045">DOI</a>] by Talia Ringer, Karl Palmskog, Ilya Sergey, Milos Gligoric, and Zachary Tatlock.</p>
+						    
+						    <p>Chapter 4 is about the <b>foundations and history</b> of proof assistants---from philosophy to type theory to design. It was mostly written by <a href="https://setoid.com/">Karl Palsmkog</a>, who did a fantastic job; I just added a few bits and pieces to that chapter. I hope it will give you some idea of how proof assistants came to be, and what they really are.</p>
+						    
+						    <p>This is the second week of background knowledge, which is important for reading later papers. There will be <b>just one more week of background knowledge after this</b>, and then we'll get to the fun stuff.</p>
+						  
+						  <p>You can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> below.</p>
+						  
+						  <p>Please note that <b>as POPL is over, this is due the morning before class</b>, so that we can discuss it in person. Also, Thursday will be our first artifact discussion; <b>please install the <a href="https://dependenttyp.es/classes/artifacts/4-foundations.html">artifact</a> before Thursday's class</b>.</p>
+				        </section>
+					</div>
+					<a href="#guide" class="goto-next scrolly">Guide</a>
+				</div>
+			</section>
+
+			<section id="guide" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading Guide</h2>
+						</header>
+						<section class="align-left">
+						    <p>I again recommend checking out <b><a href="https://taliasplse.wordpress.com/2019/09/14/proof-engineering-survey-paper-qed-a/">the reading guide</a></b> for this paper that I wrote a couple of years ago, if it helps you. Please also see <a href="https://proofengineering.org/qed_errata.html">the errata</a>.</p>
+						    
+						    <p>This chapter at many points goes into a lot of detail about particular logical systems. I think it's okay not to get too bogged down by those details. The core takeaway there is just that the foundations of these tools go back really far, like <b>before computers were even really a thing</b>. Heck, Alan Turing wrote the first proof of program correctness!</p>
+						    
+						    <p>It's also good to know, at a high level, that there are <b>a lot of different logical systems that can make up the foundations of proof assistants</b>.</p>
+						    
+						    <p>Four things are worth extra attention:</p>
+						    
+						    <ol>
+						    <li>The <b>Curry-Howard correspondence</b>, which relates logical systems and type systems, and so also programs and proofs---it's the reason we can write programs and proofs in the same language inside of a proof assistant, if we'd like.</li>
+						    <li>Once again, the <b>de Bruijn criterion</b>, which gives us separation of concern between the foundations of our logic and the automation we build on top of it.</li>
+						    <li>The notion of a <b>proof object</b>, which is the core certificate that a proof assistant checks for correctness in the end.</li>
+						    
+						    <li>The notion of a <b>Trusted Computing Base</b> or TCB---the core part of a verified system that is trusted, which people like to try to minimize.</p></li>
+						    </ol>
+						    
+						    <p>I also really like the discussion of <b>equality</b>, which is one of the hardest problems in type theory; we'll doubtlessly see it pop up in some of the papers we read.</p>
+				        </section>
+					</div>
+					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
+				</div>
+			</section>
+
+			<section id="discussion" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Discussion Questions</h2>
+						</header>
+						<section class="align-left">
+						    <p>Please write a short paragraph as a comment in the <a href="https://campuswire.com/c/GC575C0C8/feed/6">class forum thread</a> about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p>
+						    
+						  <ol>
+						  <li>Imagine that you are designing a new proof assistant, from the foundations up. <b>What do you consider in your design of the foundations, and why?</b></li>  
+						  <li>Alan Turing wrote the first proof of program correctness, and yet Hoare and Floyd are largely credited for the earliest verification work. <b>Why do you think this is?</b></li>
+						  <li>The de Bruijn criterion states that proof assistants should produce proof objects that are checkable by a small kernel that implements the logical system---ideally a kernel that is small enough to be human-readable. <b>What benefits do you think the de Bruijn criterion provides?</b></li>
+						  <li>Section 4.3.1 mentions that some proof assistants produce <i>ephemeral</i> proof objects, which are essentially correct by construction, but never represented and stored in full (though you can reconstruct them after the fact in some proof assistants). This is in contrast with <i>explicit</i> proof objects, which are fully represented---in Coq, for example, proof objects are <i>terms</i> you can modify and type check, just like programs are. <b>Can you think of any tradeoffs between ephemeral and explicit proof objects?</b></li>
+						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
+						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
+						  </ol>
+						 
+						  <p>We will have this discussion in person, finally! So you may want to look at other people's responses before class in order to shape the discussion. And again remember that you need to answer just one question to get credit, though you are free to answer more if interested.</p>
+						     
+				        </section>
+					</div>
+					<a href="./2-ethics.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/artifacts/4-foundations.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

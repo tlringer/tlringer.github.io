@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 11: Proof Procedures</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 11: Proof Procedures</h1>
+					<p>Reading 7</p>
+					<p>Metis</p>
+ 					<p>Week 6, Day 1</p>
+ 					<p>Due By: February 22nd, 2022 at 10:00 AM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#reading" class="goto-next scrolly">Reading</a></li>
+						<li><a href="#guide" class="goto-next scrolly">Guide</a></li>
+						<li><a href="#discussion" class="goto-next scrolly">Discussion</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="reading" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading</h2>
+						</header>
+						<section class="align-left">
+						    <p>For the eleventh class, we will read
+						    <b>First-Order Proof Tactics in Higher-Order Logic Theorem Provers</b> [<a href="http://www.gilith.com/papers/metis.pdf">PDF</a>] by Joe Hurd.</p>
+						    
+						    <p>This is the canonical paper for the <a href="http://www.gilith.com/metis/">Metis</a> automatic theorem prover (ATP) for first-order logic with equality. Metis implements a number of <b>proof procedures for first-order logic with equality</b> (which is in general undecidable, though it has decidable fragments).</p>
+						    
+						    <p>The neat thing about Metis is that it has been implemented inside of several proof assistants like Isabelle/HOL and HOL4. Even though those theorem provers are based on higher-order logics, <b>they can call out to Metis to dispatch first-order proofs</b>. In that sense, it's a neat and early example of interaction between ATPs and proof assistants, a mixed-methods workflow we continue to see more and more of to this day. We'll see that a lot more when we get to the ATP weeks of class.</p>
+	  
+						  <p>You can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> below.</p>
+						  
+						  <p>Please note that <b>this is due the morning before class</b>, so that we can discuss it in person. There is <b>no artifact</b> for this reading as I will be away on Thursday---I recommend spending the time you'd normally spend on an artifact this week revisiting an artifact from a previous week in more detail, or playing with the metis tactic in the <a href="https://isabelle.in.tum.de/">Isabelle/HOL</a> proof assistant.</p>
+				        </section>
+					</div>
+					<a href="#guide" class="goto-next scrolly">Guide</a>
+				</div>
+			</section>
+
+			<section id="guide" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading Guide</h2>
+						</header>
+						<section class="align-left">
+						    <p>The first thing to note about this paper is that <b>it is from 2003</b>. So it is important to remember that context when you read it.</p>
+						    
+						    <p>The paper is <b>fairly technical</b>, as it is meant to help the reader implement similar automation in another proof assistant if needed. It is nice to <b>get a sense of how the technical approach works</b> and how the automation is implemented, but <b>it is OK to get lost with all of the details</b>.</p>
+						    
+						    <p>Section 6 comes late, but I think it's an <b>especially good read</b>, even though it's short. So I'd be sure to read that, even if you get tired by page 11.</p>
+					
+				        </section>
+					</div>
+					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
+				</div>
+			</section>
+
+			<section id="discussion" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Discussion Questions</h2>
+						</header>
+						<section class="align-left">
+						    <p>Please write a short paragraph as a comment in the <a href="https://campuswire.com/c/GC575C0C8/feed/10">class forum thread</a> about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p>
+						    
+						  <ol>
+						  <li>What are some <b>other fragments of higher-order logics</b> or <b>particular domains</b> for which similar general-purpose automation could be useful?</li>
+						  <li>How would you <b>implement this differently in 2022</b>, if at all?</li>
+						  <li>How would you implement this for a <b>proof assistant with a dependent type theory</b>, like Coq, Lean, or Agda?</li>
+						  <li>Would you <b>trust</b> automation like this without the translated refutations? Why or why not?</li>
+						  <li>Given translated refutations into your base higher-order logic, would you <b>feel satisfied</b> with a proof dispatched by interacting with Metis, and find it sufficiently informative? Why or why not? And if not, what would make it more satisfying or informative to you?</li>
+						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
+						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
+						  </ol>
+						 
+						  <p>You may want to look at other people's responses before class in order to shape the discussion. And again remember that you need to answer just one question to get credit, though you are free to answer more if interested.</p>
+						     
+				        </section>
+					</div>
+					<a href="https://dependenttyp.es/classes/artifacts/10-custom.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598sp2022.html#schedule">Class Schedule</a> | <a href="https://dependenttyp.es/classes/readings/13-mixed.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
