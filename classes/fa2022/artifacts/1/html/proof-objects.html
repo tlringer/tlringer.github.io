@@ -1,0 +1,439 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>proof-objects</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Comment">-- if curious: https://agda.readthedocs.io/en/v2.6.0.1/language/without-k.html</a>
+<a id="80" class="Symbol">{-#</a> <a id="84" class="Keyword">OPTIONS</a> <a id="92" class="Pragma">--without-K</a> <a id="104" class="Pragma">--allow-unsolved-metas</a> <a id="127" class="Symbol">#-}</a>
+
+<a id="132" class="Comment">{-
+  CS 598 TLR
+  Artifact 1: Proof Objects
+  Student Copy
+
+  READ ME FIRST: You will absolutely not be graded on your ability to finish
+  these proofs. It&#39;s OK to be confused and find this hard. It&#39;s also
+  OK to come into this class as an Agda wizard and breeze through this,
+  perhaps even using a bunch of features of Agda that aren&#39;t mentioned
+  in this file at all (if you do that, though, please help your partner
+  understand what you are doing, and please discuss what you did at the end).
+  The point is to pay attention to what is hard and where you wish you
+  had better automation, and to learn about proof objects.
+
+  At the end of this class (or, if you&#39;re not attending in person,
+  sometime before 1230 PM the day of class) you&#39;ll post on the forum
+  about what you found challenging, what you enjoyed, and─most importantly
+  for this class─what kind of automation you wish you had.
+  If you or someone you&#39;re working with is an Agda wizard already,
+  and you know about automation or syntax that already exists that makes the
+  job easy, definitely take note of that and mention it as well.
+
+  If you have a lot of trouble with a proof, it&#39;s OK to ask me for help
+  (or post in the forum if you&#39;re not here in person). It&#39;s also OK to
+  ask people in other groups.
+
+  But please, please don&#39;t stress about finishing these proofs.
+  The theorems will still be here after class if you feel tempted by them.
+  I&#39;m also happy to distribute my own answer key, or to let you share
+  proofs with other students later─the point is to think about the proof
+  objects you construct throughout, and the experience you have constructing
+  them. It&#39;s about the journey, not the destination.
+-}</a>
+<a id="1831" class="Keyword">module</a> <a id="1838" href="proof-objects.html" class="Module">proof-objects</a> <a id="1852" class="Keyword">where</a>
+
+<a id="1859" class="Comment">{-
+  Some built-in datatypes we&#39;ll use in this exercise:
+-}</a>
+<a id="1919" class="Keyword">open</a> <a id="1924" class="Keyword">import</a> <a id="1931" href="Agda.Builtin.Nat.html" class="Module">Agda.Builtin.Nat</a> <a id="1948" class="Comment">-- natural numbers</a>
+<a id="1967" class="Keyword">open</a> <a id="1972" class="Keyword">import</a> <a id="1979" href="Agda.Builtin.List.html" class="Module">Agda.Builtin.List</a> <a id="1997" class="Comment">-- polymorphic lists</a>
+<a id="2018" class="Keyword">open</a> <a id="2023" class="Keyword">import</a> <a id="2030" href="Agda.Builtin.Char.html" class="Module">Agda.Builtin.Char</a> <a id="2048" class="Comment">-- characters</a>
+<a id="2062" class="Keyword">open</a> <a id="2067" class="Keyword">import</a> <a id="2074" href="Agda.Builtin.Equality.html" class="Module">Agda.Builtin.Equality</a> <a id="2096" class="Comment">-- equality</a>
+
+<a id="2109" class="Comment">{-
+  You can see these definitions by clicking them and then pressing the Alt
+  key along with the period. Or you can use the middle button of your mouse,
+  if you have one.
+
+  For example, if we click on Agda.Builtin.List and press the Alt key
+  along with the period, it will open up the file that defines the
+  list datatype. A polymorphic list in Agda is defined a lot like the
+  list datatype in Coq that we saw in the slides for the first class.
+  It is an inductive datatype with two cases:
+
+    data List (A : Set) : Set where
+      []  : List A
+      _∷_ : A → List A → List A
+
+  In other words, as in Coq, a list is either empty ([]) or the result
+  of consing (∷) an element of type A in front of some other list of
+  elements of type A.
+
+  For example, let&#39;s define some empty lists of numbers and characters.
+  In Agda, a definition has its type on the first line, and then the
+  term with that type on the next line:
+-}</a>
+
+<a id="3044" class="Comment">-- The empty list of natural numbers</a>
+<a id="empty-nat"></a><a id="3081" href="proof-objects.html#3081" class="Function">empty-nat</a> <a id="3091" class="Symbol">:</a> <a id="3093" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="3098" href="Agda.Builtin.Nat.html#192" class="Datatype">Nat</a> <a id="3102" class="Comment">-- the type</a>
+<a id="3114" href="proof-objects.html#3081" class="Function">empty-nat</a> <a id="3124" class="Symbol">=</a> <a id="3126" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="3129" class="Comment">-- the term</a>
+
+<a id="3142" class="Comment">-- The empty list of characters</a>
+<a id="empty-char"></a><a id="3174" href="proof-objects.html#3174" class="Function">empty-char</a> <a id="3185" class="Symbol">:</a> <a id="3187" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="3192" href="Agda.Builtin.Char.html#227" class="Postulate">Char</a> <a id="3197" class="Comment">-- the type</a>
+<a id="3209" href="proof-objects.html#3174" class="Function">empty-char</a> <a id="3220" class="Symbol">=</a> <a id="3222" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="3225" class="Comment">-- the term</a>
+
+<a id="3238" class="Comment">{-
+  Cool. Now let&#39;s define some non-empty lists.
+
+  NOTE: The Agda community has an unfortunate obsession with Unicode.
+  The syntax for the cons constructor in Coq is two colons, written ::.
+  Confusingly, the Agda cons constructor is actually denoted with a
+  single special unicode character, written ∷. You can write this
+  special character by typing \:: (with two colons), and it will
+  magically turn into ∷.
+
+  OK, with that in mind:
+-}</a>
+
+<a id="3685" class="Comment">-- A list [1; 2; 3; 4]</a>
+<a id="1-2-3-4"></a><a id="3708" href="proof-objects.html#3708" class="Function">1-2-3-4</a> <a id="3716" class="Symbol">:</a> <a id="3718" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="3723" href="Agda.Builtin.Nat.html#192" class="Datatype">Nat</a> <a id="3727" class="Comment">-- type</a>
+<a id="3735" href="proof-objects.html#3708" class="Function">1-2-3-4</a> <a id="3743" class="Symbol">=</a> <a id="3745" class="Number">1</a> <a id="3747" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3749" class="Number">2</a> <a id="3751" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3753" class="Number">3</a> <a id="3755" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3757" class="Number">4</a> <a id="3759" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3761" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="3764" class="Comment">-- term</a>
+
+<a id="3773" class="Comment">-- A list [x; y; z]</a>
+<a id="x-y-z"></a><a id="3793" href="proof-objects.html#3793" class="Function">x-y-z</a> <a id="3799" class="Symbol">:</a> <a id="3801" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="3806" href="Agda.Builtin.Char.html#227" class="Postulate">Char</a> <a id="3811" class="Comment">-- type</a>
+<a id="3819" href="proof-objects.html#3793" class="Function">x-y-z</a> <a id="3825" class="Symbol">=</a> <a id="3827" class="String">&#39;x&#39;</a> <a id="3831" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3833" class="String">&#39;y&#39;</a> <a id="3837" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3839" class="String">&#39;z&#39;</a> <a id="3843" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="3845" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="3848" class="Comment">-- term</a>
+
+<a id="3857" class="Comment">{-
+  As in Coq, we can write functions about lists, like our length function,
+  which we define by pattern matching. The syntax for pattern matching in
+  Agda is defining each case on a different line:
+-}</a>
+
+<a id="4063" class="Comment">-- list length</a>
+<a id="length"></a><a id="4078" href="proof-objects.html#4078" class="Function">length</a> <a id="4085" class="Symbol">:</a> <a id="4087" class="Symbol">∀</a> <a id="4089" class="Symbol">{</a><a id="4090" href="proof-objects.html#4090" class="Bound">A</a> <a id="4092" class="Symbol">:</a> <a id="4094" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="4097" class="Symbol">}</a> <a id="4099" class="Symbol">→</a> <a id="4101" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="4106" href="proof-objects.html#4090" class="Bound">A</a> <a id="4108" class="Symbol">→</a> <a id="4110" href="Agda.Builtin.Nat.html#192" class="Datatype">Nat</a> <a id="4114" class="Comment">-- type</a>
+<a id="4122" href="proof-objects.html#4078" class="Function">length</a> <a id="4129" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="4132" class="Symbol">=</a> <a id="4134" class="Number">0</a> <a id="4136" class="Comment">-- term in the empty case</a>
+<a id="4162" href="proof-objects.html#4078" class="Function">length</a> <a id="4169" class="Symbol">(</a><a id="4170" href="proof-objects.html#4170" class="Bound">h</a> <a id="4172" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="4174" href="proof-objects.html#4174" class="Bound">tl</a><a id="4176" class="Symbol">)</a> <a id="4178" class="Symbol">=</a> <a id="4180" href="Agda.Builtin.Nat.html#223" class="InductiveConstructor">suc</a> <a id="4184" class="Symbol">(</a><a id="4185" href="proof-objects.html#4078" class="Function">length</a> <a id="4192" href="proof-objects.html#4174" class="Bound">tl</a><a id="4194" class="Symbol">)</a> <a id="4196" class="Comment">-- term in the cons case</a>
+
+<a id="4222" class="Comment">{-
+  That is, the length of the empty list ([]) is zero (0), and the
+  length any other list (h ∷ tl) is one plus (suc, for &quot;successor&quot;)
+  the length of the tail of the list (length tl).
+
+  NOTE: Thanks to the Agda community&#39;s unicode obsession, you can write
+  the above ∀ by typing \forall, and you can write the above → by typing
+  \r or \-&gt;. But it&#39;s OK to spell them out as forall and -&gt;.
+
+  EXERCISE 1: Write a function that reverses a list.
+  You may use the function app I&#39;ve written for you below,
+  which appends two lists.
+
+  NOTE: The {! !} syntax I&#39;ve written inside of the sketch of rev is a
+  hole─you will want to replace this with your implementation of rev for
+  each case. These holes change color when you compile files, and numbers
+  appear next to them; I explain this a bit more later on.
+
+  NOTE: You can compile this file by running C-c C-l, to just
+  invoke the type checker. To produce an executable file,
+  you can run C-c C-x C-c and specify the GHC backend, but this isn&#39;t necessary
+  to just check the proofs you&#39;ll write in this file. The first time
+  you compile this file, you&#39;ll see a bunch of numbered constrants;
+  these correspond to the holes I&#39;ve left in the file for you to fill.
+-}</a>
+
+<a id="5447" class="Comment">-- list append</a>
+<a id="app"></a><a id="5462" href="proof-objects.html#5462" class="Function">app</a> <a id="5466" class="Symbol">:</a> <a id="5468" class="Symbol">∀</a> <a id="5470" class="Symbol">{</a><a id="5471" href="proof-objects.html#5471" class="Bound">A</a> <a id="5473" class="Symbol">:</a> <a id="5475" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="5478" class="Symbol">}</a> <a id="5480" class="Symbol">→</a> <a id="5482" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="5487" href="proof-objects.html#5471" class="Bound">A</a> <a id="5489" class="Symbol">→</a> <a id="5491" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="5496" href="proof-objects.html#5471" class="Bound">A</a> <a id="5498" class="Symbol">→</a> <a id="5500" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="5505" href="proof-objects.html#5471" class="Bound">A</a> <a id="5507" class="Comment">-- type</a>
+<a id="5515" href="proof-objects.html#5462" class="Function">app</a> <a id="5519" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="5522" href="proof-objects.html#5522" class="Bound">l</a> <a id="5524" class="Symbol">=</a> <a id="5526" href="proof-objects.html#5522" class="Bound">l</a> <a id="5528" class="Comment">-- term in the empty case</a>
+<a id="5554" href="proof-objects.html#5462" class="Function">app</a> <a id="5558" class="Symbol">(</a><a id="5559" href="proof-objects.html#5559" class="Bound">h</a> <a id="5561" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="5563" href="proof-objects.html#5563" class="Bound">tl</a><a id="5565" class="Symbol">)</a> <a id="5567" href="proof-objects.html#5567" class="Bound">l</a> <a id="5569" class="Symbol">=</a> <a id="5571" href="proof-objects.html#5559" class="Bound">h</a> <a id="5573" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="5575" href="proof-objects.html#5462" class="Function">app</a> <a id="5579" href="proof-objects.html#5563" class="Bound">tl</a> <a id="5582" href="proof-objects.html#5567" class="Bound">l</a> <a id="5584" class="Comment">-- term in the cons case </a>
+
+<a id="5611" class="Comment">-- list rev</a>
+<a id="rev"></a><a id="5623" href="proof-objects.html#5623" class="Function">rev</a> <a id="5627" class="Symbol">:</a> <a id="5629" class="Symbol">∀</a> <a id="5631" class="Symbol">{</a><a id="5632" href="proof-objects.html#5632" class="Bound">A</a> <a id="5634" class="Symbol">:</a> <a id="5636" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="5639" class="Symbol">}</a> <a id="5641" class="Symbol">→</a> <a id="5643" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="5648" href="proof-objects.html#5632" class="Bound">A</a> <a id="5650" class="Symbol">→</a> <a id="5652" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="5657" href="proof-objects.html#5632" class="Bound">A</a> <a id="5659" class="Comment">-- type</a>
+<a id="5667" href="proof-objects.html#5623" class="Function">rev</a> <a id="5671" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="5674" class="Symbol">=</a> <a id="5676" class="Hole">{! !}</a> <a id="5682" class="Comment">-- your term in the empty case goes here</a>
+<a id="5723" href="proof-objects.html#5623" class="Function">rev</a> <a id="5727" class="Symbol">(</a><a id="5728" href="proof-objects.html#5728" class="Bound">h</a> <a id="5730" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="5732" href="proof-objects.html#5732" class="Bound">tl</a><a id="5734" class="Symbol">)</a> <a id="5736" class="Symbol">=</a> <a id="5738" class="Hole">{! !}</a> <a id="5744" class="Comment">-- your term in the cons case goes here</a>
+
+<a id="5785" class="Comment">{-
+  Let&#39;s test your rev function.
+  We&#39;re going to check that, on the lists we&#39;ve defined at the top
+  of this file, the result of calling rev gives us the reverse lists.
+
+  To do that, we need a way to state what it means for two things to be
+  equal. Equality in Agda is written ≡, which is typed as \== using the same
+  magic as before, because of the community&#39;s unicode obsession:
+  
+    data _≡_ {a} {A : Set a} (x : A) : A → Set a where
+      refl : x ≡ x
+
+  Equality is an inductive datatype, just like lists. But one thing that&#39;s
+  cool about the equality type is that it&#39;s something called a dependent type.
+  A dependent type is a lot like a polymorphic type, but instead of taking
+  a type argument (like the A in List A), it takes a _term_ argument
+  (like the x in x ≡ x). Dependent types can refer to values!
+  So we can define the type of all terms that prove our lists
+  behave the way we want them to. And then we can write terms that
+  have those types─our proofs.
+
+  There is exactly one constructor for the equality type in Agda:
+  refl, for reflexivity. Two things are equal by reflexivity when they
+  compute to the same result. So if your rev function is correct,
+  these test cases should compile:
+-}</a>
+
+<a id="7013" class="Comment">-- empty-nat doesn&#39;t change</a>
+<a id="rev-empty-nat-empty-nat"></a><a id="7041" href="proof-objects.html#7041" class="Function">rev-empty-nat-empty-nat</a> <a id="7065" class="Symbol">:</a> <a id="7067" href="proof-objects.html#5623" class="Function">rev</a> <a id="7071" href="proof-objects.html#3081" class="Function">empty-nat</a> <a id="7081" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="7083" href="proof-objects.html#3081" class="Function">empty-nat</a>
+<a id="7093" href="proof-objects.html#7041" class="Function">rev-empty-nat-empty-nat</a> <a id="7117" class="Symbol">=</a> <a id="7119" href="Agda.Builtin.Equality.html#208" class="UnsolvedMeta UnsolvedConstraint InductiveConstructor">refl</a>
+
+<a id="7125" class="Comment">-- empty-char doesn&#39;t change</a>
+<a id="rev-empty-char-empty-char"></a><a id="7154" href="proof-objects.html#7154" class="Function">rev-empty-char-empty-char</a> <a id="7180" class="Symbol">:</a> <a id="7182" href="proof-objects.html#5623" class="Function">rev</a> <a id="7186" href="proof-objects.html#3174" class="Function">empty-char</a> <a id="7197" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="7199" href="proof-objects.html#3174" class="Function">empty-char</a>
+<a id="7210" href="proof-objects.html#7154" class="Function">rev-empty-char-empty-char</a> <a id="7236" class="Symbol">=</a> <a id="7238" href="Agda.Builtin.Equality.html#208" class="UnsolvedMeta UnsolvedConstraint InductiveConstructor">refl</a>
+
+<a id="7244" class="Comment">-- [1; 2; 3; 4] becomes [4; 3; 2; 1]</a>
+<a id="rev-1-2-3-4-4-3-2-1"></a><a id="7281" href="proof-objects.html#7281" class="Function">rev-1-2-3-4-4-3-2-1</a> <a id="7301" class="Symbol">:</a> <a id="7303" href="proof-objects.html#5623" class="Function">rev</a> <a id="7307" href="proof-objects.html#3708" class="Function">1-2-3-4</a> <a id="7315" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="7317" class="Number">4</a> <a id="7319" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7321" class="Number">3</a> <a id="7323" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7325" class="Number">2</a> <a id="7327" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7329" class="Number">1</a> <a id="7331" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7333" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a>
+<a id="7336" href="proof-objects.html#7281" class="Function">rev-1-2-3-4-4-3-2-1</a> <a id="7356" class="Symbol">=</a> <a id="7358" href="Agda.Builtin.Equality.html#208" class="UnsolvedMeta UnsolvedConstraint InductiveConstructor">refl</a>
+
+<a id="7364" class="Comment">-- [x; y; z] becomes [z; y; x]</a>
+<a id="rev-x-y-z-z-y-x"></a><a id="7395" href="proof-objects.html#7395" class="Function">rev-x-y-z-z-y-x</a> <a id="7411" class="Symbol">:</a> <a id="7413" href="proof-objects.html#5623" class="Function">rev</a> <a id="7417" href="proof-objects.html#3793" class="Function">x-y-z</a> <a id="7423" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="7425" class="String">&#39;z&#39;</a> <a id="7429" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7431" class="String">&#39;y&#39;</a> <a id="7435" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7437" class="String">&#39;x&#39;</a> <a id="7441" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="7443" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a>
+<a id="7446" href="proof-objects.html#7395" class="Function">rev-x-y-z-z-y-x</a> <a id="7462" class="Symbol">=</a> <a id="7464" href="Agda.Builtin.Equality.html#208" class="UnsolvedMeta UnsolvedConstraint InductiveConstructor">refl</a>
+
+<a id="7470" class="Comment">{-
+  These test cases are actually proofs! Even though they all hold
+  by computation (reflexivity), they are terms, just like the lists
+  we refer to inside of them. Their types are the theorems that they prove.
+  
+  That&#39;s the beauty of Curry-Howard; our terms here are proof objects
+  that prove the theorems stated by the types they inhabit.
+  These programs are proofs!
+
+  So now it&#39;s your turn to test my length function and, in the process,
+  write some proofs yourself.
+
+  EXERCISE 2: Prove that 1-2-3-4 and x-y-z have the right lengths.
+  As before, you&#39;ll want to replace each hole {! !} with your own code.
+  This time, I want you to define both the types and the terms.
+-}</a>
+
+<a id="8156" class="Comment">-- 1-2-3-4 has the right length</a>
+<a id="length-1-2-3-4-OK"></a><a id="8188" href="proof-objects.html#8188" class="Function">length-1-2-3-4-OK</a> <a id="8206" class="Symbol">:</a> <a id="8208" class="UnsolvedMeta Hole">{! !}</a>
+<a id="8214" href="proof-objects.html#8188" class="Function">length-1-2-3-4-OK</a> <a id="8232" class="Symbol">=</a> <a id="8234" class="Hole">{! !}</a>
+
+<a id="8241" class="Comment">-- x-y-z has the right length</a>
+<a id="length-x-y-z-OK"></a><a id="8271" href="proof-objects.html#8271" class="Function">length-x-y-z-OK</a> <a id="8287" class="Symbol">:</a> <a id="8289" class="UnsolvedMeta Hole">{! !}</a>
+<a id="8295" href="proof-objects.html#8271" class="Function">length-x-y-z-OK</a> <a id="8311" class="Symbol">=</a> <a id="8313" class="Hole">{! !}</a>
+
+<a id="8320" class="Comment">{-
+  Those proofs are very small proofs that hold by computation.
+  There are also some cooler proofs we can prove by computation,
+  like that appending the empty list to the left of any list
+  gives us back that list:
+-}</a>
+
+<a id="8543" class="Comment">-- left identity of nil for append</a>
+<a id="app-nil-l"></a><a id="8578" href="proof-objects.html#8578" class="Function">app-nil-l</a> <a id="8588" class="Symbol">:</a> <a id="8590" class="Symbol">∀</a> <a id="8592" class="Symbol">{</a><a id="8593" href="proof-objects.html#8593" class="Bound">A</a> <a id="8595" class="Symbol">:</a> <a id="8597" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="8600" class="Symbol">}</a> <a id="8602" class="Symbol">→</a> <a id="8604" class="Symbol">(</a><a id="8605" href="proof-objects.html#8605" class="Bound">l</a> <a id="8607" class="Symbol">:</a> <a id="8609" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="8614" href="proof-objects.html#8593" class="Bound">A</a><a id="8615" class="Symbol">)</a> <a id="8617" class="Symbol">→</a> <a id="8619" href="proof-objects.html#5462" class="Function">app</a> <a id="8623" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="8626" href="proof-objects.html#8605" class="Bound">l</a> <a id="8628" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="8630" href="proof-objects.html#8605" class="Bound">l</a> <a id="8632" class="Comment">-- type or theorem</a>
+<a id="8651" href="proof-objects.html#8578" class="Function">app-nil-l</a> <a id="8661" href="proof-objects.html#8661" class="Bound">l</a> <a id="8663" class="Symbol">=</a> <a id="8665" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="8670" class="Comment">-- term or proof</a>
+
+<a id="8688" class="Comment">{-
+  But sometimes we need to get fancier! For example, if we simply swap
+  the [] and l in the type definition above above, to define app-nil-r,
+  this will no longer hold by reflexivity, since app is defined by
+  matching over the first list, not the second. Because of this,
+  when you put the empty list as the first argument, Agda can reduce it;
+  when you put it as the second argument instead, Agda cannot reduce it.
+  
+  If we try to prove app-nil-r by reflexivity, we&#39;ll get a scary looking
+  type error, like this:
+
+    app l [] != l of type List A
+    when checking that the expression refl has type app l [] ≡ l
+
+  But here&#39;s the thing─the equality is still true!
+  It&#39;s just not true by computation. We have to prove it differently.
+  Agda needs our help figuring this out.
+
+  So let&#39;s help Agda. We&#39;re going to need to write some fancier proofs
+  about equality. But how do we do that if there&#39;s just one constructor
+  for equality─refl? Well, there are two things we can do with inductive
+  datatypes: we can construct them, and we can pattern match over their cases
+  (the latter is also called destructing them or, for reasons you&#39;ll see later,
+  in specific contexts, inducting over them).
+  
+  Since equality is defined as an inductive type, we can pattern match
+  over it just like we do over lists. When we do, there will be just one
+  case─refl. But that actually turns out to give us a lot of power to
+  prove some cool things about equality. So let&#39;s do that.
+
+  Our first lemma is congruence, which comes from the standard library,
+  and states that function application preserves equality:
+-}</a>
+
+<a id="10308" class="Comment">-- congruence</a>
+<a id="cong"></a><a id="10322" href="proof-objects.html#10322" class="Function">cong</a> <a id="10327" class="Symbol">:</a> <a id="10329" class="Symbol">∀</a> <a id="10331" class="Symbol">{</a><a id="10332" href="proof-objects.html#10332" class="Bound">A</a> <a id="10334" href="proof-objects.html#10334" class="Bound">B</a> <a id="10336" class="Symbol">:</a> <a id="10338" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="10341" class="Symbol">}</a> <a id="10343" class="Symbol">(</a><a id="10344" href="proof-objects.html#10344" class="Bound">f</a> <a id="10346" class="Symbol">:</a> <a id="10348" href="proof-objects.html#10332" class="Bound">A</a> <a id="10350" class="Symbol">→</a> <a id="10352" href="proof-objects.html#10334" class="Bound">B</a><a id="10353" class="Symbol">)</a> <a id="10355" class="Symbol">{</a><a id="10356" href="proof-objects.html#10356" class="Bound">x</a> <a id="10358" href="proof-objects.html#10358" class="Bound">y</a> <a id="10360" class="Symbol">:</a> <a id="10362" href="proof-objects.html#10332" class="Bound">A</a><a id="10363" class="Symbol">}</a> <a id="10365" class="Symbol">→</a> <a id="10367" href="proof-objects.html#10356" class="Bound">x</a> <a id="10369" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="10371" href="proof-objects.html#10358" class="Bound">y</a> <a id="10373" class="Symbol">→</a> <a id="10375" href="proof-objects.html#10344" class="Bound">f</a> <a id="10377" href="proof-objects.html#10356" class="Bound">x</a> <a id="10379" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="10381" href="proof-objects.html#10344" class="Bound">f</a> <a id="10383" href="proof-objects.html#10358" class="Bound">y</a> <a id="10385" class="Comment">-- the lemma</a>
+<a id="10398" href="proof-objects.html#10322" class="Function">cong</a> <a id="10403" href="proof-objects.html#10403" class="Bound">f</a> <a id="10405" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="10410" class="Symbol">=</a> <a id="10412" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="10417" class="Comment">-- the proof</a>
+
+<a id="10431" class="Comment">{-
+  In other words, this matches over the input argument of type x ≡ y.
+  Since equality has just one case, pattern matching breaks this into
+  just one case, which is when that equality is refl.
+  When that equality is refl, then we have x ≡ x.
+  Thus, we are trying to show f x ≡ f x, which also holds by refl,
+  since these terms are the same.
+
+  One thing to note here is that it can be super hard to track this information
+  in your head. In Agda, you can create holes in your functions
+  by typing {! !}, much like I&#39;ve done for you throughout. So you could write:
+
+    cong f refl = {! !}
+
+  If you compile that with C-c C-l, it&#39;ll change colors and there
+  will be a 0 next to it, indicating that it&#39;s the 0th goal. In the AgdaInfo
+  buffer, you&#39;ll see the goal that you need to satisfy for that hole:
+
+    ?0 : f x ≡ f x
+
+  This goal is the type you&#39;re trying to inhabit. From there,
+  you can figure out that refl has that type, without having to track
+  so much information in your head about what Agda is doing.
+
+  With this, we should be able to prove app-nil-r:
+-}</a>
+
+<a id="11512" class="Comment">-- right identity of nil for append</a>
+<a id="app-nil-r"></a><a id="11548" href="proof-objects.html#11548" class="Function">app-nil-r</a> <a id="11558" class="Symbol">:</a> <a id="11560" class="Symbol">∀</a> <a id="11562" class="Symbol">{</a><a id="11563" href="proof-objects.html#11563" class="Bound">A</a> <a id="11565" class="Symbol">:</a> <a id="11567" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="11570" class="Symbol">}</a> <a id="11572" class="Symbol">→</a> <a id="11574" class="Symbol">(</a><a id="11575" href="proof-objects.html#11575" class="Bound">l</a> <a id="11577" class="Symbol">:</a> <a id="11579" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="11584" href="proof-objects.html#11563" class="Bound">A</a><a id="11585" class="Symbol">)</a> <a id="11587" class="Symbol">→</a> <a id="11589" href="proof-objects.html#5462" class="Function">app</a> <a id="11593" href="proof-objects.html#11575" class="Bound">l</a> <a id="11595" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="11598" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="11600" href="proof-objects.html#11575" class="Bound">l</a>
+<a id="11602" href="proof-objects.html#11548" class="Function">app-nil-r</a> <a id="11612" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="11615" class="Symbol">=</a> <a id="11617" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a>
+<a id="11622" href="proof-objects.html#11548" class="Function">app-nil-r</a> <a id="11632" class="Symbol">(</a><a id="11633" href="proof-objects.html#11633" class="Bound">h</a> <a id="11635" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="11637" href="proof-objects.html#11637" class="Bound">tl</a><a id="11639" class="Symbol">)</a> <a id="11641" class="Symbol">=</a> <a id="11643" href="proof-objects.html#10322" class="Function">cong</a> <a id="11648" class="Symbol">(λ</a> <a id="11651" href="proof-objects.html#11651" class="Bound">l′</a> <a id="11654" class="Symbol">→</a> <a id="11656" href="proof-objects.html#11633" class="Bound">h</a> <a id="11658" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="11660" href="proof-objects.html#11651" class="Bound">l′</a><a id="11662" class="Symbol">)</a> <a id="11664" class="Symbol">(</a><a id="11665" href="proof-objects.html#11548" class="Function">app-nil-r</a> <a id="11675" href="proof-objects.html#11637" class="Bound">tl</a><a id="11677" class="Symbol">)</a>
+
+<a id="11680" class="Comment">{-
+  EXERCISE 3: Prove the lemma sym, which states that equality is symmetric.
+  I have inserted a hole into this lemma, denoted {! !}, which may
+  already look green if you&#39;ve compiled this file. You can use the
+  workflow described above to figure out the type you&#39;re trying to inhabit.
+-}</a>
+
+<a id="11973" class="Comment">-- symmetry of equality</a>
+<a id="sym"></a><a id="11997" href="proof-objects.html#11997" class="Function">sym</a> <a id="12001" class="Symbol">:</a> <a id="12003" class="Symbol">∀</a> <a id="12005" class="Symbol">{</a><a id="12006" href="proof-objects.html#12006" class="Bound">A</a> <a id="12008" class="Symbol">:</a> <a id="12010" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="12013" class="Symbol">}</a> <a id="12015" class="Symbol">{</a><a id="12016" href="proof-objects.html#12016" class="Bound">x</a> <a id="12018" href="proof-objects.html#12018" class="Bound">y</a> <a id="12020" class="Symbol">:</a> <a id="12022" href="proof-objects.html#12006" class="Bound">A</a><a id="12023" class="Symbol">}</a> <a id="12025" class="Symbol">→</a> <a id="12027" href="proof-objects.html#12016" class="Bound">x</a> <a id="12029" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="12031" href="proof-objects.html#12018" class="Bound">y</a> <a id="12033" class="Symbol">→</a> <a id="12035" href="proof-objects.html#12018" class="Bound">y</a> <a id="12037" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="12039" href="proof-objects.html#12016" class="Bound">x</a>
+<a id="12041" href="proof-objects.html#11997" class="Function">sym</a> <a id="12045" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="12050" class="Symbol">=</a> <a id="12052" class="Hole">{! !}</a>
+
+<a id="12059" class="Comment">{-
+  EXERCISE 4: Prove that l ≡ app l [], using symmetry. I have inserted
+  a hole into this lemma where you will need to figure out a term.
+-}</a>
+
+<a id="12204" class="Comment">-- symmetric right identity of nil for append</a>
+<a id="app-nil-r-sym"></a><a id="12250" href="proof-objects.html#12250" class="Function">app-nil-r-sym</a> <a id="12264" class="Symbol">:</a> <a id="12266" class="Symbol">∀</a> <a id="12268" class="Symbol">{</a><a id="12269" href="proof-objects.html#12269" class="Bound">A</a> <a id="12271" class="Symbol">:</a> <a id="12273" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="12276" class="Symbol">}</a> <a id="12278" class="Symbol">→</a> <a id="12280" class="Symbol">(</a><a id="12281" href="proof-objects.html#12281" class="Bound">l</a> <a id="12283" class="Symbol">:</a> <a id="12285" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="12290" href="proof-objects.html#12269" class="Bound">A</a><a id="12291" class="Symbol">)</a> <a id="12293" class="Symbol">→</a> <a id="12295" href="proof-objects.html#12281" class="Bound">l</a> <a id="12297" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="12299" href="proof-objects.html#5462" class="Function">app</a> <a id="12303" href="proof-objects.html#12281" class="Bound">l</a> <a id="12305" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a>
+<a id="12308" href="proof-objects.html#12250" class="Function">app-nil-r-sym</a> <a id="12322" href="proof-objects.html#12322" class="Bound">l</a> <a id="12324" class="Symbol">=</a> <a id="12326" href="proof-objects.html#11997" class="Function">sym</a> <a id="12330" class="Hole">{! !}</a>
+
+<a id="12337" class="Comment">{-
+  EXERCISE 5: Prove the lemma trans, which states that equality
+  is transitive. I have inserted a hole into this lemma as well.
+-}</a>
+
+<a id="12473" class="Comment">-- transitivity of equality</a>
+<a id="trans"></a><a id="12501" href="proof-objects.html#12501" class="Function">trans</a> <a id="12507" class="Symbol">:</a> <a id="12509" class="Symbol">∀</a> <a id="12511" class="Symbol">{</a><a id="12512" href="proof-objects.html#12512" class="Bound">A</a> <a id="12514" class="Symbol">:</a> <a id="12516" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="12519" class="Symbol">}</a> <a id="12521" class="Symbol">{</a><a id="12522" href="proof-objects.html#12522" class="Bound">x</a> <a id="12524" href="proof-objects.html#12524" class="Bound">y</a> <a id="12526" href="proof-objects.html#12526" class="Bound">z</a> <a id="12528" class="Symbol">:</a> <a id="12530" href="proof-objects.html#12512" class="Bound">A</a><a id="12531" class="Symbol">}</a> <a id="12533" class="Symbol">→</a> <a id="12535" href="proof-objects.html#12522" class="Bound">x</a> <a id="12537" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="12539" href="proof-objects.html#12524" class="Bound">y</a> <a id="12541" class="Symbol">→</a> <a id="12543" href="proof-objects.html#12524" class="Bound">y</a> <a id="12545" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="12547" href="proof-objects.html#12526" class="Bound">z</a> <a id="12549" class="Symbol">→</a> <a id="12551" href="proof-objects.html#12522" class="Bound">x</a> <a id="12553" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="12555" href="proof-objects.html#12526" class="Bound">z</a>
+<a id="12557" href="proof-objects.html#12501" class="Function">trans</a> <a id="12563" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="12568" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="12573" class="Symbol">=</a> <a id="12575" class="Hole">{! !}</a>
+
+<a id="12582" class="Comment">{-
+  Equalities like this that we have to prove by pattern matching over
+  the equality type are what we called propositional equalities
+  in QED at Large. This is in contrast with definitional equalities,
+  which hold by computation.
+
+  For example, app [] l and l are definitionally equal, since Agda
+  reduces both of them to the same term. But app l [] and l are not
+  definitionally equal, as we saw earlier, since app is defined by
+  pattern matching over the first term rather than the second.
+  They are only propositionally─provably, that is─equal.
+
+  In Agda, Coq, and Lean, two things that are definitionally equal are
+  necessarily propositionally equal, but the reverse is not necessarily true.
+  This is why we can&#39;t prove app-nil-r by reflexivity.
+
+  This is important to pay attention to─in many of these languages, it is
+  really standard for your proofs to mirror the structure of
+  the programs they are about. There is a deep type theoretical
+  reason that this is true.
+
+  ASIDE: Definitional equality is─for many proof assistants we care about in
+  this class─a decidable judgment that follows from a few reduction rules,
+  like unfolding some constants (δ-expansion), applying functions to
+  arguments (Β-reduction, which is sometimes called ι-reduction for
+  inductive datatypes), renaming (α-conversion), and more.
+
+  These may sound familiar if you&#39;re familiar with the λ-calculus,
+  a simple functional programming language that is often used as an example
+  in programming languages courses. The proof assistants Agda, Coq, and Lean
+  all build on extensions of the λ-calculus with not just simple types,
+  but also polymorphism (like how list takes a type argument A), dependent
+  types (like how ≡ takes a term argument x), and inductive types (like
+  how both the list and ≡ datatypes are defined by defining all ways to
+  construct them).
+  
+  But if you haven&#39;t heard of these, that&#39;s OK. I super recommend reading this
+  chapter of Certified Programming with Dependent Types by Adam Chlipala:
+  http://adam.chlipala.net/cpdt/html/Equality.html. If you&#39;d like more
+  information, that will really help─though it&#39;s in Coq. I hope to
+  show you some automation that steps through equalities like this next week.
+
+  BACK TO BUSINESS: It can be kind of annoying to keep pattern matching
+  over equality, which is why the lemmas above─also defined in the standard
+  library─can be really useful.
+
+  An especially useful lemma about equality is substitution,
+  which is also found inside of the standard library:
+-}</a>
+
+<a id="15126" class="Comment">-- substitution</a>
+<a id="subst"></a><a id="15142" href="proof-objects.html#15142" class="Function">subst</a> <a id="15148" class="Symbol">:</a> <a id="15150" class="Symbol">∀</a> <a id="15152" class="Symbol">{</a><a id="15153" href="proof-objects.html#15153" class="Bound">A</a> <a id="15155" class="Symbol">:</a> <a id="15157" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="15160" class="Symbol">}</a> <a id="15162" class="Symbol">{</a><a id="15163" href="proof-objects.html#15163" class="Bound">x</a> <a id="15165" href="proof-objects.html#15165" class="Bound">y</a> <a id="15167" class="Symbol">:</a> <a id="15169" href="proof-objects.html#15153" class="Bound">A</a><a id="15170" class="Symbol">}</a> <a id="15172" class="Symbol">(</a><a id="15173" href="proof-objects.html#15173" class="Bound">P</a> <a id="15175" class="Symbol">:</a> <a id="15177" href="proof-objects.html#15153" class="Bound">A</a> <a id="15179" class="Symbol">→</a> <a id="15181" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="15184" class="Symbol">)</a> <a id="15186" class="Symbol">→</a> <a id="15188" href="proof-objects.html#15163" class="Bound">x</a> <a id="15190" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="15192" href="proof-objects.html#15165" class="Bound">y</a> <a id="15194" class="Symbol">→</a> <a id="15196" href="proof-objects.html#15173" class="Bound">P</a> <a id="15198" href="proof-objects.html#15163" class="Bound">x</a> <a id="15200" class="Symbol">→</a> <a id="15202" href="proof-objects.html#15173" class="Bound">P</a> <a id="15204" href="proof-objects.html#15165" class="Bound">y</a>
+<a id="15206" href="proof-objects.html#15142" class="Function">subst</a> <a id="15212" href="proof-objects.html#15212" class="Bound">P</a> <a id="15214" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a> <a id="15219" href="proof-objects.html#15219" class="Bound">px</a> <a id="15222" class="Symbol">=</a> <a id="15224" href="proof-objects.html#15219" class="Bound">px</a>
+
+<a id="15228" class="Comment">{-
+  This states that for any property P, if x ≡ y, and we have a proof
+  that P x holds, we can substitute y for x inside of that to show
+  that P y holds. This is really powerful, but a little hard to use,
+  because you have to figure out what P is. For example, here is a proof
+  of app-nil-r using subst instead of cong:
+-}</a>
+
+<a id="15557" class="Comment">-- right identity of nil for append, proven by substitution instead</a>
+<a id="app-nil-r′"></a><a id="15625" href="proof-objects.html#15625" class="Function">app-nil-r′</a> <a id="15636" class="Symbol">:</a> <a id="15638" class="Symbol">∀</a> <a id="15640" class="Symbol">{</a><a id="15641" href="proof-objects.html#15641" class="Bound">A</a> <a id="15643" class="Symbol">:</a> <a id="15645" href="Agda.Primitive.html#326" class="Primitive">Set</a><a id="15648" class="Symbol">}</a> <a id="15650" class="Symbol">→</a> <a id="15652" class="Symbol">(</a><a id="15653" href="proof-objects.html#15653" class="Bound">l</a> <a id="15655" class="Symbol">:</a> <a id="15657" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="15662" href="proof-objects.html#15641" class="Bound">A</a><a id="15663" class="Symbol">)</a> <a id="15665" class="Symbol">→</a> <a id="15667" href="proof-objects.html#5462" class="Function">app</a> <a id="15671" href="proof-objects.html#15653" class="Bound">l</a> <a id="15673" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="15676" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="15678" href="proof-objects.html#15653" class="Bound">l</a>
+<a id="15680" href="proof-objects.html#15625" class="Function">app-nil-r′</a> <a id="15691" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="15694" class="Symbol">=</a> <a id="15696" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a>
+<a id="15701" href="proof-objects.html#15625" class="Function">app-nil-r′</a> <a id="15712" class="Symbol">(</a><a id="15713" href="proof-objects.html#15713" class="Bound">h</a> <a id="15715" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="15717" href="proof-objects.html#15717" class="Bound">tl</a><a id="15719" class="Symbol">)</a> <a id="15721" class="Symbol">=</a> <a id="15723" href="proof-objects.html#15142" class="Function">subst</a> <a id="15729" class="Symbol">(λ</a> <a id="15732" href="proof-objects.html#15732" class="Bound">l′</a> <a id="15735" class="Symbol">→</a> <a id="15737" href="proof-objects.html#15713" class="Bound">h</a> <a id="15739" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="15741" href="proof-objects.html#15732" class="Bound">l′</a> <a id="15744" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="15746" href="proof-objects.html#15713" class="Bound">h</a> <a id="15748" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="15750" href="proof-objects.html#15717" class="Bound">tl</a><a id="15752" class="Symbol">)</a> <a id="15754" class="Symbol">(</a><a id="15755" href="proof-objects.html#11997" class="Function">sym</a> <a id="15759" class="Symbol">(</a><a id="15760" href="proof-objects.html#15625" class="Function">app-nil-r′</a> <a id="15771" href="proof-objects.html#15717" class="Bound">tl</a><a id="15773" class="Symbol">))</a> <a id="15776" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a>
+
+<a id="15782" class="Comment">{-
+  Your turn to try. You can use cong or subst here─whatever you find
+  more convenient.
+
+  EXERCISE 6: Finish the proof of length-succ-r.
+-}</a>
+<a id="length-succ-r"></a><a id="15926" href="proof-objects.html#15926" class="Function">length-succ-r</a> <a id="15940" class="Symbol">:</a>
+  <a id="15944" class="Symbol">∀</a> <a id="15946" class="Symbol">{</a><a id="15947" href="proof-objects.html#15947" class="Bound">A</a><a id="15948" class="Symbol">}</a> <a id="15950" class="Symbol">→</a> <a id="15952" class="Symbol">(</a><a id="15953" href="proof-objects.html#15953" class="Bound">l</a> <a id="15955" class="Symbol">:</a> <a id="15957" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="15962" href="proof-objects.html#15947" class="Bound">A</a><a id="15963" class="Symbol">)</a> <a id="15965" class="Symbol">→</a> <a id="15967" class="Symbol">(</a><a id="15968" href="proof-objects.html#15968" class="Bound">a</a> <a id="15970" class="Symbol">:</a> <a id="15972" href="proof-objects.html#15947" class="Bound">A</a><a id="15973" class="Symbol">)</a> <a id="15975" class="Symbol">→</a> <a id="15977" href="proof-objects.html#4078" class="Function">length</a> <a id="15984" class="Symbol">(</a><a id="15985" href="proof-objects.html#5462" class="Function">app</a> <a id="15989" href="proof-objects.html#15953" class="Bound">l</a> <a id="15991" class="Symbol">(</a><a id="15992" href="proof-objects.html#15968" class="Bound">a</a> <a id="15994" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="15996" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a><a id="15998" class="Symbol">))</a> <a id="16001" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="16003" href="Agda.Builtin.Nat.html#223" class="InductiveConstructor">suc</a> <a id="16007" class="Symbol">(</a><a id="16008" href="proof-objects.html#4078" class="Function">length</a> <a id="16015" href="proof-objects.html#15953" class="Bound">l</a><a id="16016" class="Symbol">)</a>
+<a id="16018" href="proof-objects.html#15926" class="Function">length-succ-r</a> <a id="16032" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="16035" href="proof-objects.html#16035" class="Bound">a</a> <a id="16037" class="Symbol">=</a> <a id="16039" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a>  <a id="16045" class="Comment">-- base case</a>
+<a id="16058" href="proof-objects.html#15926" class="Function">length-succ-r</a> <a id="16072" class="Symbol">{</a><a id="16073" href="proof-objects.html#16073" class="Bound">A</a><a id="16074" class="Symbol">}</a> <a id="16076" class="Symbol">(</a><a id="16077" href="proof-objects.html#16077" class="Bound">h</a> <a id="16079" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="16081" href="proof-objects.html#16081" class="Bound">tl</a><a id="16083" class="Symbol">)</a> <a id="16085" href="proof-objects.html#16085" class="Bound">a</a> <a id="16087" class="Symbol">=</a> <a id="16089" class="Comment">-- inductive case</a>
+  <a id="16109" class="Hole">{! !}</a>
+
+<a id="16116" class="Comment">{-
+  EXERCISE 7: Show that the reverse function that you wrote preserves
+  the length of the input list. You may use length-succ-r, and any of the
+  equality lemmas we&#39;ve defined so far like trans, subst, sym, and
+  cong. (You probably won&#39;t need all of them.)
+-}</a>
+<a id="rev-pres-length"></a><a id="16380" href="proof-objects.html#16380" class="Function">rev-pres-length</a> <a id="16396" class="Symbol">:</a> <a id="16398" class="Symbol">∀</a> <a id="16400" class="Symbol">{</a><a id="16401" href="proof-objects.html#16401" class="Bound">A</a><a id="16402" class="Symbol">}</a> <a id="16404" class="Symbol">→</a> <a id="16406" class="Symbol">(</a><a id="16407" href="proof-objects.html#16407" class="Bound">l</a> <a id="16409" class="Symbol">:</a> <a id="16411" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="16416" href="proof-objects.html#16401" class="Bound">A</a><a id="16417" class="Symbol">)</a> <a id="16419" class="Symbol">→</a> <a id="16421" href="proof-objects.html#4078" class="Function">length</a> <a id="16428" class="Symbol">(</a><a id="16429" href="proof-objects.html#5623" class="Function">rev</a> <a id="16433" href="proof-objects.html#16407" class="Bound">l</a><a id="16434" class="Symbol">)</a> <a id="16436" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="16438" href="proof-objects.html#4078" class="Function">length</a> <a id="16445" href="proof-objects.html#16407" class="Bound">l</a>
+<a id="16447" href="proof-objects.html#16380" class="Function">rev-pres-length</a> <a id="16463" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="16466" class="Symbol">=</a> <a id="16468" class="Hole">{! !}</a>
+<a id="16474" href="proof-objects.html#16380" class="Function">rev-pres-length</a> <a id="16490" class="Symbol">(</a><a id="16491" href="proof-objects.html#16491" class="Bound">h</a> <a id="16493" href="Agda.Builtin.List.html#200" class="InductiveConstructor Operator">∷</a> <a id="16495" href="proof-objects.html#16495" class="Bound">tl</a><a id="16497" class="Symbol">)</a> <a id="16499" class="Symbol">=</a> <a id="16501" class="Hole">{! !}</a>
+
+<a id="16508" class="Comment">{-
+  That&#39;s it for now! You can keep playing with other proofs if you have
+  extra time. If you have a lot of extra time, I recommend looking at the
+  Agda source code on Github to get a sense for how it&#39;s implemented:
+  https://github.com/agda/agda. In any case, when we have 25 minutes
+  left of class, please do this:
+
+    1. Turn to your group and discuss the question below.
+    2. Post your answer─just one answer for your group, clearly indicating
+       all members of the group. (If you are not here, and are working alone,
+       you can post your answer alone.)
+    3. With 10 minutes left, finish posting your answer, so we can discuss
+       a bit as a class.
+
+  You&#39;ll be graded based on whether you post an answer, not based on
+  what it is, so don&#39;t worry too much about saying something silly.
+
+  DISCUSSION QUESTION: What was it like constructing these proofs directly,
+  as terms in a programming language? What did you find challenging about
+  this experience, if anything? What did you find helpful, if anything? Did
+  you get stuck at any point, and if so, where and why? Where do you wish
+  you&#39;d had more automation to help you out?
+-}</a>
+
+</pre></body></html>

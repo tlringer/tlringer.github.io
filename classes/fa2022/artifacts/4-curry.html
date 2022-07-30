@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 4: Curry-Howard</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 4: Curry-Howard</h1>
+					<p>Artifact 1</p>
+					<p>Proof Objects in Agda</p>
+ 					<p>Week 2, Day 2</p>
+ 					<p>Due By: September 1st, 2022 at 12:30 PM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#install" class="goto-next scrolly">Getting Started</a></li>
+						<li><a href="#hack" class="goto-next scrolly">Let's Hack!</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="install" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Getting Started</h2>
+						</header>
+						<section class="align-left">
+						 <p>For this class, we are going to take a look at <b>proof objects</b> by way of <a href="./1/html/proof-objects.html">an exercise</a> in <a href="https://wiki.portal.chalmers.se/agda/pmwiki.php"><b>Agda</b></a>. Agda is a great proof assistant for looking at proof objects because it's deliberately <b>minimalistic</b> when it comes to automation.</p>
+						 
+						 <p>It is because of this minimalism that, to write proofs in Agda, you really have to understand how proof objects work. And in my experience, <b>having a strong grasp of proof objects makes it much easier to build proof automation of all kinds</b>---from the traditional proof automation we'll see next week, all the way to the neural networks we'll see in later classes. This is why we're starting in Agda and building up from there.</p>
+						 
+						 <p>Installation can be finicky, so please install the artifact <b>before class</b> using the instructions below. If you have any trouble, please post your questions in <a href="https://campuswire.com/c/G943212C3/feed/7">this thread</a>. You can also drop any installation tips you have in that thread.</p>
+						 
+						 <h3>Installation Instructions</h3>
+						 
+						 
+						  <ol>
+						    <li>Install <b>Agda from source</b> using cabal or stack by following <a href="https://agda.readthedocs.io/en/latest/getting-started/installation.html#installation-from-source">these instructions</a>. This took me 20 minutes on Ubuntu, with most of that time waiting for Agda 2.6.2.1 to compile.</li>
+						    <li>Set up <b>agda-mode for Emacs</b> using <a href="https://agda.readthedocs.io/en/latest/getting-started/installation.html#running-the-agda-mode-program">these instructions</a> on the same page. This took me a few seconds on Ubuntu, after I resolved some path issues by <a href="https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/">creating symlinks</a> to the agda and agda-mode binaries from /usr/bin.</li>
+						    <li>You are now done setting up Agda. <b>You do not need the standard library for this artifact.</b> (You can install it if you want, but we won't be using it.)</li>
+						    <li>To test your Agda setup, download <a href="./1/hello-world.agda">this copy</a> of the <b>hello world</b> file from the instructions.</li>
+						    <li>Next, <b>compile the hello world file in Emacs</b> using <a href="https://agda.readthedocs.io/en/latest/getting-started/hello-world.html#id1">these instructions</a>. The first time you do this, you will be asked for a backend---type GHC and press enter.</li>
+						    <li>Next, <b>run the resulting compiled hello-world file</b> (without the .agda extension). This should print "Hello world!"</li>
+						    <li>Download <a href="./1/proof-objects.agda"><b>this file</b></a>---we will hack on this in class! An HTML version is <a href="./1/html/proof-objects.html">here</a> if you'd like to browse it online.</li>
+						    </ol>
+						    
+						    <p>If installation fails, and the class forums are no help, do not panic; we will try to match you with someone in class for whom installation worked. (I've especially heard that folks with the latest Apple computers have had trouble with this in the past, so please let me know if this is you.)</p>
+						    
+						    <p>You can find the <a href="#hack">exercise</a> we will do together in class below.</p>
+
+				        </section>
+					</div>
+					<a href="#hack" class="goto-next scrolly">Let's Hack!</a>
+				</div>
+			</section>
+
+			<section id="hack" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Let's Hack!</h2>
+						</header>
+						<section class="align-left">
+						    <p>During class, we will divide up into groups, pairing up people who already have experience with people who are totally new to this. We will then do the exercise in <a href="./1/proof-objects.agda"><b>this file</b></a>. There is an HTML version of this file <a href="./1/html/proof-objects.html">here</a>, if you'd like to browse it online. You can do this on your own if you cannot make it to class, or let me know if you'd like me to find you a partner or make an exception.</p>
+						    
+						    <p>There is a <b>discussion question</b> at the <b>bottom of the file</b>. This is <b>the only graded part</b>. Please have your group post your answers in <a href="https://campuswire.com/c/G943212C3/feed/9">this thread</a>, following the directions from the file.</p>
+						     
+				        </section>
+					</div>
+					<a href="../readings/3-foundations.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598fa2022.html#schedule">Class Schedule</a> | <a href="../readings/5-impacts.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
