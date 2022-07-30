@@ -3,10 +3,10 @@
  * Artifact 2: Tactics
  * Student Copy
  *
- * READ ME FIRST: This will be the same style as last week. That is, the emphasis is
- * on learning about the experience of using tactics and how they relate to
- * proof objects like you learned about last week. So you are graded for the discussion
- * question at the bottom of this file, and not on your ability to finish the proofs.
+ * READ ME FIRST: As always, the emphasis is on learning, in this case
+ * what it is like to use tactics. So you are graded for the discussion
+ * question at the bottom of this file, and not on your ability to finish
+ * the proofs.
  *
  * At the end of this class (or, if you're not attending in person,
  * sometime before 1230 PM the day of class) you'll post on the forum
