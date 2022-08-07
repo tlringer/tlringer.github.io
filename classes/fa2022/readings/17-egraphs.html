@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<!--
+	Highlights by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Class 17: Congruence & Rewriting</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Header -->
+			<section id="header">
+				<header class="major">
+					<h1>Class 17: Congruence & Rewriting</h1>
+					<p>Reading 11</p>
+					<p>E-graphs for Proofs</p>
+ 					<p>Week 9, Day 1</p>
+ 					<p>Due By: October 18th, 2022 at 10:00 AM</p>
+				</header>
+				<div class="container">
+					<ul class="actions">
+						<li><a href="#reading" class="goto-next scrolly">Reading</a></li>
+						<li><a href="#guide" class="goto-next scrolly">Guide</a></li>
+						<li><a href="#discussion" class="goto-next scrolly">Discussion</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="reading" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading</h2>
+						</header>
+						<section class="align-left">
+						    <p>This class, we will read
+						    <b>Congruence Closure in Intensional Type Theory</b> [<a href="https://arxiv.org/pdf/1701.04391.pdf">PDF</a>] [<a href="https://doi.org/10.1007/978-3-319-40229-1_8">DOI</a>] by Daniel Selsam and Leonardo de Moura. As a short bonus reading, we'll also read the two-pager <b>Congruence Closure in Cubical Type Theory</b> [<a href="https://cs.au.dk/~spitters/Emil.pdf">PDF</a>] by Emil Holm Gjørup and Bas Spitters.</p>
+						    
+						   <p>If you were paying way too much attention to <a href="../readings/15-repair.html">the proof repair reading</a>, you may have seen me allude to these things called <b>e-graphs</b>, and cite these papers. Neither of these papers <i>say the word</i> e-graph, but that's what they're about.</p>
+						   
+						   <p>E-graphs are these super wonderful <b>data structures</b> for managing <b>equality and equivalence information.</b> They are traditionally used inside of constraint solvers and automated theorem provers to implement <b>congruence closure</b>, an efficient algorithm for equational reasoning---but they can also be used to implement <b>rewrite systems</b>.</p>
+						   
+						   <p>Probably the best explanation of e-graphs I've seen comes from the <a href="https://docs.rs/egg/latest/egg/tutorials/_01_background/index.html">documentation for an e-graph library called egg</a>. What the first paper we'll read this week does that is so cool is implement congruence closure with these data structures in a dependent type theory, since traditional solvers and automated theorem provers don't handle dependent types. So basically this paper <b>takes the central insights at the core of many solvers and automated theorem provers, and lifts it into a dependently typed proof assistant</b>. It's quite incredible.</p>
+						    
+						  <p>The result is a <b>really powerful tactic</b> for solving proof goals that follow from series of equations. But as I hinted at in the proof repair paper from before spring break, these have the potential to help with other kinds of automation too---like a much better workflow for <b>proof repair</b> across type equivalences when managing a large project with many different datatypes that change! So one thing I'd love to do is <b><a href="https://taliasplse.wordpress.com/2020/02/02/automating-transport-with-univalent-e-graphs/">build e-graphs into PUMPKIN Pi</a></b>---let me know if you're interested!</p>
+						  
+						  <p>Oh, but there's just one problem. Remember when I said early on that equality is one of the hardest problems in type theory? Well, equality in dependent type theory is <i>hard</i> and <i>controversial</i>, and the first paper we'll read makes <b>a particular assumption about equality</b>. This assumption is not one that, say, Coq makes by default, and it's actually <i>inconsistent</i> with Cubical Agda (and <a href="https://homotopytypetheory.org/">homotopy type theory</a> more generally).</p>
+						  
+						  <p>Enter the second paper---a short two-pager on e-graphs in Cubical Agda. This uses a <b>different notion of equality</b> that comes from cubical type theory (an implementation of homotopy type theory). But it's a short paper and, from what I gather, not yet implemented efficiently. Still, these two papers together offer a balanced view of the design space so far in implementing e-graphs for proof assistants based on dependent type theory.</p>
+	  
+						  <p>You can find a <a href="#guide">reading guide</a> and the <a href="#discussion">discussion questions</a> below.</p>
+						  
+						  <p>Please note that <b>this is due the morning before class</b>, so that we can discuss it in person. And <b>please install the <a href="../artifacts/18-egraphs.html">artifact</a> before Thursday's class</b>.</p>
+				        </section>
+					</div>
+					<a href="#guide" class="goto-next scrolly">Guide</a>
+				</div>
+			</section>
+
+			<section id="guide" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Reading Guide</h2>
+						</header>
+						<section class="align-left">
+						    <p>The first paper is one of my absolute favorites, but it's also extremely heavy. Understanding all of the details requires expertise in both dependent type theory and e-graphs---very few people have both!</p> <!-- Mention thesis and so on -->
+						    
+						    <p>If you are not familiar with e-graphs at all, I think skimming the <a href="https://docs.rs/egg/latest/egg/tutorials/_01_background/index.html">egg documentation</a> I linked to earlier is a good start before diving into this paper. Then, when they say "<b>union-find data structure</b>" in this paper, you can mentally substitute "e-graph."</p> 
+						    
+						    <p>With that in mind, most of this paper deals with the challenges of <b>dependent types</b> as they interact with equality and, by extension, e-graphs. If you (like most people) do not have a lot of background in dependent type theory, it is very normal to get lost when reading some of the details (honestly, I have a lot of background, and I still often get lost). But I would still <b>spend a lot of time on Sections 2 and 3</b> to understand the challenges that dependent types pose, and what this paper does at a high level to solve them.</p>
+						    
+						    <p>Section 4 gets into a lot of the <b>implementation details</b>. These are practically important, but a lot of them are specific to the particular notion of equality chosen by Lean. So I would <b>not get too bogged down by these</b>, unless you find it particularly interesting. Do read it, but don't worry too much about understanding the entire thing. Section 5 backs up nicely to show what it's like in action, and we'll hopefully get a chance to dive in when we look at the artifact, too.</p>
+						    
+						    <p>The second paper---the two-pager on congruence closure in Cubical Agda---is a nice quick follow-up. I think the coolest thing about it is <b>how simple the definition of congruence is</b> using the notion of equality from cubical type theory---<b>path equality</b>. In a sense, to me it feels like <b>path equality is the natural generalization of congruence to dependent types</b>. But, from conversations with Leo de Moura, I've also heard that implementing this <i>efficiently</i> with path equality will be hard, and that the notion of equality that Lean chose really helps with efficiency. Tradeoffs abound!</p>
+						    
+						    <p>In any case (gosh sorry, I get too excited about this topic and can't stop talking), for the second paper, it's good to just get the <b>high-level gist</b> of what using a <b>different notion of equality</b> buys you---but it's cool if you don't totally get that notion of equality.</p>
+						    
+						    <p>Still, if you're <b>super curious about cubical type theory</b> and want to learn more, I strongly recommend <b><a href="https://www.cambridge.org/core/journals/mathematical-structures-in-computer-science/article/cubical-methods-in-homotopy-type-theory-and-univalent-foundations/ECB3FE6B4A0B19AED2D3A2D785C38AF9">these lecture notes</a></b> by Anders Mörtberg.</p>
+					
+				        </section>
+					</div>
+					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
+				</div>
+			</section>
+
+			<section id="discussion" class="main special">
+				<div class="container">
+					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Discussion Questions</h2>
+						</header>
+						<section class="align-left">
+						    <p>Please write a short paragraph as a comment in the class forum thread (coming soon) about any one of the following discussion questions (you need to respond to <b>just one question</b> of your choice to get credit, though you're free to write more if interested):</p> <!-- TODO add thread -->
+						    
+						  <ol>
+						  <li>These two papers together show one situation where the foundations of your proof assistant influence the kind of automation that is possible, and how to implement that automation. <b>Can you think of other kinds of automation strongly influenced by foundational choices like the definition of equality?</b> What and why? What <b>design decisions would you make</b> in implementing a proof assistant to make those kinds of automation easier?</li>
+						  <li>E-graphs in Cubical Agda currently struggle with efficiency to the point of (last I checked) not yet being usable for many practical problems. If tasked with <b>making e-graphs efficient in Cubical Agda</b>, how would you approach the problem? What would you do?</li>
+						  <li>The two notions of equality chosen in these papers are inconsistent with one another, but <i>each of them</i> is consistent with Coq, which makes no commitment to either. Still, by not committing to either, Coq loses both of these implementations of congruence for dependent types---so it still lacks an implementation. Is there any way to <b>implement something like this for Coq</b>, despite Coq lacking the necessary axioms by default? How? What about other proof assistants you've heard of so far?</li>
+						  <li>Machine learning tools sometimes struggle with data <b>equivalent but not identical to</b> those seen in training data. For example, <a href="https://twitter.com/geoffreyirving/status/1418333119145459712">Alpha Go once lost a game because of this</a>. Reasoning about equivalent datatypes and proof states is <i>perhaps even more important</i> to the generalizability of a <b>machine learning tool for proofs</b>. Do you think <b>encoding e-graphs in a machine learning tool for proofs</b> would solve this problem? Why or why not? How would you encode them, if so? And do you think they could help with relations more general than equivalences, too?</li>
+						  <li><b>Are there any other kinds of proof automation where you think e-graphs may be useful?</b> What kinds, and how?</li>
+						  <li>Write a paragraph <b>responding to someone else's comment</b> in the discussion forum.</li>
+						  <li>Write a paragraph about <b>any other single interesting thought, question, or idea that you had</b> in response to the reading.</li>
+						  </ol>
+						 
+						  <p>You may want to look at other people's responses before class in order to shape the discussion. And again remember that you need to answer just one question to get credit, though you are free to answer more if interested.</p>
+						     
+				        </section>
+					</div>
+					<a href="../artifacts/16-repair.html"><< Previous</a> | <a href="https://dependenttyp.es/classes/598fa2022.html#schedule">Class Schedule</a> | <a href="../artifacts/18-egraphs.html">Next >></a>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
