@@ -21,7 +21,7 @@
 				<header class="major">
 					<h1>Class 2: LCF and HOL</h1>
 					<p>Reading 2</p>
-					<p>Coming Soon</p>
+					<p>Blogs and Classics</p>
  					<p>Week 1, Day 2</p>
 				</header>
 				<div class="container">
@@ -41,9 +41,13 @@
 							<h2>Reading</h2>
 						</header>
 						<section class="align-left">
-						    <p>Coming soon!</p>
+						    <p>This class talks about the foundations of the Isabelle/HOL proof assistant and similar proof assistants like HOL Light and HOL4, focusing on ephemeral proof objects (here described as the <b>LCF</b> architecture) and the underlying logic (<b>HOL</b>, a classical higher order logic based on the simply typed predicate calculus). There are three optional readings for the day: <a href="https://lawrencecpaulson.github.io/2022/01/05/LCF.html">a blog post</a> by Larry Paulson about the LCF architecture, a <a href="https://dl.acm.org/doi/10.1145/512760.512773">classic paper</a> about LCF, and a <a href="https://www.cl.cam.ac.uk/archive/mkcg/papers/HolHistory.pdf">later paper</a> by Mike Gordon about the history of HOL and how it was derived from LCF.</p>
+						    
+						    <p>This is the first of two classes exploring the foundations of some particular proof assistants. It looks at Isabelle/HOL, a popular proof assistant with ephemeral proof objects based on HOL. Isabelle itself is a system with a metalogic (logic for encoding logics) that supports reasoning in different logics; Isabelle/HOL instiatates this to HOL in particular).</p>
+						    
+						    <p>Isabelle/HOL like other HOL variants (HOL Light and HOL4, for example) follows in the footsteps of LCF, a very early proof assistant. It keeps fairly closely to the original architecture of LCF. In the blog post, Larry describes the LCF architecture as a sort of alternative approach to the de Bruijn criterion when it comes to ensuring that proofs are correct, but I always view this as an alternative way of satisfying de Bruijn, where proofs can be reconstructed and checked, but where this is not necessary to do for correctness. We will cover this in class.</p>
 						  
-						  <p>You can find a <a href="#guide">reading guide</a> and some <a href="#discussion">discussion questions</a> below.</p>
+						  <p>You can find a <a href="#guide">reading guide</a> and some <a href="#discussion">discussion questions</a> below. Slides will be posted when available.</p> <!-- TODO -->
 				        </section>
 					</div>
 					<a href="#guide" class="goto-next scrolly">Guide</a>
@@ -59,7 +63,13 @@
 						</header>
 						<section class="align-left">
 						    
-						 <p>Coming soon!</p>
+						 <p>Readings this week are optional, but here are a few notes on each of the readings.</p>
+						 
+						 <p>For the blog post by Larry Paulson, I think it's a really interesting take on the <b>tradeoffs</b> between ephemeral proof objects (the LCF architecture) and explicit proof objects (classic de Bruijn criterion). Since we discussed the tradeoffs of these a bit in class, it may be interesting to think about.</p>
+						 
+						 <p>The classic LCF paper and the Mike Gordon paper about the evolution from LCF to HOL go well together. I recommend reading the classic LCF paper in just enough detail to get a sense of how proofs that use the LCF approach are <b>correct by construction</b>, and how automation interacts with that. Then the Mike Gordon paper is good for getting a sense of <b>how LCF evolved into HOL</b>, which is closely related to Isabelle/HOL and uses a similar logic and architecture (albeit without a metalogic that supports multiple different logics like the Isabelle system).</p>
+						 
+						 <p><b>Note:</b> The blog post contains a lot of opinions, and logicians and type theorists are often pretty opinionated about logic and type theory. I think it's important to remember that you can disagree wtih these opinions---we disagree with each other all the time. But it can be quite fun and enlightening to think about the reasons for and implications of holding these opinions. When it comes to foundations, though, there isn't really "right" and "wrong" (assuming some basic guarantees about the logic, like consistency when desirable)---there are only tradeoffs. But these tradeoffs are <i>hugely consequential</i> for what kinds of automation can be implemented, for how they can be implemented, for what can be expressed naturally in the logic, and for how a system ought to be designed, plus a whole lot more. So these conversations can get quite heated! Do not let that deter you from having them :).</p>
 				        </section>
 					</div>
 					<a href="#discussion" class="goto-next scrolly">Discussion Questions</a>
