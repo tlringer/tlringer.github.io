@@ -161,27 +161,35 @@ Qed.
  *)
 Print same_length_lists_1000_reflective.
 
-(* --- TODO --- *)
-
 (*
- * TODO exercise, try to use this to prove bad thing,
- * what happens? Why? What could you prove with this tactic instead?
+ * EXERCISE 5: What happens if you try to use the same tactic
+ * to prove something unprovable? Why? What theorem could you 
+ * prove with this tactic instead?
  *)
 Lemma same_length_bad : Same_Length (nat_to_zero_list 50) (nat_to_one_list 1000).
 Proof.
   (*exact (optionOut (Same_Length (nat_to_zero_list 50) (nat_to_one_list 1000)) (check_same_length (nat_to_zero_list 50) (nat_to_one_list 1000))).*)
 Abort.
 
-(* --- TODO --- *)
+(* --- Part 3: reflective tactics --- *)
 
 (*
- * TODO explain, exercise. proofs below should go through quickly if this is good.
+ * Now you can wrap all of this inside of a cute tactic, which
+ * we'll call prove_same_length. You again may wish to refer to
+ * the demo from Tuesday for this.
+ *
+ * EXERCISE 6: Implement the tactic prove_same_length, which
+ * should prove the below proofs efficiently if the tactic
+ * is correct.
  *)
 Ltac prove_same_length :=
   match goal with
   | [ |- Same_Length ?l1 ?l2] => exact (optionOut (Same_Length l1 l2) (check_same_length l1 l2))
   end.
 
+(*
+ * These should all go through efficiently now:
+ *)
 Lemma same_length_lists_50_ltac:
   Same_Length (nat_to_zero_list 50) (nat_to_one_list 50).
 Proof.
@@ -200,14 +208,41 @@ Proof.
   prove_same_length.
 Qed.
 
-(* --- TODO --- *)
+(* --- Part 4: proving your automation correct --- *)
+
+(*
+ * EXERCISE 7: Prove check_same_length_OK below, which shows
+ * that your check_same_length decision procedure returns
+ * some proof that two lists are the same length if and only if
+ * they're actually the same length.
+ *
+ * It will probably help a lot to look at the proof from the
+ * demo in class. Tactics I found helpful (YMMV):
+ *   `intros` (introduction)
+ *   `split` (split P <-> Q into P -> Q and Q -> P)
+ *   `induction` (note that you can induct not just over lists,
+ *                but also over all proofs of Same_Length l1 l2
+ *                for any two lists l1 and l2, and this may be
+ *                easier for this proof)
+ *   `econstructor` (apply some constructor, but choose it for me)
+ *   `reflexivity`
+ *   `eauto` (like auto, but also infer some arguments I don't
+ *            feel like figuring out myself)
+ *   `destruct` (like induction, but don't bother defining an
+ *               inductive hypothesis)
+ *   `unfold` (delta-reduce or unfold constants)
+ *   `rewrite` (rewrite by equalities, like subst in Agda)
+ *   `apply` (apply a hypothesis or lemma to some arguments)
+ *
+ * It's OK if this proof is hard. If it is, I recommend stepping
+ * through the corresponding proof about isEven in the demo from
+ * class on Tuesday (linked at the top of this file), and making
+ * sure you understand each step.
+ *)
 
 Definition check_same_length_is_some {T : Type} (l1 l2 : list T) :=
   exists (H : Same_Length l1 l2), check_same_length l1 l2 = Some H.
 
-(*
- * TODO exercise etc
- *)
 Theorem check_same_length_OK:
   forall {T : Type} (l1 l2 : list T),
     Same_Length l1 l2 <-> check_same_length_is_some l1 l2.
@@ -222,7 +257,9 @@ Proof.
 Qed.
 
 (*
- * TODO bonus exercise etc
+ * BONUS EXERCISE: If you have extra time, prove that this is
+ * not only correct, but also respects the actual length function.
+ * You may prove this however you like.
  *)
 Theorem check_same_length_OK_alt:
   forall {T : Type} (l1 l2 : list T),
@@ -245,8 +282,8 @@ Proof.
     inversion x. apply H3.
 Qed.
 
-(* --- TODO --- *)
+(* --- Discussion --- *)
 
 (*
- * TODO discussion question etc
+ * 
  *)
