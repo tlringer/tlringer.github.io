@@ -285,5 +285,11 @@ Qed.
 (* --- Discussion --- *)
 
 (*
- * 
+ * Answer in the class forum, exactly one answer per group,
+ * listing the names of everyone in your group as always:
+ * Think back to the three different ways you've written
+ * proofs so far in this class: by constructing proof terms
+ * directly (Agda, Artifact 1), by using tactics (Coq, Artifact 2),
+ * and by reflection (Coq, Artifact 3). When do you think you'd
+ * use each one over the others, if ever? And why (even if never)?
  *)
